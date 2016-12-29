@@ -1,0 +1,10 @@
+{
+  "name": "scribblez-rest-api-server",
+  "version": "0.0.0",
+  "description": "A REST API server for a simple note-sharing social network.",
+  "author": "Ethan Zimmerman <thebinarypenguin@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hapi": "^16.0.3"
+  }
+}
