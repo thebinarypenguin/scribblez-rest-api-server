@@ -4,6 +4,10 @@
   "description": "A REST API server for a simple note-sharing social network.",
   "author": "Ethan Zimmerman <thebinarypenguin@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "test": "./node_modules/lab/bin/lab -vc"
+  },
   "dependencies": {
     "hapi": "^16.0.3",
     "joi": "^10.1.0"
