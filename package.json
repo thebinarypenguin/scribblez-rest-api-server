@@ -5,6 +5,7 @@
   "author": "Ethan Zimmerman <thebinarypenguin@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "hapi": "^16.0.3"
+    "hapi": "^16.0.3",
+    "joi": "^10.1.0"
   }
 }
