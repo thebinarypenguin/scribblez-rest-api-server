@@ -7,5 +7,9 @@
   "dependencies": {
     "hapi": "^16.0.3",
     "joi": "^10.1.0"
+  },
+  "devDependencies": {
+    "code": "^4.0.0",
+    "lab": "^11.2.1"
   }
 }
