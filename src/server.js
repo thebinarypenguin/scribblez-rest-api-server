@@ -1,8 +1,9 @@
 'use strict';
 
-const Hapi   = require('hapi');
-const config = require('./config');
-const pkg    = require('../package.json');
+const Hapi    = require('hapi');
+const config  = require('./config');
+const schemas = require('./schemas');
+const pkg     = require('../package.json');
 
 const server = new Hapi.Server();
 
@@ -11,7 +12,9 @@ server.connection({
   port: config.hapi.port,
 });
 
-server.register([], (err) => {
+server.register([
+  schemas,
+], (err) => {
 
   if (err) { throw err; }
 
