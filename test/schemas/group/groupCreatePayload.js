@@ -111,23 +111,19 @@ lab.experiment('groupCreatePayload schema', () => {
 
   lab.experiment('members', () => {
 
-    lab.test('is optional', (done) => {
+    lab.test('is required', (done) => {
 
-      const good = [
-        // Present
-        {
-          name: 'Just John',
-          members: [ 'john_doe' ],
-        },
-        // Absent
-        {
-          name: 'Just John',
-        },
-      ];
+      const good = {
+        name: 'Just John',
+        members: [ 'john_doe' ],
+      };
 
+      const bad = {
+        name: 'Just John',
+      };
 
-      Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.groupCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.groupCreatePayload)).to.not.throw();
+      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCreatePayload)).to.not.throw();
+      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCreatePayload)).to.throw();
 
       done();
     });

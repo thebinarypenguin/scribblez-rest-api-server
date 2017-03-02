@@ -20,7 +20,7 @@ schemas.groupCollection = Joi.array().items(schemas.group).options({ convert: fa
 
 schemas.groupCreatePayload = Joi.object().keys({
   name: Joi.string().min(1).max(80).required(),
-  members: Joi.array().items(user.username).optional().default([]),
+  members: Joi.array().items(user.username).required(),
 }).options({ convert: false });
 
 schemas.groupUpdatePayload = Joi.object().keys({
