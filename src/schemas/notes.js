@@ -41,7 +41,7 @@ schemas.noteCreatePayload = Joi.object().keys({
     Joi.string().equal('private'),
     Joi.object().keys({
       users: Joi.array().items(user.username).required(),
-      groups: Joi.array().items(group.groupID).required(),
+      groups: Joi.array().items(group.groupName).required(),
     })
   ).required(),
 }).options({ convert: false });
@@ -53,7 +53,7 @@ schemas.noteUpdatePayload = Joi.object().keys({
     Joi.string().equal('private'),
     Joi.object().keys({
       users: Joi.array().items(user.username).required(),
-      groups: Joi.array().items(group.groupID).required(),
+      groups: Joi.array().items(group.groupName).required(),
     })
   ).optional(),
 }).min(1).options({ convert: false });
@@ -65,7 +65,7 @@ schemas.noteReplacePayload = Joi.object().keys({
     Joi.string().equal('private'),
     Joi.object().keys({
       users: Joi.array().items(user.username).required(),
-      groups: Joi.array().items(group.groupID).required(),
+      groups: Joi.array().items(group.groupName).required(),
     })
   ).required(),
 }).options({ convert: false });

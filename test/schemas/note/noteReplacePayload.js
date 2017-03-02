@@ -170,7 +170,7 @@ lab.experiment('noteReplacePayload schema', () => {
         body: 'A note',
         visibility: {
           users: [ 'john_doe' ],
-          groups: [ 42 ],
+          groups: [ 'Friends' ],
         },
       };
 
