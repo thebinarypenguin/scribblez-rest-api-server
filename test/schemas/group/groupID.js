@@ -9,7 +9,7 @@ const schemas = require('../../../src/schemas');
 
 const lab = exports.lab = Lab.script();
 
-lab.experiment('groupID schema', () => {
+lab.experiment('schemas.groupID', () => {
 
   const server = new Hapi.Server();
   

@@ -9,7 +9,7 @@ const schemas = require('../../../src/schemas');
 
 const lab = exports.lab = Lab.script();
 
-lab.experiment('groupReplacePayload schema', () => {
+lab.experiment('schemas.groupReplacePayload', () => {
 
   const server = new Hapi.Server();
   
