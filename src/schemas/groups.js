@@ -8,6 +8,8 @@ const schemas = {};
 
 schemas.groupID = Joi.number().integer().options({ convert: false });
 
+schemas.groupName = Joi.string().min(1).max(80).options({ convert: false });
+
 schemas.group = Joi.object().keys({
   id: Joi.number().integer().required(),
   name: Joi.string().min(1).max(80).required(),
