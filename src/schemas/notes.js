@@ -7,6 +7,8 @@ const group = require('./groups.js');
 
 const schemas = {};
 
+schemas.noteID = Joi.number().integer().required().options({ convert: false });
+
 schemas.note = Joi.object().keys({
   id: Joi.number().integer().required(),
   body: Joi.string().min(1).max(10000).required(),
