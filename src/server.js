@@ -2,6 +2,7 @@
 
 const Hapi    = require('hapi');
 const config  = require('./config');
+const models  = require('./models');
 const schemas = require('./schemas');
 const pkg     = require('../package.json');
 
@@ -13,6 +14,7 @@ server.connection({
 });
 
 server.register([
+  models,
   schemas,
 ], (err) => {
 
