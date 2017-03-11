@@ -6,7 +6,7 @@ const after = function (server, next) {
     
     server.plugins.models.users.authenticate(username, password)
       .then(() => {
-        callback(null, true, { currentUser: username });
+        callback(null, true, { username: username });
       })
       .catch(() => {
         callback(null, false);
