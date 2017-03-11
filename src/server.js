@@ -1,10 +1,13 @@
 'use strict';
 
-const Hapi    = require('hapi');
-const config  = require('./config');
-const models  = require('./models');
-const schemas = require('./schemas');
-const pkg     = require('../package.json');
+const Hapi      = require('hapi');
+const AuthBasic = require('hapi-auth-basic');
+const config    = require('./config');
+const auth      = require('./auth');
+const models    = require('./models');
+const routes    = require('./routes');
+const schemas   = require('./schemas');
+const pkg       = require('../package.json');
 
 const server = new Hapi.Server();
 
@@ -14,7 +17,10 @@ server.connection({
 });
 
 server.register([
+  AuthBasic,
+  auth,
   models,
+  routes,
   schemas,
 ], (err) => {
 
