@@ -3,7 +3,7 @@
 const fs   = require('fs');
 const path = require('path');
 
-const register = function (server, options, next) {
+const after = function (server, next) {
 
   fs.readdir(__dirname, (err, files) => {
     
@@ -19,8 +19,15 @@ const register = function (server, options, next) {
     });
     
     return next();
-  });
+  }); 
 };
+
+const register = function (server, options, next) {
+
+  server.dependency(['auth'], after);
+  return next();
+};
+
 
 register.attributes = {
   name: 'routes',

@@ -5,6 +5,12 @@ const engage = function (server) {
   server.route({
     method: 'GET',
     path: '/notes',
+    config: {
+      auth: {
+        mode: 'required',
+        strategy: 'simple',
+      },
+    },
     handler: (request, reply) => {
       reply({ foo: 'bar' });
     },
@@ -13,6 +19,12 @@ const engage = function (server) {
   server.route({
     method: 'POST',
     path: '/notes',
+    config: {
+      auth: {
+        mode: 'required',
+        strategy: 'simple',
+      },
+    },
     handler: (request, reply) => {
       reply({ foo: 'bar' });
     },
@@ -21,6 +33,12 @@ const engage = function (server) {
   server.route({
     method: 'GET',
     path: '/notes/{noteID}',
+    config: {
+      auth: {
+        mode: 'required',
+        strategy: 'simple',
+      },
+    },
     handler: (request, reply) => {
       reply({ foo: 'bar' });
     },
@@ -29,6 +47,12 @@ const engage = function (server) {
   server.route({
     method: 'PUT',
     path: '/notes/{noteID}',
+    config: {
+      auth: {
+        mode: 'required',
+        strategy: 'simple',
+      },
+    },
     handler: (request, reply) => {
       reply({ foo: 'bar' });
     },
@@ -37,6 +61,12 @@ const engage = function (server) {
   server.route({
     method: 'PATCH',
     path: '/notes/{noteID}',
+    config: {
+      auth: {
+        mode: 'required',
+        strategy: 'simple',
+      },
+    },
     handler: (request, reply) => {
       reply({ foo: 'bar' });
     },
@@ -45,6 +75,12 @@ const engage = function (server) {
   server.route({
     method: 'DELETE',
     path: '/notes/{noteID}',
+    config: {
+      auth: {
+        mode: 'required',
+        strategy: 'simple',
+      },
+    },
     handler: (request, reply) => {
       reply({ foo: 'bar' });
     },
