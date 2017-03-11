@@ -1,13 +1,15 @@
 'use strict';
 
-const Code     = require('code');
-const Joi      = require('joi');
-const Lab      = require('lab');
-const helpers  = require('../../_helpers');
-const config   = require('../../../src/config');
-const models   = require('../../../src/models');
-const routes   = require('../../../src/routes');
-const schemas  = require('../../../src/schemas');
+const Code      = require('code');
+const AuthBasic = require('hapi-auth-basic');
+const Joi       = require('joi');
+const Lab       = require('lab');
+const helpers   = require('../../_helpers');
+const config    = require('../../../src/config');
+const auth      = require('../../../src/auth');
+const models    = require('../../../src/models');
+const routes    = require('../../../src/routes');
+const schemas   = require('../../../src/schemas');
 
 const lab = exports.lab = Lab.script();
 
@@ -17,7 +19,7 @@ lab.experiment('PATCH /notes/{noteID}', () => {
   
   lab.before(() => {
 
-    return helpers.initializeTestServer(config, [models, routes, schemas])
+    return helpers.initializeTestServer(config, [AuthBasic, auth, models, routes, schemas])
       .then((testServer) => {
         server = testServer;
       });
