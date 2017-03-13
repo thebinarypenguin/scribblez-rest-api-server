@@ -7,7 +7,7 @@ const group = require('./groups.js');
 
 const schemas = {};
 
-schemas.noteID = Joi.number().integer().options({ convert: false });
+schemas.noteID = Joi.number().integer();
 
 schemas.note = Joi.object().keys({
   id: Joi.number().integer().required(),
@@ -21,18 +21,18 @@ schemas.note = Joi.object().keys({
       groups: group.groupCollection.required(),
     })
   ).required(),
-}).options({ convert: false });
+});
 
 schemas.noteRedacted = Joi.object().keys({
   id: Joi.number().integer().required(),
   body: Joi.string().min(1).max(10000).required(),
   owner: user.userRedacted.required(),
   visibility: Joi.any().forbidden(),
-}).options({ convert: false });
+});
 
-schemas.noteCollection = Joi.array().items(schemas.note).options({ convert: false });
+schemas.noteCollection = Joi.array().items(schemas.note);
 
-schemas.noteCollectionRedacted = Joi.array().items(schemas.noteRedacted).options({ convert: false });
+schemas.noteCollectionRedacted = Joi.array().items(schemas.noteRedacted);
 
 schemas.noteCreatePayload = Joi.object().keys({
   body: Joi.string().min(1).max(10000).required(),
@@ -44,7 +44,7 @@ schemas.noteCreatePayload = Joi.object().keys({
       groups: Joi.array().items(group.groupName).required(),
     })
   ).required(),
-}).options({ convert: false });
+});
 
 schemas.noteUpdatePayload = Joi.object().keys({
   body: Joi.string().min(1).max(10000).optional(),
@@ -56,7 +56,7 @@ schemas.noteUpdatePayload = Joi.object().keys({
       groups: Joi.array().items(group.groupName).required(),
     })
   ).optional(),
-}).min(1).options({ convert: false });
+}).min(1);
 
 schemas.noteReplacePayload = Joi.object().keys({
   body: Joi.string().min(1).max(10000).required(),
@@ -68,6 +68,6 @@ schemas.noteReplacePayload = Joi.object().keys({
       groups: Joi.array().items(group.groupName).required(),
     })
   ).required(),
-}).options({ convert: false });
+});
 
 module.exports = schemas;
