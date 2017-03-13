@@ -31,7 +31,7 @@ lab.experiment('schemas.group', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -57,14 +57,14 @@ lab.experiment('schemas.group', () => {
       done();
     });
 
-    lab.test('must be an integer', (done) => {
+    lab.test('must be a string', (done) => {
       
       const schema = server.plugins.schemas.group;
 
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -75,7 +75,7 @@ lab.experiment('schemas.group', () => {
       };
 
       const bad = {
-        id: '42',
+        id: 42,
         name: 'Just John',
         members: [
           {
@@ -101,7 +101,7 @@ lab.experiment('schemas.group', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -112,7 +112,7 @@ lab.experiment('schemas.group', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         members: [
           {
             username: 'john_doe',
@@ -134,7 +134,7 @@ lab.experiment('schemas.group', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -145,7 +145,7 @@ lab.experiment('schemas.group', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         name: 999,
         members: [
           {
@@ -168,7 +168,7 @@ lab.experiment('schemas.group', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -179,7 +179,7 @@ lab.experiment('schemas.group', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         name: '',
         members: [
           {
@@ -202,7 +202,7 @@ lab.experiment('schemas.group', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -213,7 +213,7 @@ lab.experiment('schemas.group', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         name: 'x'.repeat(81),
         members: [
           {
@@ -239,7 +239,7 @@ lab.experiment('schemas.group', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -250,7 +250,7 @@ lab.experiment('schemas.group', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         name: 'Just John',
       };
 
@@ -267,7 +267,7 @@ lab.experiment('schemas.group', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -278,7 +278,7 @@ lab.experiment('schemas.group', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: {},
       };
@@ -296,7 +296,7 @@ lab.experiment('schemas.group', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {
@@ -307,7 +307,7 @@ lab.experiment('schemas.group', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         name: 'Just John',
         members: [
           {

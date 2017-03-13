@@ -22,15 +22,15 @@ lab.experiment('schemas.groupID', () => {
       });
   });
 
-  lab.test('must be an integer', (done) => {
+  lab.test('must be a string', (done) => {
 
     const schema = server.plugins.schemas.groupID;
 
     const options = { convert: false };
 
-    const good = 42;
+    const good = '42';
 
-    const bad = '42';
+    const bad = 42;
 
     Code.expect(Joi.validate(good, schema, options).error).to.be.null();
     Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();

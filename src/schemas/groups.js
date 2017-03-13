@@ -6,12 +6,12 @@ const user = require('./users.js');
 
 const schemas = {};
 
-schemas.groupID = Joi.number().integer();
+schemas.groupID = Joi.string();
 
 schemas.groupName = Joi.string().min(1).max(80);
 
 schemas.group = Joi.object().keys({
-  id: Joi.number().integer().required(),
+  id: Joi.string().required(),
   name: Joi.string().min(1).max(80).required(),
   members: Joi.array().items(user.userRedacted).required(),
 });

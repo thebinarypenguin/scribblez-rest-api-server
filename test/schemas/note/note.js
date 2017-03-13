@@ -31,7 +31,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -55,14 +55,14 @@ lab.experiment('schemas.note', () => {
       done();
     });
 
-    lab.test('must be an integer', (done) => {
+    lab.test('must be a string', (done) => {
       
       const schema = server.plugins.schemas.note;
 
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -72,7 +72,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: '42',
+        id: 42,
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -97,7 +97,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -107,7 +107,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         owner: {
           username: 'john_doe',
           real_name: 'John Doe',
@@ -128,7 +128,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -138,7 +138,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: 999,
         owner: {
           username: 'john_doe',
@@ -160,7 +160,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -170,7 +170,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: '',
         owner: {
           username: 'john_doe',
@@ -192,7 +192,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -202,7 +202,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: 'x'.repeat(10001),
         owner: {
           username: 'john_doe',
@@ -227,7 +227,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -237,7 +237,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: 'A note',
         visibility: 'public',
       };
@@ -255,7 +255,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -265,7 +265,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -289,7 +289,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -299,7 +299,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -320,7 +320,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -330,7 +330,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -352,7 +352,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -362,7 +362,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -384,7 +384,7 @@ lab.experiment('schemas.note', () => {
       const options = { convert: false };
 
       const good = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -399,7 +399,7 @@ lab.experiment('schemas.note', () => {
           ],
           groups: [
             {
-              id: 42,
+              id: '42',
               name: 'Just John',
               members: [
                 {
@@ -413,7 +413,7 @@ lab.experiment('schemas.note', () => {
       };
 
       const bad = {
-        id: 42,
+        id: '42',
         body: 'A note',
         owner: {
           username: 'john_doe',
