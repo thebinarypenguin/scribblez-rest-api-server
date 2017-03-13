@@ -36,37 +36,49 @@ lab.experiment('schemas.groupName', () => {
   });
 
   lab.test('must be a string', (done) => {
+    
+    const schema = server.plugins.schemas.groupName;
+
+    const options = { convert: false };
 
     const good = 'Just John';
 
     const bad = 999;
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupName)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupName)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });
 
   lab.test('must be at least 1 character long', (done) => {
+    
+    const schema = server.plugins.schemas.groupName;
+
+    const options = { convert: false };
 
     const good = 'Just John';
 
     const bad = '';
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupName)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupName)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });
 
   lab.test('must be at most 80 characters long', (done) => {
+    
+    const schema = server.plugins.schemas.groupName;
+
+    const options = { convert: false };
 
     const good = 'Just John';
 
     const bad = 'x'.repeat(81);
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupName)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupName)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });

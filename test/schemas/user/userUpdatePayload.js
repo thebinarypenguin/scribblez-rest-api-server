@@ -37,6 +37,10 @@ lab.experiment('schemas.userUpdatePayload', () => {
 
   lab.test('must have at least one property', (done) => {
 
+    const schema = server.plugins.schemas.userUpdatePayload;
+
+    const options = { convert: false };
+
     const good = {
       real_name: 'John Doe',
       email_address: 'jdoe@example.com',
@@ -46,13 +50,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
 
     const bad = {};
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });
 
   lab.test('password and password_confirmation must appear (or not) as a pair', (done) => {
+
+    const schema = server.plugins.schemas.userUpdatePayload;
+
+    const options = { convert: false };
 
     const good = [
       // Both
@@ -84,10 +92,10 @@ lab.experiment('schemas.userUpdatePayload', () => {
       },
     ];
 
-    Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.userUpdatePayload)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.userUpdatePayload)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad[0], server.plugins.schemas.userUpdatePayload)).to.throw();
-    Code.expect(Joi.assert.bind(this, bad[1], server.plugins.schemas.userUpdatePayload)).to.throw();
+    Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+    Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad[0], schema, options).error).to.be.an.error();
+    Code.expect(Joi.validate(bad[1], schema, options).error).to.be.an.error();
 
     done();
   });
@@ -95,6 +103,10 @@ lab.experiment('schemas.userUpdatePayload', () => {
   lab.experiment('real_name', () => {
 
     lab.test('is optional', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good =[
         // Present
@@ -112,13 +124,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         },
       ];
 
-      Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.userUpdatePayload)).to.not.throw();
+      Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+      Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
 
       done();
     });
     
     lab.test('must be a string', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -134,13 +150,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at least 1 character long', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -156,13 +176,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at most 80 characters long', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -178,8 +202,8 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -188,6 +212,10 @@ lab.experiment('schemas.userUpdatePayload', () => {
   lab.experiment('email_address', () => {
 
     lab.test('is optional', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good =[
         // Present
@@ -205,13 +233,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         },
       ];
 
-      Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.userUpdatePayload)).to.not.throw();
+      Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+      Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
 
       done();
     });
     
     lab.test('must be a string', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -227,13 +259,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be formatted like an email address', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -249,13 +285,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at least 1 character long', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -271,13 +311,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at most 80 characters long', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -293,8 +337,8 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -303,6 +347,10 @@ lab.experiment('schemas.userUpdatePayload', () => {
   lab.experiment('password', () => {
 
     lab.test('is optional', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good =[
         // Present
@@ -319,13 +367,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         },
       ];
 
-      Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.userUpdatePayload)).to.not.throw();
+      Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+      Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
 
       done();
     });
 
     lab.test('must be a string', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -341,13 +393,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be at least 8 characters long', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -363,13 +419,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be at most 80 characters long', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -385,8 +445,8 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'password',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -395,6 +455,10 @@ lab.experiment('schemas.userUpdatePayload', () => {
   lab.experiment('password_confirmation', () => {
 
     lab.test('is optional', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good =[
         // Present
@@ -411,13 +475,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         },
       ];
 
-      Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.userUpdatePayload)).to.not.throw();
+      Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+      Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
 
       done();
     });
 
     lab.test('must be a string', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -433,13 +501,17 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 999,
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must match password', (done) => {
+
+      const schema = server.plugins.schemas.userUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         real_name: 'John Doe',
@@ -455,8 +527,8 @@ lab.experiment('schemas.userUpdatePayload', () => {
         password_confirmation: 'pass',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });

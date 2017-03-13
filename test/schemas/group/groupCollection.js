@@ -36,6 +36,10 @@ lab.experiment('schemas.groupCollection', () => {
   });
 
   lab.test('must be an array', (done) => {
+    
+    const schema = server.plugins.schemas.groupCollection;
+
+    const options = { convert: false };
 
     const good = [
       {
@@ -52,13 +56,17 @@ lab.experiment('schemas.groupCollection', () => {
 
     const bad = {};
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCollection)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCollection)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });
 
   lab.test('items must match the group schema', (done) => {
+    
+    const schema = server.plugins.schemas.groupCollection;
+
+    const options = { convert: false };
 
     const good = [
       {
@@ -80,8 +88,8 @@ lab.experiment('schemas.groupCollection', () => {
       },
     ];
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCollection)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCollection)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });

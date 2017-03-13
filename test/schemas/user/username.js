@@ -37,17 +37,25 @@ lab.experiment('schemas.username', () => {
 
   lab.test('must be a string', (done) => {
 
+    const schema = server.plugins.schemas.username;
+
+    const options = { convert: false };
+
     const good = 'john_doe';
 
     const bad = 999;
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.username)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.username)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });
     
   lab.test('must match the regex /^[a-z0-9_]+$/', (done) => {
+
+    const schema = server.plugins.schemas.username;
+
+    const options = { convert: false };
 
     const good = 'john_doe';
 
@@ -63,34 +71,42 @@ lab.experiment('schemas.username', () => {
       'john doe',
     ];
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.username)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad[0], server.plugins.schemas.username)).to.throw();
-    Code.expect(Joi.assert.bind(this, bad[1], server.plugins.schemas.username)).to.throw();
-    Code.expect(Joi.assert.bind(this, bad[2], server.plugins.schemas.username)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad[0], schema, options).error).to.be.an.error();
+    Code.expect(Joi.validate(bad[1], schema, options).error).to.be.an.error();
+    Code.expect(Joi.validate(bad[2], schema, options).error).to.be.an.error();
 
     done();
   });
     
   lab.test('must be at least 3 characters long', (done) => {
 
+    const schema = server.plugins.schemas.username;
+
+    const options = { convert: false };
+
     const good = 'john_doe';
 
     const bad = 'jd';
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.username)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.username)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });
     
   lab.test('must be at most 20 characters long', (done) => {
 
+    const schema = server.plugins.schemas.username;
+
+    const options = { convert: false };
+
     const good = 'john_doe';
 
     const bad = '______john__doe______';
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.username)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.username)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });

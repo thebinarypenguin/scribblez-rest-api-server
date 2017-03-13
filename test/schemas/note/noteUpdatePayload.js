@@ -37,14 +37,18 @@ lab.experiment('schemas.noteUpdatePayload', () => {
 
   lab.test('must have at least one property', (done) => {
 
+    const schema = server.plugins.schemas.noteUpdatePayload;
+
+    const options = { convert: false };
+
     const good = {
       body: 'A note',
     };
 
     const bad = {};
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteUpdatePayload)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });
@@ -52,6 +56,10 @@ lab.experiment('schemas.noteUpdatePayload', () => {
   lab.experiment('body', () => {
 
     lab.test('is optional', (done) => {
+
+      const schema = server.plugins.schemas.noteUpdatePayload;
+
+      const options = { convert: false };
 
       const good = [
         // Present
@@ -65,13 +73,17 @@ lab.experiment('schemas.noteUpdatePayload', () => {
         },
       ];
         
-      Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.noteUpdatePayload)).to.not.throw();
+      Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+      Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
 
       done();
     });
 
     lab.test('must be a string', (done) => {
+
+      const schema = server.plugins.schemas.noteUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -83,13 +95,17 @@ lab.experiment('schemas.noteUpdatePayload', () => {
         visibility: 'public',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at least 1 character long', (done) => {
+
+      const schema = server.plugins.schemas.noteUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -101,13 +117,17 @@ lab.experiment('schemas.noteUpdatePayload', () => {
         visibility: 'public',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at most 10,000 characters long', (done) => {
+
+      const schema = server.plugins.schemas.noteUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -119,8 +139,8 @@ lab.experiment('schemas.noteUpdatePayload', () => {
         visibility: 'public',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -129,6 +149,10 @@ lab.experiment('schemas.noteUpdatePayload', () => {
   lab.experiment('visibility', () => {
 
     lab.test('is optional', (done) => {
+
+      const schema = server.plugins.schemas.noteUpdatePayload;
+
+      const options = { convert: false };
 
       const good = [
         // Present
@@ -142,13 +166,17 @@ lab.experiment('schemas.noteUpdatePayload', () => {
         },
       ];
         
-      Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.noteUpdatePayload)).to.not.throw();
+      Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+      Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
 
       done();
     });
 
     lab.test('may be the string "public"', (done) => {
+
+      const schema = server.plugins.schemas.noteUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -160,13 +188,17 @@ lab.experiment('schemas.noteUpdatePayload', () => {
         visibility: 'foobar',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('may be the string "private"', (done) => {
+
+      const schema = server.plugins.schemas.noteUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -178,13 +210,17 @@ lab.experiment('schemas.noteUpdatePayload', () => {
         visibility: 'foobar',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('may be a "shared with" object', (done) => {
+
+      const schema = server.plugins.schemas.noteUpdatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -199,8 +235,8 @@ lab.experiment('schemas.noteUpdatePayload', () => {
         visibility: {},
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteUpdatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteUpdatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });

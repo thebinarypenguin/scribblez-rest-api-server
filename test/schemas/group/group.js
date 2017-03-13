@@ -38,6 +38,10 @@ lab.experiment('schemas.group', () => {
   lab.experiment('id', () => {
 
     lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -60,13 +64,17 @@ lab.experiment('schemas.group', () => {
         ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be an integer', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -90,8 +98,8 @@ lab.experiment('schemas.group', () => {
         ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -100,6 +108,10 @@ lab.experiment('schemas.group', () => {
   lab.experiment('name', () => {
 
     lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -122,13 +134,17 @@ lab.experiment('schemas.group', () => {
         ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be a string', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -152,13 +168,17 @@ lab.experiment('schemas.group', () => {
         ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be at least 1 character long', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -182,13 +202,17 @@ lab.experiment('schemas.group', () => {
         ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be at most 80 characters long', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -212,8 +236,8 @@ lab.experiment('schemas.group', () => {
         ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -222,6 +246,10 @@ lab.experiment('schemas.group', () => {
   lab.experiment('members', () => {
 
     lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -239,13 +267,17 @@ lab.experiment('schemas.group', () => {
         name: 'Just John',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be an array', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -264,13 +296,17 @@ lab.experiment('schemas.group', () => {
         members: {},
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('items must match the userRedacted schema', (done) => {
+      
+      const schema = server.plugins.schemas.group;
+
+      const options = { convert: false };
 
       const good = {
         id: 42,
@@ -293,8 +329,8 @@ lab.experiment('schemas.group', () => {
         ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.group)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.group)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });

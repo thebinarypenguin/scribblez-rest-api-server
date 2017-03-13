@@ -36,6 +36,10 @@ lab.experiment('schemas.userCollectionRedacted', () => {
   });
 
   lab.test('must be an array', (done) => {
+  
+    const schema = server.plugins.schemas.userCollectionRedacted;
+
+    const options = { convert: false };
 
     const good = [
       {
@@ -46,13 +50,17 @@ lab.experiment('schemas.userCollectionRedacted', () => {
 
     const bad = {};
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userCollectionRedacted)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userCollectionRedacted)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });
 
   lab.test('items must match the userRedacted schema', (done) => {
+  
+    const schema = server.plugins.schemas.userCollectionRedacted;
+
+    const options = { convert: false };
 
     const good = [
       {
@@ -69,8 +77,8 @@ lab.experiment('schemas.userCollectionRedacted', () => {
       },
     ];
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userCollectionRedacted)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userCollectionRedacted)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });

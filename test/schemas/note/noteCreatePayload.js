@@ -38,6 +38,10 @@ lab.experiment('schemas.noteCreatePayload', () => {
   lab.experiment('body', () => {
 
     lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.noteCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -48,13 +52,17 @@ lab.experiment('schemas.noteCreatePayload', () => {
         visibility: 'public',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be a string', (done) => {
+      
+      const schema = server.plugins.schemas.noteCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -66,13 +74,17 @@ lab.experiment('schemas.noteCreatePayload', () => {
         visibility: 'public',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at least 1 character long', (done) => {
+      
+      const schema = server.plugins.schemas.noteCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -84,13 +96,17 @@ lab.experiment('schemas.noteCreatePayload', () => {
         visibility: 'public',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at most 10,000 characters long', (done) => {
+      
+      const schema = server.plugins.schemas.noteCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -102,8 +118,8 @@ lab.experiment('schemas.noteCreatePayload', () => {
         visibility: 'public',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -112,6 +128,10 @@ lab.experiment('schemas.noteCreatePayload', () => {
   lab.experiment('visibility', () => {
 
     lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.noteCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -122,13 +142,17 @@ lab.experiment('schemas.noteCreatePayload', () => {
         body: 'A note',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('may be the string "public"', (done) => {
+      
+      const schema = server.plugins.schemas.noteCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -140,13 +164,17 @@ lab.experiment('schemas.noteCreatePayload', () => {
         visibility: 'foobar',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('may be the string "private"', (done) => {
+      
+      const schema = server.plugins.schemas.noteCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -158,13 +186,17 @@ lab.experiment('schemas.noteCreatePayload', () => {
         visibility: 'foobar',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('may be a "shared with" object', (done) => {
+      
+      const schema = server.plugins.schemas.noteCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         body: 'A note',
@@ -179,8 +211,8 @@ lab.experiment('schemas.noteCreatePayload', () => {
         visibility: {},
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.noteCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.noteCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });

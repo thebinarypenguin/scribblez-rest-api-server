@@ -38,6 +38,10 @@ lab.experiment('schemas.groupCreatePayload', () => {
   lab.experiment('name', () => {
 
     lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.groupCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         name: 'Just John',
@@ -48,13 +52,17 @@ lab.experiment('schemas.groupCreatePayload', () => {
         members: [ 'john_doe' ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be a string', (done) => {
+      
+      const schema = server.plugins.schemas.groupCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         name: 'Just John',
@@ -66,13 +74,17 @@ lab.experiment('schemas.groupCreatePayload', () => {
         members: [ 'john_doe' ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be at least 1 character long', (done) => {
+      
+      const schema = server.plugins.schemas.groupCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         name: 'Just John',
@@ -84,13 +96,17 @@ lab.experiment('schemas.groupCreatePayload', () => {
         members: [ 'john_doe' ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be at most 80 characters long', (done) => {
+      
+      const schema = server.plugins.schemas.groupCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         name: 'Just John',
@@ -102,8 +118,8 @@ lab.experiment('schemas.groupCreatePayload', () => {
         members: [ 'john_doe' ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -112,6 +128,10 @@ lab.experiment('schemas.groupCreatePayload', () => {
   lab.experiment('members', () => {
 
     lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.groupCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         name: 'Just John',
@@ -122,13 +142,17 @@ lab.experiment('schemas.groupCreatePayload', () => {
         name: 'Just John',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be an array', (done) => {
+      
+      const schema = server.plugins.schemas.groupCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         name: 'Just John',
@@ -140,13 +164,17 @@ lab.experiment('schemas.groupCreatePayload', () => {
         members: {},
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('items must match the username schema', (done) => {
+      
+      const schema = server.plugins.schemas.groupCreatePayload;
+
+      const options = { convert: false };
 
       const good = {
         name: 'Just John',
@@ -163,8 +191,8 @@ lab.experiment('schemas.groupCreatePayload', () => {
         ],
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupCreatePayload)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupCreatePayload)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });

@@ -39,6 +39,10 @@ lab.experiment('schemas.userRedacted', () => {
 
     lab.test('is required', (done) => {
 
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
+
       const good = {
         username: 'john_doe',
         real_name: 'John Doe',
@@ -48,13 +52,17 @@ lab.experiment('schemas.userRedacted', () => {
         real_name: 'John Doe',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be a string', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -66,13 +74,17 @@ lab.experiment('schemas.userRedacted', () => {
         real_name: 'John Doe',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must match the regex /^[a-z0-9_]+$/', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -97,15 +109,19 @@ lab.experiment('schemas.userRedacted', () => {
         },
       ];
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad[0], server.plugins.schemas.userRedacted)).to.throw();
-      Code.expect(Joi.assert.bind(this, bad[1], server.plugins.schemas.userRedacted)).to.throw();
-      Code.expect(Joi.assert.bind(this, bad[2], server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad[0], schema, options).error).to.be.an.error();
+      Code.expect(Joi.validate(bad[1], schema, options).error).to.be.an.error();
+      Code.expect(Joi.validate(bad[2], schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at least 3 characters long', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -117,13 +133,17 @@ lab.experiment('schemas.userRedacted', () => {
         real_name: 'John Doe',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at most 20 characters long', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -135,8 +155,8 @@ lab.experiment('schemas.userRedacted', () => {
         real_name: 'John Doe',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -145,6 +165,10 @@ lab.experiment('schemas.userRedacted', () => {
   lab.experiment('real_name', () => {
 
     lab.test('is required', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -155,13 +179,17 @@ lab.experiment('schemas.userRedacted', () => {
         username: 'john_doe',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be a string', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -173,13 +201,17 @@ lab.experiment('schemas.userRedacted', () => {
         real_name: 999,
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at least 1 character long', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -191,13 +223,17 @@ lab.experiment('schemas.userRedacted', () => {
         real_name: '',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
     
     lab.test('must be at most 80 characters long', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -209,8 +245,8 @@ lab.experiment('schemas.userRedacted', () => {
         real_name: 'x'.repeat(81),
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
@@ -219,6 +255,10 @@ lab.experiment('schemas.userRedacted', () => {
   lab.experiment('email_address', () => {
 
     lab.test('must not be present', (done) => {
+
+      const schema = server.plugins.schemas.userRedacted;
+
+      const options = { convert: false };
 
       const good = {
         username: 'john_doe',
@@ -231,8 +271,8 @@ lab.experiment('schemas.userRedacted', () => {
         email_address: 'jdoe@example.com',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.userRedacted)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.userRedacted)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });

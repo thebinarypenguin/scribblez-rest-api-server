@@ -37,12 +37,16 @@ lab.experiment('schemas.groupID', () => {
 
   lab.test('must be an integer', (done) => {
 
+    const schema = server.plugins.schemas.groupID;
+
+    const options = { convert: false };
+
     const good = 42;
 
     const bad = '42';
 
-    Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.groupID)).to.not.throw();
-    Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.groupID)).to.throw();
+    Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+    Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
     done();
   });

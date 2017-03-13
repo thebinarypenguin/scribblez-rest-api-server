@@ -39,6 +39,10 @@ lab.experiment('schemas.error401', () => {
 
     lab.test('is required', (done) => {
 
+      const schema = server.plugins.schemas.error401;
+
+      const options = { convert: false };
+
       const good = {
         statusCode: 401,
         error: 'Unauthorized',
@@ -50,13 +54,17 @@ lab.experiment('schemas.error401', () => {
         message: 'Go away!',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.error401)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.error401)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be the number 401', (done) => {
+
+      const schema = server.plugins.schemas.error401;
+
+      const options = { convert: false };
 
       const good = {
         statusCode: 401,
@@ -79,9 +87,9 @@ lab.experiment('schemas.error401', () => {
         },
       ];
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.error401)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad[0], server.plugins.schemas.error401)).to.throw();
-      Code.expect(Joi.assert.bind(this, bad[1], server.plugins.schemas.error401)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad[0], schema, options).error).to.be.an.error();
+      Code.expect(Joi.validate(bad[1], schema, options).error).to.be.an.error();
 
       done();
     });
@@ -90,6 +98,10 @@ lab.experiment('schemas.error401', () => {
   lab.experiment('error', () => {
 
     lab.test('is required', (done) => {
+
+      const schema = server.plugins.schemas.error401;
+
+      const options = { convert: false };
 
       const good = {
         statusCode: 401,
@@ -102,13 +114,17 @@ lab.experiment('schemas.error401', () => {
         message: 'Go away!',
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.error401)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.error401)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
 
     lab.test('must be the string "Unauthorized"', (done) => {
+
+      const schema = server.plugins.schemas.error401;
+
+      const options = { convert: false };
       
       const good = {
         statusCode: 401,
@@ -131,9 +147,9 @@ lab.experiment('schemas.error401', () => {
         },
       ];
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.error401)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad[0], server.plugins.schemas.error401)).to.throw();
-      Code.expect(Joi.assert.bind(this, bad[1], server.plugins.schemas.error401)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad[0], schema, options).error).to.be.an.error();
+      Code.expect(Joi.validate(bad[1], schema, options).error).to.be.an.error();
 
       done();
     });
@@ -142,6 +158,10 @@ lab.experiment('schemas.error401', () => {
   lab.experiment('message', () => {
 
     lab.test('is optional', (done) => {
+
+      const schema = server.plugins.schemas.error401;
+
+      const options = { convert: false };
 
       const good = [
         // With message
@@ -157,13 +177,17 @@ lab.experiment('schemas.error401', () => {
         },
       ];
 
-      Code.expect(Joi.assert.bind(this, good[0], server.plugins.schemas.error401)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, good[1], server.plugins.schemas.error401)).to.not.throw();
+      Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+      Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
 
       done();
     });
 
     lab.test('must be a string', (done) => {
+
+      const schema = server.plugins.schemas.error401;
+
+      const options = { convert: false };
 
       const good = {
         statusCode: 401,
@@ -177,8 +201,8 @@ lab.experiment('schemas.error401', () => {
         message: 999,
       };
 
-      Code.expect(Joi.assert.bind(this, good, server.plugins.schemas.error401)).to.not.throw();
-      Code.expect(Joi.assert.bind(this, bad, server.plugins.schemas.error401)).to.throw();
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
 
       done();
     });
