@@ -4,6 +4,7 @@ const Code    = require('code');
 const Hapi    = require('hapi');
 const Joi     = require('joi');
 const Lab     = require('lab');
+const helpers = require('../../_helpers');
 const config  = require('../../../src/config');
 const schemas = require('../../../src/schemas');
 
@@ -11,28 +12,14 @@ const lab = exports.lab = Lab.script();
 
 lab.experiment('schemas.groupUpdatePayload', () => {
 
-  const server = new Hapi.Server();
+  let server = new Hapi.Server();
   
-  lab.before((done) => {
+  lab.before(() => {
 
-    server.connection({
-      host: config.hapi.host,
-      port: config.hapi.port,
-    });
-
-    server.register([
-      schemas,
-    ], (err) => {
-
-      if (err) { throw err; }
-
-      server.initialize((err) => {
-
-        if (err) { throw err; }
-
-        done();
+    return helpers.initializeTestServer(config, [schemas])
+      .then((testServer) => {
+        server = testServer;
       });
-    });
   });
 
   lab.test('must have at least one property', (done) => {
