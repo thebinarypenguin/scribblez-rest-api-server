@@ -30,7 +30,7 @@ lab.experiment('schemas.noteCollectionRedacted', () => {
     
     const good = [
       {
-        id: '42',
+        id: 42,
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -55,7 +55,7 @@ lab.experiment('schemas.noteCollectionRedacted', () => {
 
     const good = [
       {
-        id: '42',
+        id: 42,
         body: 'A note',
         owner: {
           username: 'john_doe',
@@ -66,7 +66,7 @@ lab.experiment('schemas.noteCollectionRedacted', () => {
 
     const bad = [
       {
-        id: '42',
+        id: 42,
         body: 'A note',
       },
     ];

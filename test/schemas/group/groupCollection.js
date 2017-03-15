@@ -30,7 +30,7 @@ lab.experiment('schemas.groupCollection', () => {
 
     const good = [
       {
-        id: '42',
+        id: 42,
         name: 'Just John',
         members: [
           {
@@ -57,7 +57,7 @@ lab.experiment('schemas.groupCollection', () => {
 
     const good = [
       {
-        id: '42',
+        id: 42,
         name: 'Just John',
         members: [
           {
@@ -70,7 +70,7 @@ lab.experiment('schemas.groupCollection', () => {
 
     const bad = [
       {
-        id: '42',
+        id: 42,
         name: 'Just John',
       },
     ];
