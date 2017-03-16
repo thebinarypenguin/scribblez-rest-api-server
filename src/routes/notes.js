@@ -1,5 +1,7 @@
 'use strict';
 
+const Boom = require('boom');
+
 const engage = function (server) {
 
   server.route({
@@ -12,7 +14,17 @@ const engage = function (server) {
       },
     },
     handler: (request, reply) => {
-      reply({ foo: 'bar' });
+
+      const currentUser = request.auth.credentials.username;
+
+      server.plugins.models.notes.findAll(currentUser)
+        .then((data) => {
+          reply(data);
+        })
+        .catch((err) => {
+
+          return reply(Boom.badImplementation(err.message));
+        });
     },
   });
 
@@ -26,7 +38,21 @@ const engage = function (server) {
       },
     },
     handler: (request, reply) => {
-      reply({ foo: 'bar' });
+
+      const currentUser = request.auth.credentials.username;
+
+      server.plugins.models.notes.create(request.payload, currentUser)
+        .then((data) => {
+          reply(null).header('Location', `${server.info.uri}/notes/${data}`);
+        })
+        .catch((err) => {
+
+          if (err.message === 'payload is malformed') {
+            return reply(Boom.badRequest(err.message));
+          }
+
+          return reply(Boom.badImplementation(err.message));
+        });
     },
   });
 
@@ -40,7 +66,26 @@ const engage = function (server) {
       },
     },
     handler: (request, reply) => {
-      reply({ foo: 'bar' });
+
+      const noteID = parseInt(request.params.noteID, 10);
+      const currentUser = request.auth.credentials.username;
+      
+      server.plugins.models.notes.findByID(noteID, currentUser)
+        .then((data) => {
+          reply(data);
+        })
+        .catch((err) => {
+
+          if (err.message === 'noteID is malformed') {
+            return reply(Boom.badRequest(err.message));
+          }
+
+          if (err.message === 'noteID does not exist') {
+            return reply(Boom.notFound(err.message));
+          }
+
+          return reply(Boom.badImplementation(err.message));
+        });
     },
   });
 
@@ -54,7 +99,30 @@ const engage = function (server) {
       },
     },
     handler: (request, reply) => {
-      reply({ foo: 'bar' });
+
+      const noteID = parseInt(request.params.noteID, 10);
+      const currentUser = request.auth.credentials.username;
+      
+      server.plugins.models.notes.replace(noteID, request.payload, currentUser)
+        .then(() => {
+          reply(null);
+        })
+        .catch((err) => {
+
+          if (err.message === 'noteID is malformed') {
+            return reply(Boom.badRequest(err.message));
+          }
+
+          if (err.message === 'noteID does not exist') {
+            return reply(Boom.notFound(err.message));
+          }
+
+          if (err.message === 'payload is malformed') {
+            return reply(Boom.badRequest(err.message));
+          }
+
+          return reply(Boom.badImplementation(err.message));
+        });
     },
   });
 
@@ -68,7 +136,30 @@ const engage = function (server) {
       },
     },
     handler: (request, reply) => {
-      reply({ foo: 'bar' });
+
+      const noteID = parseInt(request.params.noteID, 10);
+      const currentUser = request.auth.credentials.username;
+      
+      server.plugins.models.notes.update(noteID, request.payload, currentUser)
+        .then(() => {
+          reply(null);
+        })
+        .catch((err) => {
+
+          if (err.message === 'noteID is malformed') {
+            return reply(Boom.badRequest(err.message));
+          }
+
+          if (err.message === 'noteID does not exist') {
+            return reply(Boom.notFound(err.message));
+          }
+
+          if (err.message === 'payload is malformed') {
+            return reply(Boom.badRequest(err.message));
+          }
+
+          return reply(Boom.badImplementation(err.message));
+        });
     },
   });
 
@@ -82,7 +173,26 @@ const engage = function (server) {
       },
     },
     handler: (request, reply) => {
-      reply({ foo: 'bar' });
+
+      const noteID = parseInt(request.params.noteID, 10);
+      const currentUser = request.auth.credentials.username;
+      
+      server.plugins.models.notes.destroy(noteID, currentUser)
+        .then(() => {
+          reply(null);
+        })
+        .catch((err) => {
+
+          if (err.message === 'noteID is malformed') {
+            return reply(Boom.badRequest(err.message));
+          }
+
+          if (err.message === 'noteID does not exist') {
+            return reply(Boom.notFound(err.message));
+          }
+
+          return reply(Boom.badImplementation(err.message));
+        });
     },
   });
 };
