@@ -194,4 +194,61 @@ lab.experiment('schemas.error401', () => {
       done();
     });
   });
+
+  lab.experiment('attributes', () => {
+
+    lab.test('is optional', (done) => {
+
+      const schema = server.plugins.schemas.error401;
+
+      const options = { convert: false };
+
+      const good = [
+        // With attributes
+        {
+          statusCode: 401,
+          error: 'Unauthorized',
+          message: 'Go away!',
+          attributes: {},
+        },
+        // Without attributes
+        {
+          statusCode: 401,
+          error: 'Unauthorized',
+          message: 'Go away!',
+        },
+      ];
+
+      Code.expect(Joi.validate(good[0], schema, options).error).to.be.null();
+      Code.expect(Joi.validate(good[1], schema, options).error).to.be.null();
+
+      done();
+    });
+
+    lab.test('must be an object', (done) => {
+
+      const schema = server.plugins.schemas.error401;
+
+      const options = { convert: false };
+
+      const good = {
+        statusCode: 401,
+        error: 'Unauthorized',
+        message: 'Go away!',
+        attributes: {},
+      };
+
+      const bad = {
+        statusCode: 401,
+        error: 'Unauthorized',
+        message: 'Go away!',
+        attributes: 'error',
+      };
+
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
+
+      done();
+    });
+  });
 });

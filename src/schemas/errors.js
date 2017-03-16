@@ -14,6 +14,7 @@ schemas.error401 = Joi.object().keys({
   statusCode: Joi.number().equal(401).required(),
   error: Joi.string().equal('Unauthorized').required(),
   message: Joi.string().optional(),
+  attributes: Joi.object().optional(),
 });
 
 schemas.error404 = Joi.object().keys({
