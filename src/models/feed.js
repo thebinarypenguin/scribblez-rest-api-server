@@ -19,7 +19,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.username;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(currentUser, schema, options, (err, val) => {
@@ -56,7 +59,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
       
       const schema  = server.plugins.schemas.username;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(owner, schema, options, (err, val) => {

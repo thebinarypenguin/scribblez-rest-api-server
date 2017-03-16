@@ -15,7 +15,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.groupID;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(groupID, schema, options, (err, val) => {
@@ -52,7 +55,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.groupCreatePayload;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(createPayload, schema, options, (err, val) => {
@@ -74,7 +80,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.groupUpdatePayload;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(updatePayload, schema, options, (err, val) => {
@@ -96,7 +105,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.groupReplacePayload;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(replacePayload, schema, options, (err, val) => {
@@ -118,7 +130,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.username;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(currentUser, schema, options, (err, val) => {

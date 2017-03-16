@@ -18,7 +18,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.username;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       if (arguments.length > 1) {
         
@@ -62,7 +65,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.userCreatePayload;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(createPayload, schema, options, (err, val) => {
@@ -99,7 +105,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.userUpdatePayload;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(updatePayload, schema, options, (err, val) => {
@@ -121,7 +130,10 @@ const engage = function (server, knex) {
     return new Bluebird((resolve, reject) => {
 
       const schema  = server.plugins.schemas.userReplacePayload;
-      const options = { stripUnknown: true };
+      const options = {
+        convert: false,
+        stripUnknown: true,
+      };
     
       // Validate against schema
       Joi.validate(replacePayload, schema, options, (err, val) => {
