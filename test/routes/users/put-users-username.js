@@ -24,11 +24,12 @@ lab.experiment('PUT /users/{username}', () => {
         server = testServer;
       });
   });
+
   lab.experiment('No Authorization header', () => {
 
     const noAuth = {
       method: 'PUT',
-      url: '/users/1',
+      url: '/users/homer',
       payload: {
         real_name: 'The Chosen One',
         email_address: 'TheChosenOne@example.com',
@@ -60,6 +61,13 @@ lab.experiment('PUT /users/{username}', () => {
 
       return server.inject(noAuth).then((response) => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
+      });
+    });
+
+    lab.test('Error message should be "Missing authentication"', () => {
+
+      return server.inject(noAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
       });
     });
   });
@@ -70,7 +78,7 @@ lab.experiment('PUT /users/{username}', () => {
 
     const invalidAuth = {
       method: 'PUT',
-      url: '/users/1',
+      url: '/users/homer',
       headers: {
         'authorization': `Basic ${credentials}`,
       },
@@ -107,15 +115,22 @@ lab.experiment('PUT /users/{username}', () => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
       });
     });
+
+    lab.test('Error message should be "Bad username or password"', () => {
+
+      return server.inject(invalidAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
+      });
+    });
   });
 
-  lab.experiment('Invalid username', () => {
+  lab.experiment('Username does not match authorized user', () => {
 
     const credentials = new Buffer('homer:password', 'utf8').toString('base64')
 
-    const invalidGroupID = {
+    const mismatch = {
       method: 'PUT',
-      url: '/users/999999',
+      url: '/users/nothomer',
       headers: {
         'authorization': `Basic ${credentials}`,
       },
@@ -132,74 +147,42 @@ lab.experiment('PUT /users/{username}', () => {
       return helpers.resetDatabase(config);
     });
 
-    lab.test('Status code should be 404 Not Found', () => {
+    lab.test('Status code should be 403 Forbidden', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
-        Code.expect(response.statusCode).to.equal(404);
+      return server.inject(mismatch).then((response) => {
+        Code.expect(response.statusCode).to.equal(403);
       });
     });
 
     lab.test('Content-Type should contain application/json', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(mismatch).then((response) => {
         Code.expect(response.headers['content-type']).to.contain('application/json');
       });
     });
 
-    lab.test('Body should match the error404 schema', () => {
+    lab.test('Body should match the error403 schema', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error404);
+      return server.inject(mismatch).then((response) => {
+        Joi.assert(response.payload, server.plugins.schemas.error403);
+      });
+    });
+
+    lab.test('Error message should be "Permission denied"', () => {
+
+      return server.inject(mismatch).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Permission denied');
       });
     });
   });
 
-  lab.experiment('No body', () => {
+  lab.experiment('Malformed body', () => {
 
     const credentials = new Buffer('homer:password', 'utf8').toString('base64')
 
-    const invalidGroupID = {
+    const malformedBody = {
       method: 'PUT',
-      url: '/users/1',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-    };
-
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
-    });
-
-    lab.test('Status code should be 400 Bad Request', () => {
-
-      return server.inject(invalidGroupID).then((response) => {
-        Code.expect(response.statusCode).to.equal(400);
-      });
-    });
-
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(invalidGroupID).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
-    });
-
-    lab.test('Body should match the error400 schema', () => {
-
-      return server.inject(invalidGroupID).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error400);
-      });
-    });
-  });
-
-  lab.experiment('Invalid body', () => {
-
-    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
-
-    const invalidGroupID = {
-      method: 'PUT',
-      url: '/users/1',
+      url: '/users/homer',
       headers: {
         'authorization': `Basic ${credentials}`,
       },
@@ -215,22 +198,29 @@ lab.experiment('PUT /users/{username}', () => {
 
     lab.test('Status code should be 400 Bad Request', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(malformedBody).then((response) => {
         Code.expect(response.statusCode).to.equal(400);
       });
     });
 
     lab.test('Content-Type should contain application/json', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(malformedBody).then((response) => {
         Code.expect(response.headers['content-type']).to.contain('application/json');
       });
     });
 
     lab.test('Body should match the error400 schema', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(malformedBody).then((response) => {
         Joi.assert(response.payload, server.plugins.schemas.error400);
+      });
+    });
+
+    lab.test('Error message should be "body is malformed"', () => {
+
+      return server.inject(malformedBody).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('body is malformed');
       });
     });
   });
@@ -241,7 +231,7 @@ lab.experiment('PUT /users/{username}', () => {
 
     const valid = {
       method: 'PUT',
-      url: '/users/1',
+      url: '/users/homer',
       headers: {
         'authorization': `Basic ${credentials}`,
       },
@@ -253,6 +243,11 @@ lab.experiment('PUT /users/{username}', () => {
       },
     };
 
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
     lab.test('Status code should be 200 OK', () => {
 
       return server.inject(valid).then((response) => {
@@ -260,17 +255,10 @@ lab.experiment('PUT /users/{username}', () => {
       });
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(valid).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
-    });
-
     lab.test('Body should be empty', () => {
 
       return server.inject(valid).then((response) => {
-        Code.expect(response.payload).to.be.null();
+        Code.expect(response.payload).to.equal('');
       });
     });
   });

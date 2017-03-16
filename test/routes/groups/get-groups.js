@@ -54,7 +54,14 @@ lab.experiment('GET /groups', () => {
     lab.test('Body should match the error401 schema', () => {
 
       return server.inject(noAuth).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error401);
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error401);
+      });
+    });
+
+    lab.test('Error message should be "Missing authentication"', () => {
+
+      return server.inject(noAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
       });
     });
   });
@@ -93,12 +100,19 @@ lab.experiment('GET /groups', () => {
     lab.test('Body should match the error401 schema', () => {
 
       return server.inject(invalidAuth).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error401);
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error401);
+      });
+    });
+
+    lab.test('Error message should be "Bad username or password"', () => {
+
+      return server.inject(invalidAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
       });
     });
   });
 
-  lab.experiment('Valid Authorization header', () => {
+  lab.experiment('Valid Request', () => {
 
     const credentials = new Buffer('homer:password', 'utf8').toString('base64')
 
@@ -132,7 +146,77 @@ lab.experiment('GET /groups', () => {
     lab.test('Body should match the groupCollection schema', () => {
 
       return server.inject(validAuth).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.groupCollection);
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.groupCollection);
+      });
+    });
+
+    lab.test('Body should match expected data', () => {
+
+      const expectedData = [
+        {
+          "id": 1,
+          "name": "Family",
+          "members": [
+            {
+              "real_name": "Marge Simpson",
+              "username": "marge",
+            },
+            {
+              "real_name": "Bart Simpson",
+              "username": "bart",
+            },
+            {
+              "real_name": "Lisa Simpson",
+              "username": "lisa",
+            },
+            {
+              "real_name": "Maggie Simpson",
+              "username": "maggie",
+            },
+          ],
+        },
+        {
+          "id": 2,
+          "name": "Friends",
+          "members": [
+            {
+              "real_name": "Lenny Leonard",
+              "username": "lenny",
+            },
+            {
+              "real_name": "Carl Carlson",
+              "username": "carl",
+            },
+          ],
+        },
+        {
+          "id": 3,
+          "name": "In-Laws",
+          "members": [
+            {
+              "real_name": "Patty Bouvier",
+              "username": "patty",
+            },
+            {
+              "real_name": "Selma Bouvier",
+              "username": "selma",
+            },
+          ],
+        },
+        {
+          "id": 4,
+          "name": "Stupid Flanders",
+          "members": [
+            {
+              "real_name": "Ned Flanders",
+              "username": "ned",
+            },
+          ],
+        },
+      ];
+
+      return server.inject(validAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
       });
     });
   });

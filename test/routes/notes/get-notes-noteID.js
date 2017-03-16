@@ -57,6 +57,13 @@ lab.experiment('GET /notes/{noteID}', () => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
       });
     });
+
+    lab.test('Error message should be "Missing authentication"', () => {
+
+      return server.inject(noAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
+      });
+    });
   });
 
   lab.experiment('Invalid Authorization header', () => {
@@ -96,13 +103,66 @@ lab.experiment('GET /notes/{noteID}', () => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
       });
     });
+
+    lab.test('Error message should be "Bad username or password"', () => {
+
+      return server.inject(invalidAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
+      });
+    });
   });
 
-  lab.experiment('Invalid noteID', () => {
+  lab.experiment('Malformed noteID', () => {
 
     const credentials = new Buffer('homer:password', 'utf8').toString('base64')
 
-    const invalidGroupID = {
+    const malformedNoteID = {
+      method: 'GET',
+      url: '/notes/!!!!!',
+      headers: {
+        'authorization': `Basic ${credentials}`,
+      },
+    };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Status code should be 400 Bad Request', () => {
+
+      return server.inject(malformedNoteID).then((response) => {
+        Code.expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    lab.test('Content-Type should contain application/json', () => {
+
+      return server.inject(malformedNoteID).then((response) => {
+        Code.expect(response.headers['content-type']).to.contain('application/json');
+      });
+    });
+
+    lab.test('Body should match the error400 schema', () => {
+
+      return server.inject(malformedNoteID).then((response) => {
+        Joi.assert(response.payload, server.plugins.schemas.error400);
+      });
+    });
+
+    lab.test('Error message should be "noteID is malformed"', () => {
+
+      return server.inject(malformedNoteID).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('noteID is malformed');
+      });
+    });
+  });
+
+  lab.experiment('Nonexistent noteID', () => {
+
+    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+    const nonexistentNoteID = {
       method: 'GET',
       url: '/notes/999999',
       headers: {
@@ -117,22 +177,75 @@ lab.experiment('GET /notes/{noteID}', () => {
 
     lab.test('Status code should be 404 Not Found', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(nonexistentNoteID).then((response) => {
         Code.expect(response.statusCode).to.equal(404);
       });
     });
 
     lab.test('Content-Type should contain application/json', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(nonexistentNoteID).then((response) => {
         Code.expect(response.headers['content-type']).to.contain('application/json');
       });
     });
 
     lab.test('Body should match the error404 schema', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(nonexistentNoteID).then((response) => {
         Joi.assert(response.payload, server.plugins.schemas.error404);
+      });
+    });
+
+    lab.test('Error message should be "noteID does not exist"', () => {
+
+      return server.inject(nonexistentNoteID).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('noteID does not exist');
+      });
+    });
+  });
+
+  lab.experiment('Note not owned by authenticated user', () => {
+
+    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+    const denied = {
+      method: 'GET',
+      url: '/notes/15',
+      headers: {
+        'authorization': `Basic ${credentials}`,
+      },
+    };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Status code should be 403 Forbidden', () => {
+
+      return server.inject(denied).then((response) => {
+        Code.expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    lab.test('Content-Type should contain application/json', () => {
+
+      return server.inject(denied).then((response) => {
+        Code.expect(response.headers['content-type']).to.contain('application/json');
+      });
+    });
+
+    lab.test('Body should match the error403 schema', () => {
+
+      return server.inject(denied).then((response) => {
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error403);
+      });
+    });
+
+    lab.test('Error message should be "Permission denied"', () => {
+
+      return server.inject(denied).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Permission denied');
       });
     });
   });
@@ -172,6 +285,23 @@ lab.experiment('GET /notes/{noteID}', () => {
 
       return server.inject(valid).then((response) => {
         Joi.assert(response.payload, server.plugins.schemas.note);
+      });
+    });
+
+    lab.test('Body should match expected data', () => {
+
+      const expectedData = {
+        "body": "Homer Simpson's first public note",
+        "id": 1,
+        "owner": {
+          "real_name": "Homer Simpson",
+          "username": "homer",
+        },
+        "visibility": "public",
+      };
+
+      return server.inject(valid).then((response) => {
+        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
       });
     });
   });

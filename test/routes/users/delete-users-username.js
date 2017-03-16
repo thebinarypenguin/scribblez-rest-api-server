@@ -29,7 +29,7 @@ lab.experiment('DELETE /users/{username}', () => {
 
     const noAuth = {
       method: 'DELETE',
-      url: '/users/1',
+      url: '/users/homer',
     };
 
     lab.beforeEach(() => {
@@ -55,6 +55,13 @@ lab.experiment('DELETE /users/{username}', () => {
 
       return server.inject(noAuth).then((response) => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
+      });
+    });
+
+    lab.test('Error message should be "Missing authentication"', () => {
+
+      return server.inject(noAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
       });
     });
   });
@@ -65,7 +72,7 @@ lab.experiment('DELETE /users/{username}', () => {
 
     const invalidAuth = {
       method: 'DELETE',
-      url: '/users/1',
+      url: '/users/homer',
       headers: {
         'authorization': `Basic ${credentials}`,
       },
@@ -96,15 +103,22 @@ lab.experiment('DELETE /users/{username}', () => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
       });
     });
+
+    lab.test('Error message should be "Bad username or password"', () => {
+
+      return server.inject(invalidAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
+      });
+    });
   });
 
-  lab.experiment('Invalid username', () => {
+  lab.experiment('Username does not match authorized user', () => {
 
     const credentials = new Buffer('homer:password', 'utf8').toString('base64')
 
-    const invalidGroupID = {
+    const mismatch = {
       method: 'DELETE',
-      url: '/users/999999',
+      url: '/users/nothomer',
       headers: {
         'authorization': `Basic ${credentials}`,
       },
@@ -115,24 +129,31 @@ lab.experiment('DELETE /users/{username}', () => {
       return helpers.resetDatabase(config);
     });
 
-    lab.test('Status code should be 404 Not Found', () => {
+    lab.test('Status code should be 403 Forbidden', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
-        Code.expect(response.statusCode).to.equal(404);
+      return server.inject(mismatch).then((response) => {
+        Code.expect(response.statusCode).to.equal(403);
       });
     });
 
     lab.test('Content-Type should contain application/json', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(mismatch).then((response) => {
         Code.expect(response.headers['content-type']).to.contain('application/json');
       });
     });
 
-    lab.test('Body should match the error404 schema', () => {
+    lab.test('Body should match the error403 schema', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error404);
+      return server.inject(mismatch).then((response) => {
+        Joi.assert(response.payload, server.plugins.schemas.error403);
+      });
+    });
+
+    lab.test('Error message should be "Permission denied"', () => {
+
+      return server.inject(mismatch).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Permission denied');
       });
     });
   });
@@ -143,7 +164,7 @@ lab.experiment('DELETE /users/{username}', () => {
 
     const validRequest = {
       method: 'DELETE',
-      url: '/users/1',
+      url: '/users/homer',
       headers: {
         'authorization': `Basic ${credentials}`,
       },
@@ -161,17 +182,10 @@ lab.experiment('DELETE /users/{username}', () => {
       });
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(validRequest).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
-    });
-
     lab.test('Body should be empty', () => {
 
       return server.inject(validRequest).then((response) => {
-        Code.expect(response.payload).to.be.null();
+        Code.expect(response.payload).to.equal('');
       });
     });
   });

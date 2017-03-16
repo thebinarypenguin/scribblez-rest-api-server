@@ -54,7 +54,14 @@ lab.experiment('GET /groups/{groupID}', () => {
     lab.test('Body should match the error401 schema', () => {
 
       return server.inject(noAuth).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error401);
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error401);
+      });
+    });
+
+    lab.test('Error message should be "Missing authentication"', () => {
+
+      return server.inject(noAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
       });
     });
   });
@@ -93,16 +100,69 @@ lab.experiment('GET /groups/{groupID}', () => {
     lab.test('Body should match the error401 schema', () => {
 
       return server.inject(invalidAuth).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error401);
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error401);
+      });
+    });
+
+    lab.test('Error message should be "Bad username or password"', () => {
+
+      return server.inject(invalidAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
       });
     });
   });
 
-  lab.experiment('Invalid groupID', () => {
+  lab.experiment('Malformed groupID', () => {
 
     const credentials = new Buffer('homer:password', 'utf8').toString('base64')
 
-    const invalidGroupID = {
+    const malformedGroupID = {
+      method: 'GET',
+      url: '/groups/!!!!!',
+      headers: {
+        'authorization': `Basic ${credentials}`,
+      },
+    };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Status code should be 400 Bad Request', () => {
+
+      return server.inject(malformedGroupID).then((response) => {
+        Code.expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    lab.test('Content-Type should contain application/json', () => {
+
+      return server.inject(malformedGroupID).then((response) => {
+        Code.expect(response.headers['content-type']).to.contain('application/json');
+      });
+    });
+
+    lab.test('Body should match the error400 schema', () => {
+
+      return server.inject(malformedGroupID).then((response) => {
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error400);
+      });
+    });
+
+    lab.test('Error message should be "groupID is malformed"', () => {
+
+      return server.inject(malformedGroupID).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('groupID is malformed');
+      });
+    });
+  });
+
+  lab.experiment('Nonexistent groupID', () => {
+
+    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+    const nonexistentGroupID = {
       method: 'GET',
       url: '/groups/999999',
       headers: {
@@ -117,22 +177,75 @@ lab.experiment('GET /groups/{groupID}', () => {
 
     lab.test('Status code should be 404 Not Found', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(nonexistentGroupID).then((response) => {
         Code.expect(response.statusCode).to.equal(404);
       });
     });
 
     lab.test('Content-Type should contain application/json', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
+      return server.inject(nonexistentGroupID).then((response) => {
         Code.expect(response.headers['content-type']).to.contain('application/json');
       });
     });
 
     lab.test('Body should match the error404 schema', () => {
 
-      return server.inject(invalidGroupID).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error404);
+      return server.inject(nonexistentGroupID).then((response) => {
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error404);
+      });
+    });
+
+    lab.test('Error message should be "groupID does not exist"', () => {
+
+      return server.inject(nonexistentGroupID).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('groupID does not exist');
+      });
+    });
+  });
+
+  lab.experiment('Group not owned by authenticated user', () => {
+
+    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+    const denied = {
+      method: 'GET',
+      url: '/groups/10',
+      headers: {
+        'authorization': `Basic ${credentials}`,
+      },
+    };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Status code should be 403 Forbidden', () => {
+
+      return server.inject(denied).then((response) => {
+        Code.expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    lab.test('Content-Type should contain application/json', () => {
+
+      return server.inject(denied).then((response) => {
+        Code.expect(response.headers['content-type']).to.contain('application/json');
+      });
+    });
+
+    lab.test('Body should match the error403 schema', () => {
+
+      return server.inject(denied).then((response) => {
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error403);
+      });
+    });
+
+    lab.test('Error message should be "Permission denied"', () => {
+
+      return server.inject(denied).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Permission denied');
       });
     });
   });
@@ -171,7 +284,37 @@ lab.experiment('GET /groups/{groupID}', () => {
     lab.test('Body should match the group schema', () => {
 
       return server.inject(valid).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.group);
+        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.group);
+      });
+    });
+
+    lab.test('Body should match expected data', () => {
+
+      const expectedData = {
+        "id": 1,
+        "name": "Family",
+        "members": [
+          {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          {
+            "real_name": "Bart Simpson",
+            "username": "bart",
+          },
+          {
+            "real_name": "Lisa Simpson",
+            "username": "lisa",
+          },
+          {
+            "real_name": "Maggie Simpson",
+            "username": "maggie",
+          },
+        ],
+      };
+
+      return server.inject(valid).then((response) => {
+        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
       });
     });
   });

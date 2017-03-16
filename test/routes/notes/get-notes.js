@@ -57,6 +57,13 @@ lab.experiment('GET /notes', () => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
       });
     });
+
+    lab.test('Error message should be "Missing authentication"', () => {
+
+      return server.inject(noAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
+      });
+    });
   });
 
   lab.experiment('Invalid Authorization header', () => {
@@ -96,9 +103,16 @@ lab.experiment('GET /notes', () => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
       });
     });
+
+    lab.test('Error message should be "Bad username or password"', () => {
+
+      return server.inject(invalidAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
+      });
+    });
   });
 
-  lab.experiment('Valid Authorization header', () => {
+  lab.experiment('Valid Request', () => {
 
     const credentials = new Buffer('homer:password', 'utf8').toString('base64')
 
@@ -133,6 +147,162 @@ lab.experiment('GET /notes', () => {
 
       return server.inject(validAuth).then((response) => {
         Joi.assert(response.payload, server.plugins.schemas.noteCollection);
+      });
+    });
+
+    lab.test('Body should match expected data', () => {
+
+      const expectedData = [
+        {
+          "body": "Homer Simpson's first shared note",
+          "id": 7,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": {
+            "groups": [
+              {
+                "id": 7,
+                "members": [
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
+                  },
+                  {
+                    "real_name": "Carl Carlson",
+                    "username": "carl",
+                  },
+                ],
+                "name": "Friends",
+              },
+            ],
+            "users": [
+              {
+                "real_name": "Lenny Leonard",
+                "username": "lenny",
+              },
+            ],
+          },
+        },
+        {
+          "body": "Homer Simpson's second shared note",
+          "id": 8,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": {
+            "groups": [
+              {
+                "id": 8,
+                "members": [
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
+                  },
+                  {
+                    "real_name": "Carl Carlson",
+                    "username": "carl",
+                  },
+                ],
+                "name": "Friends",
+              },
+            ],
+            "users": [
+              {
+                "real_name": "Carl Carlson",
+                "username": "carl",
+              },
+            ],
+          },
+        },
+        {
+          "body": "Homer Simpson's third shared note",
+          "id": 9,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": {
+            "groups": [
+              {
+                "id": 9,
+                "members": [
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
+                  },
+                  {
+                    "real_name": "Carl Carlson",
+                    "username": "carl",
+                  },
+                ],
+                "name": "Friends",
+              },
+            ],
+            "users": [
+            ],
+          },
+        },
+        {
+          "body": "Homer Simpson's second public note",
+          "id": 2,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+        },
+        {
+          "body": "Homer Simpson's second private note",
+          "id": 5,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+        },
+        {
+          "body": "Homer Simpson's third private note",
+          "id": 6,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+        },
+        {
+          "body": "Homer Simpson's first private note",
+          "id": 4,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+        },
+        {
+          "body": "Homer Simpson's first public note",
+          "id": 1,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+        },
+        {
+          "body": "Homer Simpson's third public note",
+          "id": 3,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+        },
+      ];
+
+      return server.inject(validAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
       });
     });
   });

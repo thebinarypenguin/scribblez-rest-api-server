@@ -61,6 +61,13 @@ lab.experiment('POST /notes', () => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
       });
     });
+
+    lab.test('Error message should be "Missing authentication"', () => {
+
+      return server.inject(noAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
+      });
+    });
   });
 
   lab.experiment('Invalid Authorization header', () => {
@@ -104,52 +111,20 @@ lab.experiment('POST /notes', () => {
         Joi.assert(response.payload, server.plugins.schemas.error401);
       });
     });
-  });
 
-  lab.experiment('No body', () => {
+    lab.test('Error message should be "Bad username or password"', () => {
 
-    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
-
-    const noBody = {
-      method: 'POST',
-      url: '/notes',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-    };
-
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
-    });
-
-    lab.test('Status code should be 400 Bad Request', () => {
-
-      return server.inject(noBody).then((response) => {
-        Code.expect(response.statusCode).to.equal(400);
-      });
-    });
-
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(noBody).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
-    });
-
-    lab.test('Body should match the error400 schema', () => {
-
-      return server.inject(noBody).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error400);
+      return server.inject(invalidAuth).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
       });
     });
   });
 
-  lab.experiment('Invalid Body', () => {
+  lab.experiment('Malformed Body', () => {
 
     const credentials = new Buffer('homer:password', 'utf8').toString('base64')
 
-    const invalidBody = {
+    const malformedBody = {
       method: 'POST',
       url: '/notes',
       headers: {
@@ -167,22 +142,29 @@ lab.experiment('POST /notes', () => {
 
     lab.test('Status code should be 400 Bad Request', () => {
 
-      return server.inject(invalidBody).then((response) => {
+      return server.inject(malformedBody).then((response) => {
         Code.expect(response.statusCode).to.equal(400);
       });
     });
 
     lab.test('Content-Type should contain application/json', () => {
 
-      return server.inject(invalidBody).then((response) => {
+      return server.inject(malformedBody).then((response) => {
         Code.expect(response.headers['content-type']).to.contain('application/json');
       });
     });
 
     lab.test('Body should match the error400 schema', () => {
 
-      return server.inject(invalidBody).then((response) => {
+      return server.inject(malformedBody).then((response) => {
         Joi.assert(response.payload, server.plugins.schemas.error400);
+      });
+    });
+
+    lab.test('Error message should be "body is malformed"', () => {
+
+      return server.inject(malformedBody).then((response) => {
+        Code.expect(JSON.parse(response.payload).message).to.equal('body is malformed');
       });
     });
   });
@@ -208,17 +190,10 @@ lab.experiment('POST /notes', () => {
       return helpers.resetDatabase(config);
     });
 
-    lab.test('Status code should be 200 OK', () => {
+    lab.test('Status code should be 201 Created', () => {
 
       return server.inject(valid).then((response) => {
-        Code.expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(valid).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
+        Code.expect(response.statusCode).to.equal(201);
       });
     });
 
@@ -232,7 +207,7 @@ lab.experiment('POST /notes', () => {
     lab.test('Body should be empty', () => {
 
       return server.inject(valid).then((response) => {
-        Code.expect(response.payload).to.be.null();
+        Code.expect(response.payload).to.equal('');
       });
     });
   });
