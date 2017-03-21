@@ -55,11 +55,11 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'owner is malformed') {
-            return reply(Boom.badRequest(err.message));
+            return reply(Boom.badRequest('username is malformed'));
           }
 
           if (err.message === 'owner does not exist') {
-            return reply(Boom.notFound(err.message));
+            return reply(Boom.notFound('username does not exist'));
           }
 
           return reply(Boom.badImplementation(err.message));

@@ -48,7 +48,7 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest(err.message));
+            return reply(Boom.badRequest('body is malformed'));
           }
 
           return reply(Boom.badImplementation(err.message));
@@ -118,7 +118,7 @@ const engage = function (server) {
           }
 
           if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest(err.message));
+            return reply(Boom.badRequest('body is malformed'));
           }
 
           return reply(Boom.badImplementation(err.message));
@@ -155,7 +155,7 @@ const engage = function (server) {
           }
 
           if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest(err.message));
+            return reply(Boom.badRequest('body is malformed'));
           }
 
           return reply(Boom.badImplementation(err.message));
