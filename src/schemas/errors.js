@@ -17,6 +17,12 @@ schemas.error401 = Joi.object().keys({
   attributes: Joi.object().optional(),
 });
 
+schemas.error403 = Joi.object().keys({
+  statusCode: Joi.number().equal(403).required(),
+  error: Joi.string().equal('Forbidden').required(),
+  message: Joi.string().optional(),
+});
+
 schemas.error404 = Joi.object().keys({
   statusCode: Joi.number().equal(404).required(),
   error: Joi.string().equal('Not Found').required(),
