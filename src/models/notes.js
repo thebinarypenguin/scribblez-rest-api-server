@@ -163,6 +163,27 @@ const engage = function (server, knex) {
   };
 
   /**
+   * Determine if note is owned by currentUser
+   */
+  const validateOwnership = function (noteID, currentUser) {
+
+    // Check for presence in database
+    return knex
+      .select('notes.id')
+      .from('notes')
+      .leftJoin('users', 'users.id', '=', 'notes.owner_id')
+      .where('notes.id', noteID)
+      .andWhere('users.username', currentUser)
+      .then((result) => {
+        if (result.length === 0) {
+          throw new Error('Permission denied');
+        } else { 
+          return true;
+        }
+      });
+  };
+
+  /**
    * Transform "flat" database rows into "hierarchical" objects.
    */
   const format = function (results) {
@@ -325,15 +346,30 @@ const engage = function (server, knex) {
    */
   pub.findByID = function(noteID, currentUser) {
 
-    return Bluebird
-      .all([
-        validateNoteID(noteID),
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
+    let validNoteID      = null;
+    let validCurrentUser = null;
 
-        const validNoteID      = valid[0];
-        const validCurrentUser = valid[1];
+    return Bluebird
+      .resolve()
+      .then(() => {
+
+        return validateNoteID(noteID)
+          .then((data) => {
+            validNoteID = data;
+          }); 
+      })
+      .then(() => {
+
+        return validateCurrentUser(currentUser)
+          .then((data) => {
+            validCurrentUser = data;
+          });
+      })
+      .then(() => {
+
+        return validateOwnership(noteID, currentUser);
+      }) 
+      .then(() => {
 
         return knex
           .select(
@@ -507,16 +543,32 @@ const engage = function (server, knex) {
     let payloadGrants    = [];
 
     return Bluebird
-      .all([
-        validateNoteID(noteID),
-        validateUpdatePayload(payload),
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
-        validNoteID      = valid[0];
-        validPayload     = valid[1];
-        validCurrentUser = valid[2];
+      .resolve()
+      .then(() => {
+
+        return validateNoteID(noteID)
+          .then((data) => {
+            validNoteID = data;
+          });
       })
+      .then(() => {
+
+        return validateUpdatePayload(payload)
+          .then((data) => {
+            validPayload = data;
+          });
+      })
+      .then(() => {
+
+        return validateCurrentUser(currentUser)
+          .then((data) => {
+            validCurrentUser = data;
+          });
+      })
+      .then(() => {
+
+        return validateOwnership(noteID, currentUser);
+      }) 
       .then(() => {
 
         // Get user id for currentUser
@@ -701,16 +753,32 @@ const engage = function (server, knex) {
     let payloadGrants    = [];
 
     return Bluebird
-      .all([
-        validateNoteID(noteID),
-        validateReplacePayload(payload),
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
-        validNoteID      = valid[0];
-        validPayload     = valid[1];
-        validCurrentUser = valid[2];
+      .resolve()
+      .then(() => {
+
+        return validateNoteID(noteID)
+          .then((data) => {
+            validNoteID = data;
+          });
       })
+      .then(() => {
+
+        return validateReplacePayload(payload)
+          .then((data) => {
+            validPayload = data;
+          });
+      })
+      .then(() => {
+
+        return validateCurrentUser(currentUser)
+          .then((data) => {
+            validCurrentUser = data;
+          });
+      })
+      .then(() => {
+
+        return validateOwnership(noteID, currentUser);
+      }) 
       .then(() => {
 
         // Get user id for currentUser
@@ -886,14 +954,25 @@ const engage = function (server, knex) {
     let userID           = null;
 
     return Bluebird
-      .all([
-        validateNoteID(noteID),
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
-        validNoteID      = valid[0];
-        validCurrentUser = valid[1];
+      .resolve()
+      .then(() => {
+
+        return validateNoteID(noteID)
+          .then((data) => {
+            validNoteID = data;
+          });
       })
+      .then(() => {
+
+        return validateCurrentUser(currentUser)
+          .then((data) => {
+            validCurrentUser = data;
+          });
+      })
+      .then(() => {
+
+        return validateOwnership(noteID, currentUser);
+      }) 
       .then(() => {
 
         // Get user id

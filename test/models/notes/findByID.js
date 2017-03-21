@@ -100,6 +100,28 @@ lab.experiment('models.notes.findByID(noteID, currentUser)', () => {
     });
   });
 
+  lab.experiment('Note not owned by currentUser', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should reject with a "permission" error', () => {
+
+      const unownedNoteID    = 15;
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.notes.findByID(unownedNoteID, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Permission denied');
+        });
+    });
+  });
+
   lab.experiment('Valid input', () => {
 
     const validNoteID      = 1;

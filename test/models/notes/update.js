@@ -147,6 +147,29 @@ lab.experiment('models.notes.update(noteID, payload, currentUser)', () => {
     });
   });
 
+  lab.experiment('Note not owned by currentUser', () => {
+
+    const unownedNoteID    = 15;
+    const validPayload     = { body: 'An updated note' };
+    const validCurrentUser = 'homer';
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should reject with a "permission" error', () => {
+
+      return server.plugins.models.notes.update(unownedNoteID, validPayload, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Permission denied');
+        });
+    });
+  });
+
   lab.experiment('Valid Input (body only)', () => {
 
     const validNoteID      = 1;

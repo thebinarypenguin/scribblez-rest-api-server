@@ -26,7 +26,7 @@ const engage = function (server, knex) {
       if (arguments.length > 1) {
         
         if (username !== currentUser) {
-          return reject(new Error('username does not match currentUser'));
+          return reject(new Error('Permission denied'));
         }  
       }
 
