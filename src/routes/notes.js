@@ -43,7 +43,7 @@ const engage = function (server) {
 
       server.plugins.models.notes.create(request.payload, currentUser)
         .then((data) => {
-          reply(null).header('Location', `${server.info.uri}/notes/${data}`);
+          reply(null).code(201).header('Location', `${server.info.uri}/notes/${data}`);
         })
         .catch((err) => {
 
@@ -84,6 +84,10 @@ const engage = function (server) {
             return reply(Boom.notFound(err.message));
           }
 
+          if (err.message === 'Permission denied') {
+            return reply(Boom.forbidden(err.message));
+          }
+
           return reply(Boom.badImplementation(err.message));
         });
     },
@@ -119,6 +123,10 @@ const engage = function (server) {
 
           if (err.message === 'payload is malformed') {
             return reply(Boom.badRequest('body is malformed'));
+          }
+
+          if (err.message === 'Permission denied') {
+            return reply(Boom.forbidden(err.message));
           }
 
           return reply(Boom.badImplementation(err.message));
@@ -158,6 +166,10 @@ const engage = function (server) {
             return reply(Boom.badRequest('body is malformed'));
           }
 
+          if (err.message === 'Permission denied') {
+            return reply(Boom.forbidden(err.message));
+          }
+
           return reply(Boom.badImplementation(err.message));
         });
     },
@@ -189,6 +201,10 @@ const engage = function (server) {
 
           if (err.message === 'noteID does not exist') {
             return reply(Boom.notFound(err.message));
+          }
+
+          if (err.message === 'Permission denied') {
+            return reply(Boom.forbidden(err.message));
           }
 
           return reply(Boom.badImplementation(err.message));

@@ -14,7 +14,7 @@ const engage = function (server) {
       
       server.plugins.models.users.create(request.payload)
         .then((data) => {
-          reply(null).header('Location', `${server.info.uri}/users/${data}`);
+          reply(null).code(201).header('Location', `${server.info.uri}/users/${data}`);
         })
         .catch((err) => {
 
@@ -51,8 +51,8 @@ const engage = function (server) {
         })
         .catch((err) => {
 
-          if (err.message === 'username does not match currentUser') {
-            return reply(Boom.badRequest(err.message));
+          if (err.message === 'Permission denied') {
+            return reply(Boom.forbidden(err.message));
           }
 
           if (err.message === 'username is malformed') {
@@ -88,8 +88,8 @@ const engage = function (server) {
         })
         .catch((err) => {
 
-          if (err.message === 'username does not match currentUser') {
-            return reply(Boom.badRequest(err.message));
+          if (err.message === 'Permission denied') {
+            return reply(Boom.forbidden(err.message));
           }
 
           if (err.message === 'username is malformed') {
@@ -129,8 +129,8 @@ const engage = function (server) {
         })
         .catch((err) => {
 
-          if (err.message === 'username does not match currentUser') {
-            return reply(Boom.badRequest(err.message));
+          if (err.message === 'Permission denied') {
+            return reply(Boom.forbidden(err.message));
           }
 
           if (err.message === 'username is malformed') {
@@ -170,8 +170,8 @@ const engage = function (server) {
         })
         .catch((err) => {
 
-          if (err.message === 'username does not match currentUser') {
-            return reply(Boom.badRequest(err.message));
+          if (err.message === 'Permission denied') {
+            return reply(Boom.forbidden(err.message));
           }
 
           if (err.message === 'username is malformed') {
