@@ -134,6 +134,29 @@ lab.experiment('models.groups.replace(groupID, payload, currentUser)', () => {
     });
   });
 
+  lab.experiment('Group not owned by currentUser', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should reject with a "permission" error', () => {
+
+      const unownedGroupID   = 15;
+      const validPayload     = { name: 'New group name', members: [ 'lenny', 'carl' ] };
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.groups.replace(unownedGroupID, validPayload, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Permission denied');
+        });
+    });
+  });
+
   lab.experiment('Valid Input (change name)', () => {
 
     const validGroupID     = 2;

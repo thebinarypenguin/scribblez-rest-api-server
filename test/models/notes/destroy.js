@@ -99,6 +99,28 @@ lab.experiment('models.notes.destroy(noteID, currentUser)', () => {
     });
   });
 
+  lab.experiment('Note not owned by currentUser', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should reject with a "permission" error', () => {
+
+      const unownedNoteID    = 1;
+      const validCurrentUser = 'marge';
+
+      return server.plugins.models.groups.destroy(unownedNoteID, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Permission denied');
+        });
+    });
+  });
+
   lab.experiment('Valid Input', () => {
 
     const validNoteID      = 18;

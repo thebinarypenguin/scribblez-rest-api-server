@@ -99,6 +99,28 @@ lab.experiment('models.groups.destroy(groupID, currentUser)', () => {
     });
   });
 
+  lab.experiment('Group not owned by currentUser', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should reject with a "permission" error', () => {
+
+      const unownedGroupID   = 15;
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.groups.destroy(unownedGroupID, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Permission denied');
+        });
+    });
+  });
+
   lab.experiment('Valid Input', () => {
 
     const validGroupID     = 2;

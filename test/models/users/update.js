@@ -21,9 +21,9 @@ lab.experiment('models.users.update(username, payload, currentUser)', () => {
       });
   });
 
-  lab.experiment('Mismatched username and currentUser', () => {
+  lab.experiment('username and currentUser do not match', () => {
 
-    lab.test('Should reject with a "mismatch" error', () => {
+    lab.test('Should reject with a "permission" error', () => {
 
       const mismatchedUsername    = 'homer';
       const validPayload          = { real_name: 'The Chosen One' };
@@ -34,7 +34,7 @@ lab.experiment('models.users.update(username, payload, currentUser)', () => {
           throw new Error('Expected promise to reject');
         })
         .catch((err) => {
-          Code.expect(err).to.be.an.error('username does not match currentUser');
+          Code.expect(err).to.be.an.error('Permission denied');
         });
     });
   });
