@@ -27,38 +27,40 @@ lab.experiment('GET /feed/{username}', () => {
 
   lab.experiment('No Authorization header', () => {
 
-    const noAuth = {
-      method: 'GET',
-      url: '/feed/marge',
-    };
+    let response = null;
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+    lab.before(() => {
+
+      const noAuth = {
+        method: 'GET',
+        url: '/feed/marge',
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(noAuth).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 200 OK', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Code.expect(response.statusCode).to.equal(200);
-      });
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the noteCollectionRedacted schema', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
-      });
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
     });
 
-    lab.test('Body should match expected data', () => {
+    lab.test('Body should match expected data', (done) => {
 
       const expectedData = [
         {
@@ -87,51 +89,52 @@ lab.experiment('GET /feed/{username}', () => {
         },
       ];
 
-      return server.inject(noAuth).then((response) => {
-        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
-      });
+      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      done();
     });
   });
 
   lab.experiment('Invalid Authorization header', () => {
 
-    const credentials = new Buffer('badUser:badPassword', 'utf8').toString('base64')
+    let response = null;
 
-    const invalidAuth = {
-      method: 'GET',
-      url: '/feed/marge',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-    };
+    lab.before(() => {
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+      const credentials = new Buffer('badUser:badPassword', 'utf8').toString('base64')
+
+      const invalidAuth = {
+        method: 'GET',
+        url: '/feed/marge',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(invalidAuth).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 200 OK', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(response.statusCode).to.equal(200);
-      });
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the noteCollectionRedacted schema', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
-      });
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
     });
 
-    lab.test('Body should match expected data', () => {
+    lab.test('Body should match expected data', (done) => {
 
       const expectedData = [
         {
@@ -160,138 +163,139 @@ lab.experiment('GET /feed/{username}', () => {
         },
       ];
 
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
-      });
+      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      done();
     });
   });
 
   lab.experiment('Malformed username', () => {
 
-    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+    let response = null;
 
-    const malformedUsername = {
-      method: 'GET',
-      url: '/feed/!!!!!',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-    };
+    lab.before(() => {
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const malformedUsername = {
+        method: 'GET',
+        url: '/feed/!!!!!',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(malformedUsername).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 400 Bad Request', () => {
-
-      return server.inject(malformedUsername).then((response) => {
-        Code.expect(response.statusCode).to.equal(400);
-      });
+    lab.test('Status code should be 400 Bad Request', (done) => {
+      Code.expect(response.statusCode).to.equal(400);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(malformedUsername).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the error400 schema', () => {
-
-      return server.inject(malformedUsername).then((response) => {
-        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error400);
-      });
+    lab.test('Body should match the error400 schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error400);
+      done();
     });
 
-    lab.test('Error message should be "username is malformed"', () => {
-
-      return server.inject(malformedUsername).then((response) => {
-        Code.expect(JSON.parse(response.payload).message).to.equal('username is malformed');
-      });
+    lab.test('Error message should be "username is malformed"', (done) => {
+      Code.expect(JSON.parse(response.payload).message).to.equal('username is malformed');
+      done();
     });
   });
 
   lab.experiment('Nonexistent username', () => {
 
-    const nonexistentUsername = {
-      method: 'GET',
-      url: '/feed/grimey',
-    };
+    let response = null;
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+    lab.before(() => {
+
+      const nonexistentUsername = {
+        method: 'GET',
+        url: '/feed/grimey',
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(nonexistentUsername).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 404 Not Found', () => {
-
-      return server.inject(nonexistentUsername).then((response) => {
-        Code.expect(response.statusCode).to.equal(404);
-      });
+    lab.test('Status code should be 404 Not Found', (done) => {
+      Code.expect(response.statusCode).to.equal(404);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(nonexistentUsername).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the error404 schema', () => {
-
-      return server.inject(nonexistentUsername).then((response) => {
-        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error404);
-      });
+    lab.test('Body should match the error404 schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.error404);
+      done();
     });
 
-    lab.test('Error message should be "username does not exist"', () => {
-
-      return server.inject(nonexistentUsername).then((response) => {
-        Code.expect(JSON.parse(response.payload).message).to.equal('username does not exist');
-      });
+    lab.test('Error message should be "username does not exist"', (done) => {
+      Code.expect(JSON.parse(response.payload).message).to.equal('username does not exist');
+      done();
     });
   });
 
   lab.experiment('Valid Request', () => {
 
-    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+    let response = null;
 
-    const validAuth = {
-      method: 'GET',
-      url: '/feed/marge',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-    };
+    lab.before(() => {
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const validAuth = {
+        method: 'GET',
+        url: '/feed/marge',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 200 OK', () => {
-
-      return server.inject(validAuth).then((response) => {
-        Code.expect(response.statusCode).to.equal(200);
-      });
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(validAuth).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the noteCollectionRedacted schema', () => {
-
-      return server.inject(validAuth).then((response) => {
-        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
-      });
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
     });
 
-    lab.test('Body should match expected data', () => {
+    lab.test('Body should match expected data', (done) => {
 
       const expectedData = [
         {
@@ -352,9 +356,8 @@ lab.experiment('GET /feed/{username}', () => {
         },
       ];
 
-      return server.inject(validAuth).then((response) => {
-        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
-      });
+      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      done();
     });
   });
 });

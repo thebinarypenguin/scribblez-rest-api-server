@@ -27,38 +27,40 @@ lab.experiment('GET /feed', () => {
 
   lab.experiment('No Authorization header', () => {
 
-    const noAuth = {
-      method: 'GET',
-      url: '/feed',
-    };
+    let response = null;
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+    lab.before(() => {
+
+      const noAuth = {
+        method: 'GET',
+        url: '/feed',
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(noAuth).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 200 OK', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Code.expect(response.statusCode).to.equal(200);
-      });
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the noteCollectionRedacted schema', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
-      });
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
     });
 
-    lab.test('Body should match expected data', () => {
+    lab.test('Body should match expected data', (done) => {
 
       const expectedData = [
         {
@@ -207,51 +209,52 @@ lab.experiment('GET /feed', () => {
         },
       ];
 
-      return server.inject(noAuth).then((response) => {
-        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
-      });
+      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      done();
     });
   });
 
   lab.experiment('Invalid Authorization header', () => {
 
-    const credentials = new Buffer('badUser:badPassword', 'utf8').toString('base64')
+    let response = null;
 
-    const invalidAuth = {
-      method: 'GET',
-      url: '/feed',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-    };
+    lab.before(() => {
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+      const credentials = new Buffer('badUser:badPassword', 'utf8').toString('base64')
+
+      const invalidAuth = {
+        method: 'GET',
+        url: '/feed',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(invalidAuth).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 200 OK', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(response.statusCode).to.equal(200);
-      });
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the noteCollectionRedacted schema', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
-      });
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
     });
 
-    lab.test('Body should match expected data', () => {
+    lab.test('Body should match expected data', (done) => {
 
       const expectedData = [
         {
@@ -400,51 +403,52 @@ lab.experiment('GET /feed', () => {
         },
       ];
 
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
-      });
+      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      done();
     });
   });
 
   lab.experiment('Valid Request', () => {
 
-    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+    let response = null;
 
-    const validAuth = {
-      method: 'GET',
-      url: '/feed',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-    };
+    lab.before(() => {
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const validAuth = {
+        method: 'GET',
+        url: '/feed',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 200 OK', () => {
-
-      return server.inject(validAuth).then((response) => {
-        Code.expect(response.statusCode).to.equal(200);
-      });
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(validAuth).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the noteCollectionRedacted schema', () => {
-
-      return server.inject(validAuth).then((response) => {
-        Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
-      });
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
     });
 
-    lab.test('Body should match expected data', () => {
+    lab.test('Body should match expected data', (done) => {
 
       const expectedData = [
         {
@@ -665,9 +669,8 @@ lab.experiment('GET /feed', () => {
         },
       ];
 
-      return server.inject(validAuth).then((response) => {
-        Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
-      });
+      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      done();
     });
   });
 });

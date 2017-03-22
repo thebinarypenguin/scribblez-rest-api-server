@@ -27,134 +27,136 @@ lab.experiment('POST /users', () => {
 
   lab.experiment('Username already exists', () => {
 
-    const duplicateUser = {
-      method: 'POST',
-      url: '/users',
-      payload: {
-        username: 'homer',
-        real_name: 'Evil Homer',
-        email_address: 'evilhomer@example.com',
-        password: 'I am Evil Homer',
-        password_confirmation: 'I am Evil Homer',
-      },
-    };
+    let response = null;
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+    lab.before(() => {
+
+      const duplicateUser = {
+        method: 'POST',
+        url: '/users',
+        payload: {
+          username: 'homer',
+          real_name: 'Evil Homer',
+          email_address: 'evilhomer@example.com',
+          password: 'I am Evil Homer',
+          password_confirmation: 'I am Evil Homer',
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(duplicateUser).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 400 Bad Request', () => {
-
-      return server.inject(duplicateUser).then((response) => {
-        Code.expect(response.statusCode).to.equal(400);
-      });
+    lab.test('Status code should be 400 Bad Request', (done) => {
+      Code.expect(response.statusCode).to.equal(400);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(duplicateUser).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the error400 schema', () => {
-
-      return server.inject(duplicateUser).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error400);
-      });
+    lab.test('Body should match the error400 schema', (done) => {
+      Joi.assert(response.payload, server.plugins.schemas.error400);
+      done();
     });
 
-    lab.test('Error message should be "username already exists"', () => {
-
-      return server.inject(duplicateUser).then((response) => {
-        Code.expect(JSON.parse(response.payload).message).to.equal('username already exists');
-      });
+    lab.test('Error message should be "username already exists"', (done) => {
+      Code.expect(JSON.parse(response.payload).message).to.equal('username already exists');
+      done();
     });    
   });
 
   lab.experiment('Malformed Body', () => {
 
-    const malformedBody = {
-      method: 'POST',
-      url: '/users',
-      payload: {
-        foo: 'bar',
-      },
-    };
+    let response = null;
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+    lab.before(() => {
+
+      const malformedBody = {
+        method: 'POST',
+        url: '/users',
+        payload: {
+          foo: 'bar',
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(malformedBody).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 400 Bad Request', () => {
-
-      return server.inject(malformedBody).then((response) => {
-        Code.expect(response.statusCode).to.equal(400);
-      });
+    lab.test('Status code should be 400 Bad Request', (done) => {
+      Code.expect(response.statusCode).to.equal(400);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(malformedBody).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the error400 schema', () => {
-
-      return server.inject(malformedBody).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error400);
-      });
+    lab.test('Body should match the error400 schema', (done) => {
+      Joi.assert(response.payload, server.plugins.schemas.error400);
+      done();
     });
 
-    lab.test('Error message should be "body is malformed"', () => {
-
-      return server.inject(malformedBody).then((response) => {
-        Code.expect(JSON.parse(response.payload).message).to.equal('body is malformed');
-      });
+    lab.test('Error message should be "body is malformed"', (done) => {
+      Code.expect(JSON.parse(response.payload).message).to.equal('body is malformed');
+      done();
     });
   });
 
   lab.experiment('Valid Request', () => {
 
-    const valid = {
-      method: 'POST',
-      url: '/users',
-      payload: {
-        username: 'poochie',
-        real_name: 'Poochie',
-        email_address: 'poochie@example.com',
-        password: 'ToTheMax',
-        password_confirmation: 'ToTheMax',
-      },
-    };
+    let response = null;
 
-    lab.beforeEach(() => {
-      
-      return helpers.resetDatabase(config);
+    lab.before(() => {
+
+      const valid = {
+        method: 'POST',
+        url: '/users',
+        payload: {
+          username: 'poochie',
+          real_name: 'Poochie',
+          email_address: 'poochie@example.com',
+          password: 'ToTheMax',
+          password_confirmation: 'ToTheMax',
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(valid).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 201 Created', () => {
-
-      return server.inject(valid).then((response) => {
-        Code.expect(response.statusCode).to.equal(201);
-      });
+    lab.test('Status code should be 201 Created', (done) => {
+      Code.expect(response.statusCode).to.equal(201);
+      done();
     });
 
-    lab.test('Location should be the URI of the new user', () => {
-
-      return server.inject(valid).then((response) => {
-        Code.expect(response.headers['location']).to.contain('/users/');
-      });
+    lab.test('Location should be the URI of the new user', (done) => {
+      Code.expect(response.headers['location']).to.contain('/users/');
+      done();
     });
 
-    lab.test('Body should be empty', () => {
-
-      return server.inject(valid).then((response) => {
-        Code.expect(response.payload).to.equal('');
-      });
+    lab.test('Body should be empty', (done) => {
+      Code.expect(response.payload).to.equal('');
+      done();
     });
   });
 });

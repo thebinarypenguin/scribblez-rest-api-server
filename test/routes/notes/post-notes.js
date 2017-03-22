@@ -27,188 +27,190 @@ lab.experiment('POST /notes', () => {
 
   lab.experiment('No Authorization header', () => {
 
-    const noAuth = {
-      method: 'POST',
-      url: '/notes',
-      payload: {
-        body: 'An example test note',
-        visibility: 'public',
-      },
-    };
+    let response = null;
 
-    lab.beforeEach(() => {
+    lab.before(() => {
       
-      return helpers.resetDatabase(config);
+      const noAuth = {
+        method: 'POST',
+        url: '/notes',
+        payload: {
+          body: 'An example test note',
+          visibility: 'public',
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(noAuth).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 401 Unauthorized', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Code.expect(response.statusCode).to.equal(401);
-      });
+    lab.test('Status code should be 401 Unauthorized', (done) => {
+      Code.expect(response.statusCode).to.equal(401);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the error401 schema', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error401);
-      });
+    lab.test('Body should match the error401 schema', (done) => {
+      Joi.assert(response.payload, server.plugins.schemas.error401);
+      done();
     });
 
-    lab.test('Error message should be "Missing authentication"', () => {
-
-      return server.inject(noAuth).then((response) => {
-        Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
-      });
+    lab.test('Error message should be "Missing authentication"', (done) => {
+      Code.expect(JSON.parse(response.payload).message).to.equal('Missing authentication');
+      done();
     });
   });
 
   lab.experiment('Invalid Authorization header', () => {
 
-    const credentials = new Buffer('badUser:badPassword', 'utf8').toString('base64')
+    let response = null;
 
-    const invalidAuth = {
-      method: 'POST',
-      url: '/notes',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-      payload: {
-        body: 'An example test note',
-        visibility: 'public',
-      },
-    };
-
-    lab.beforeEach(() => {
+    lab.before(() => {
       
-      return helpers.resetDatabase(config);
+      const credentials = new Buffer('badUser:badPassword', 'utf8').toString('base64')
+
+      const invalidAuth = {
+        method: 'POST',
+        url: '/notes',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+        payload: {
+          body: 'An example test note',
+          visibility: 'public',
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(invalidAuth).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 401 Unauthorized', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(response.statusCode).to.equal(401);
-      });
+    lab.test('Status code should be 401 Unauthorized', (done) => {
+      Code.expect(response.statusCode).to.equal(401);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the error401 schema', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error401);
-      });
+    lab.test('Body should match the error401 schema', (done) => {
+      Joi.assert(response.payload, server.plugins.schemas.error401);
+      done();
     });
 
-    lab.test('Error message should be "Bad username or password"', () => {
-
-      return server.inject(invalidAuth).then((response) => {
-        Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
-      });
+    lab.test('Error message should be "Bad username or password"', (done) => {
+      Code.expect(JSON.parse(response.payload).message).to.equal('Bad username or password');
+      done();
     });
   });
 
   lab.experiment('Malformed Body', () => {
 
-    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+    let response = null;
 
-    const malformedBody = {
-      method: 'POST',
-      url: '/notes',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-      payload: {
-        foo: 'bar',
-      },
-    };
-
-    lab.beforeEach(() => {
+    lab.before(() => {
       
-      return helpers.resetDatabase(config);
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const malformedBody = {
+        method: 'POST',
+        url: '/notes',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+        payload: {
+          foo: 'bar',
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(malformedBody).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 400 Bad Request', () => {
-
-      return server.inject(malformedBody).then((response) => {
-        Code.expect(response.statusCode).to.equal(400);
-      });
+    lab.test('Status code should be 400 Bad Request', (done) => {
+      Code.expect(response.statusCode).to.equal(400);
+      done();
     });
 
-    lab.test('Content-Type should contain application/json', () => {
-
-      return server.inject(malformedBody).then((response) => {
-        Code.expect(response.headers['content-type']).to.contain('application/json');
-      });
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
     });
 
-    lab.test('Body should match the error400 schema', () => {
-
-      return server.inject(malformedBody).then((response) => {
-        Joi.assert(response.payload, server.plugins.schemas.error400);
-      });
+    lab.test('Body should match the error400 schema', (done) => {
+      Joi.assert(response.payload, server.plugins.schemas.error400);
+      done();
     });
 
-    lab.test('Error message should be "body is malformed"', () => {
-
-      return server.inject(malformedBody).then((response) => {
-        Code.expect(JSON.parse(response.payload).message).to.equal('body is malformed');
-      });
+    lab.test('Error message should be "body is malformed"', (done) => {
+      Code.expect(JSON.parse(response.payload).message).to.equal('body is malformed');
+      done();
     });
   });
 
   lab.experiment('Valid Request', () => {
 
-    const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+    let response = null;
 
-    const valid = {
-      method: 'POST',
-      url: '/notes',
-      headers: {
-        'authorization': `Basic ${credentials}`,
-      },
-      payload: {
-        body: 'An example test note',
-        visibility: 'public',
-      },
-    };
-
-    lab.beforeEach(() => {
+    lab.before(() => {
       
-      return helpers.resetDatabase(config);
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const valid = {
+        method: 'POST',
+        url: '/notes',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+        payload: {
+          body: 'An example test note',
+          visibility: 'public',
+        },
+      };
+
+      return helpers.resetDatabase(config)
+        .then(() => {
+
+          return server.inject(valid).then((res) => {
+            response = res;
+          });
+        });
     });
 
-    lab.test('Status code should be 201 Created', () => {
-
-      return server.inject(valid).then((response) => {
-        Code.expect(response.statusCode).to.equal(201);
-      });
+    lab.test('Status code should be 201 Created', (done) => {
+      Code.expect(response.statusCode).to.equal(201);
+      done();
     });
 
-    lab.test('Location should be the URI of the new note', () => {
-
-      return server.inject(valid).then((response) => {
-        Code.expect(response.headers['location']).to.contain('/notes/');
-      });
+    lab.test('Location should be the URI of the new note', (done) => {
+      Code.expect(response.headers['location']).to.contain('/notes/');
+      done();
     });
 
-    lab.test('Body should be empty', () => {
-
-      return server.inject(valid).then((response) => {
-        Code.expect(response.payload).to.equal('');
-      });
+    lab.test('Body should be empty', (done) => {
+      Code.expect(response.payload).to.equal('');
+      done();
     });
   });
 });
