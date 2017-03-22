@@ -12,6 +12,10 @@ const engage = function (server) {
         mode: 'try',
         strategy: 'simple',
       },
+      json: {
+        space: 2,
+        suffix: "\n",
+      },
     },
     handler: (request, reply) => {
 
@@ -38,6 +42,10 @@ const engage = function (server) {
       auth: {
         mode: 'try',
         strategy: 'simple',
+      },
+      json: {
+        space: 2,
+        suffix: "\n",
       },
     },
     handler: (request, reply) => {
