@@ -1,5 +1,6 @@
 'use strict';
 
+const _        = require('lodash');
 const Bluebird = require('bluebird');
 const Joi      = require('joi');
 
@@ -50,7 +51,7 @@ const engage = function (server, knex) {
   /**
    * Sanitize and validate createPayload
    */
-  const validateCreatePayload = function (createPayload) {
+  const validateCreatePayload = function (createPayload, currentUser) {
 
     return new Bluebird((resolve, reject) => {
 
@@ -69,13 +70,57 @@ const engage = function (server, knex) {
           resolve(val);
         }
       });
+    })
+    .tap((validPayload) => {
+
+      if (validPayload.visibility.users &&  validPayload.visibility.users.length > 0) {
+
+        const uniqueUsers = _.uniq(validPayload.visibility.users);
+
+        return knex
+          .select('username')
+          .from('users')
+          .whereIn('username', uniqueUsers)
+          .then((results) => {
+
+            const existentUsernames    = results.map((row) => { return row.username; });
+            const nonexistentUsernames = _.difference(uniqueUsers, existentUsernames);
+
+            if (nonexistentUsernames.length > 0) {
+              throw new Error('Nonexistent user(s) in payload.visibility.users');
+            } 
+          });
+      }
+    })
+    .tap((validPayload) => {
+
+      if (validPayload.visibility && validPayload.visibility.groups &&  validPayload.visibility.groups.length > 0) {
+
+        const uniqueGroups = _.uniq(validPayload.visibility.groups);
+
+        return knex
+          .select('name')
+          .from('groups')
+          .leftJoin('users', 'users.id', 'groups.owner_id')
+          .whereIn('name', uniqueGroups)
+          .andWhere('username', currentUser)
+          .then((results) => {
+
+            const existentGroups    = results.map((row) => { return row.name; });
+            const nonexistentGroups = _.difference(uniqueGroups, existentGroups);
+
+            if (nonexistentGroups.length > 0) {
+              throw new Error('Nonexistent group(s) in payload.visibility.groups');
+            } 
+          });
+      }
     });
   };
 
   /**
    * Sanitize and validate updatePayload
    */
-  const validateUpdatePayload = function (updatePayload) {
+  const validateUpdatePayload = function (updatePayload, currentUser) {
 
     return new Bluebird((resolve, reject) => {
 
@@ -94,13 +139,57 @@ const engage = function (server, knex) {
           resolve(val);
         }
       });
+    })
+    .tap((validPayload) => {
+
+      if (validPayload.visibility && validPayload.visibility.users &&  validPayload.visibility.users.length > 0) {
+
+        const uniqueUsers = _.uniq(validPayload.visibility.users);
+
+        return knex
+          .select('username')
+          .from('users')
+          .whereIn('username', uniqueUsers)
+          .then((results) => {
+
+            const existentUsernames    = results.map((row) => { return row.username; });
+            const nonexistentUsernames = _.difference(uniqueUsers, existentUsernames);
+
+            if (nonexistentUsernames.length > 0) {
+              throw new Error('Nonexistent user(s) in payload.visibility.users');
+            } 
+          });
+      }
+    })
+    .tap((validPayload) => {
+
+      if (validPayload.visibility && validPayload.visibility.groups &&  validPayload.visibility.groups.length > 0) {
+
+        const uniqueGroups = _.uniq(validPayload.visibility.groups);
+
+        return knex
+          .select('name')
+          .from('groups')
+          .leftJoin('users', 'users.id', 'groups.owner_id')
+          .whereIn('name', uniqueGroups)
+          .andWhere('username', currentUser)
+          .then((results) => {
+
+            const existentGroups    = results.map((row) => { return row.name; });
+            const nonexistentGroups = _.difference(uniqueGroups, existentGroups);
+
+            if (nonexistentGroups.length > 0) {
+              throw new Error('Nonexistent group(s) in payload.visibility.groups');
+            } 
+          });
+      }
     });
   };
 
   /**
    * Sanitize and validate replacePayload
    */
-  const validateReplacePayload = function (replacePayload) {
+  const validateReplacePayload = function (replacePayload, currentUser) {
 
     return new Bluebird((resolve, reject) => {
 
@@ -119,6 +208,50 @@ const engage = function (server, knex) {
           resolve(val);
         }
       });
+    })
+    .tap((validPayload) => {
+
+      if (validPayload.visibility.users &&  validPayload.visibility.users.length > 0) {
+
+        const uniqueUsers = _.uniq(validPayload.visibility.users);
+
+        return knex
+          .select('username')
+          .from('users')
+          .whereIn('username', uniqueUsers)
+          .then((results) => {
+
+            const existentUsernames    = results.map((row) => { return row.username; });
+            const nonexistentUsernames = _.difference(uniqueUsers, existentUsernames);
+
+            if (nonexistentUsernames.length > 0) {
+              throw new Error('Nonexistent user(s) in payload.visibility.users');
+            } 
+          });
+      }
+    })
+    .tap((validPayload) => {
+
+      if (validPayload.visibility && validPayload.visibility.groups &&  validPayload.visibility.groups.length > 0) {
+
+        const uniqueGroups = _.uniq(validPayload.visibility.groups);
+
+        return knex
+          .select('name')
+          .from('groups')
+          .leftJoin('users', 'users.id', 'groups.owner_id')
+          .whereIn('name', uniqueGroups)
+          .andWhere('username', currentUser)
+          .then((results) => {
+
+            const existentGroups    = results.map((row) => { return row.name; });
+            const nonexistentGroups = _.difference(uniqueGroups, existentGroups);
+
+            if (nonexistentGroups.length > 0) {
+              throw new Error('Nonexistent group(s) in payload.visibility.groups');
+            } 
+          });
+      }
     });
   };
 
@@ -412,13 +545,20 @@ const engage = function (server, knex) {
     let noteID           = null;
 
     return Bluebird
-      .all([
-        validateCreatePayload(payload),
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
-        validPayload     = valid[0];
-        validCurrentUser = valid[1];
+      .resolve()
+      .then(() => {
+
+        return validateCurrentUser(currentUser)
+          .then((data) => {
+            validCurrentUser = data;
+          });
+      })
+      .then(() => {
+
+        return validateCreatePayload(payload, validCurrentUser)
+          .then((data) => {
+            validPayload = data;
+          });
       })
       .then(() => {
 
@@ -553,16 +693,16 @@ const engage = function (server, knex) {
       })
       .then(() => {
 
-        return validateUpdatePayload(payload)
+        return validateCurrentUser(currentUser)
           .then((data) => {
-            validPayload = data;
+            validCurrentUser = data;
           });
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
+        return validateUpdatePayload(payload, validCurrentUser)
           .then((data) => {
-            validCurrentUser = data;
+            validPayload = data;
           });
       })
       .then(() => {
@@ -763,16 +903,16 @@ const engage = function (server, knex) {
       })
       .then(() => {
 
-        return validateReplacePayload(payload)
+        return validateCurrentUser(currentUser)
           .then((data) => {
-            validPayload = data;
+            validCurrentUser = data;
           });
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
+        return validateReplacePayload(payload, validCurrentUser)
           .then((data) => {
-            validCurrentUser = data;
+            validPayload = data;
           });
       })
       .then(() => {

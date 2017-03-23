@@ -59,29 +59,61 @@ lab.experiment('models.notes.create(payload, currentUser)', () => {
     });
   });
 
-  lab.experiment('Nonexistent user in payload.visibility.users', () => {
+  lab.experiment('Nonexistent user(s) in payload.visibility.users', () => {
 
     lab.beforeEach(() => {
       
       return helpers.resetDatabase(config);
     });
 
-    lab.test('STUB', (done) => {
+    lab.test('Should reject with a "nonexistent" error', () => {
       
-      done(new Error('STUB'));
+      const nonexistentUsers = {
+        body: 'An updated note', 
+        visibility: {
+          users: ['grimey', 'drmonroe'],
+          groups: [],
+        },
+      };
+      
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.notes.create(nonexistentUsers, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Nonexistent user(s) in payload.visibility.users');
+        });
     });
   });
 
-  lab.experiment('Nonexistent group in payload.visibility.groups', () => {
+  lab.experiment('Nonexistent group(s) in payload.visibility.groups', () => {
 
     lab.beforeEach(() => {
       
       return helpers.resetDatabase(config);
     });
 
-    lab.test('STUB', (done) => {
+    lab.test('Should reject with a "nonexistent" error', () => {
       
-      done(new Error('STUB'));
+      const nonexistentGroups = {
+        body: 'An updated note', 
+        visibility: {
+          users: [],
+          groups: ['Stonecutters', 'No Homers'],
+        },
+      };
+      
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.notes.create(nonexistentGroups, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Nonexistent group(s) in payload.visibility.groups');
+        });
     });
   });
 

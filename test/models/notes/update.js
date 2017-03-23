@@ -98,29 +98,65 @@ lab.experiment('models.notes.update(noteID, payload, currentUser)', () => {
     });
   });
 
-  lab.experiment('Nonexistent user in payload.visibility.users', () => {
+  lab.experiment('Nonexistent user(s) in payload.visibility.users', () => {
 
     lab.beforeEach(() => {
       
       return helpers.resetDatabase(config);
     });
 
-    lab.test('STUB', (done) => {
+    lab.test('Should reject with a "nonexistent" error', () => {
+
+      const validNoteID      = 1;
       
-      done(new Error('STUB'));
+      const nonexistentUsers = {
+        body: 'An updated note', 
+        visibility: {
+          users: ['grimey', 'drmonroe'],
+          groups: [],
+        },
+      };
+      
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.notes.update(validNoteID, nonexistentUsers, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Nonexistent user(s) in payload.visibility.users');
+        });
     });
   });
 
-  lab.experiment('Nonexistent group in payload.visibility.groups', () => {
+  lab.experiment('Nonexistent group(s) in payload.visibility.groups', () => {
 
     lab.beforeEach(() => {
       
       return helpers.resetDatabase(config);
     });
 
-    lab.test('STUB', (done) => {
+    lab.test('Should reject with a "nonexistent" error', () => {
+
+      const validNoteID      = 1;
       
-      done(new Error('STUB'));
+      const nonexistentGroups = {
+        body: 'An updated note', 
+        visibility: {
+          users: [],
+          groups: ['Stonecutters', 'No Homers'],
+        },
+      };
+      
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.notes.update(validNoteID, nonexistentGroups, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Nonexistent group(s) in payload.visibility.groups');
+        });
     });
   });
 

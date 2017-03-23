@@ -1,5 +1,6 @@
 'use strict';
 
+const _        = require('lodash');
 const Bluebird = require('bluebird');
 const Joi      = require('joi');
 
@@ -69,6 +70,27 @@ const engage = function (server, knex) {
           resolve(val);
         }
       });
+    })
+    .tap((validPayload) => {
+
+        if (validPayload.members.length > 0) {
+
+          const uniqueMembers = _.uniq(validPayload.members);
+
+          return knex
+            .select('username')
+            .from('users')
+            .whereIn('username', uniqueMembers)
+            .then((results) => {
+
+              const existentUsernames    = results.map((row) => { return row.username; });
+              const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
+
+              if (nonexistentUsernames.length > 0) {
+                throw new Error('Nonexistent user(s) in payload.members');
+              } 
+            });
+        }
     });
   };
 
@@ -94,6 +116,27 @@ const engage = function (server, knex) {
           resolve(val);
         }
       });
+    })
+    .tap((validPayload) => {
+
+        if (validPayload.members && validPayload.members.length > 0) {
+
+          const uniqueMembers = _.uniq(validPayload.members);
+
+          return knex
+            .select('username')
+            .from('users')
+            .whereIn('username', uniqueMembers)
+            .then((results) => {
+
+              const existentUsernames    = results.map((row) => { return row.username; });
+              const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
+
+              if (nonexistentUsernames.length > 0) {
+                throw new Error('Nonexistent user(s) in payload.members');
+              } 
+            });
+        }
     });
   };
 
@@ -119,6 +162,27 @@ const engage = function (server, knex) {
           resolve(val);
         }
       });
+    })
+    .tap((validPayload) => {
+
+        if (validPayload.members.length > 0) {
+
+          const uniqueMembers = _.uniq(validPayload.members);
+
+          return knex
+            .select('username')
+            .from('users')
+            .whereIn('username', uniqueMembers)
+            .then((results) => {
+
+              const existentUsernames    = results.map((row) => { return row.username; });
+              const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
+
+              if (nonexistentUsernames.length > 0) {
+                throw new Error('Nonexistent user(s) in payload.members');
+              } 
+            });
+        }
     });
   };
 

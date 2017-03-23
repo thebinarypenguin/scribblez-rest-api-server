@@ -98,16 +98,26 @@ lab.experiment('models.groups.replace(groupID, payload, currentUser)', () => {
     });
   });
 
-  lab.experiment('Nonexistent user in payload.members', () => {
+  lab.experiment('Nonexistent user(s) in payload.members', () => {
 
     lab.beforeEach(() => {
       
       return helpers.resetDatabase(config);
     });
 
-    lab.test('STUB', (done) => {
-      
-      done(new Error('STUB'));
+    lab.test('Should reject with a "nonexistent" error', () => {
+
+      const validGroupID     = 1;
+      const nonexistentUsers = { name: 'New group name', members: [ 'grimey', 'drmonroe' ] };
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.groups.replace(validGroupID, nonexistentUsers, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('Nonexistent user(s) in payload.members');
+        });
     });
   });
 
