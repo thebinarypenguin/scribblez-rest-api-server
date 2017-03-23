@@ -350,4 +350,106 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
         });
     });
   });
+
+  lab.experiment('Valid Input (note and grants with duplicate users and groups)', () => {
+
+    const validNoteID = 18;
+    
+    const validPayload = {
+      body: 'An updated note',
+      visibility: {
+        users: ['ned', 'moe', 'ned'],
+        groups: ['Sisters', 'Flanders', 'Sisters'],
+      },
+    };
+    
+    const validCurrentUser = 'marge';
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should resolve with boolean true', () => {
+
+      return server.plugins.models.notes.replace(validNoteID, validPayload, validCurrentUser)
+        .then((data) => {
+          Code.expect(data).to.be.a.boolean();
+          Code.expect(data).to.be.true();
+        });
+    });
+
+    lab.test('Should modify database as expected', () => {
+      
+      const func = server.plugins.models.notes.replace.bind(this, validNoteID, validPayload, validCurrentUser);
+
+      return helpers.testDatabaseChanges(config, func)
+        .then((changes) => {
+          Code.expect(changes).to.be.an.array();
+          Code.expect(changes).to.have.length(12);
+
+          Code.expect(changes[0].kind).to.equal('E');
+          Code.expect(changes[0].path).to.equal([ 'notes', '18', 'body' ]);
+          Code.expect(changes[0].rhs).to.equal('An updated note');
+
+          Code.expect(changes[1].kind).to.equal('E');
+          Code.expect(changes[1].path).to.equal([ 'notes', '18', 'updated_at' ]);
+
+
+          Code.expect(changes[2].kind).to.equal('D');
+          Code.expect(changes[2].path).to.equal([ 'note_grants', '23' ]);
+          Code.expect(changes[2].lhs.user_id).to.equal(9);
+          Code.expect(changes[2].lhs.group_id).to.equal(null);
+
+          Code.expect(changes[3].kind).to.equal('D');
+          Code.expect(changes[3].path).to.equal([ 'note_grants', '26' ]);
+          Code.expect(changes[3].lhs.user_id).to.equal(1);
+          Code.expect(changes[3].lhs.group_id).to.equal(6);
+
+          Code.expect(changes[4].kind).to.equal('D');
+          Code.expect(changes[4].path).to.equal([ 'note_grants', '27' ]);
+          Code.expect(changes[4].lhs.user_id).to.equal(3);
+          Code.expect(changes[4].lhs.group_id).to.equal(6);
+
+          Code.expect(changes[5].kind).to.equal('D');
+          Code.expect(changes[5].path).to.equal([ 'note_grants', '28' ]);
+          Code.expect(changes[5].lhs.user_id).to.equal(4);
+          Code.expect(changes[5].lhs.group_id).to.equal(6);
+
+          Code.expect(changes[6].kind).to.equal('D');
+          Code.expect(changes[6].path).to.equal([ 'note_grants', '29' ]);
+          Code.expect(changes[6].lhs.user_id).to.equal(5);
+          Code.expect(changes[6].lhs.group_id).to.equal(6);
+
+          Code.expect(changes[7].kind).to.equal('N');
+          Code.expect(changes[7].path).to.equal([ 'note_grants', '106' ]);
+          Code.expect(changes[7].rhs.user_id).to.equal(14);
+          Code.expect(changes[7].rhs.group_id).to.equal(null);
+
+          Code.expect(changes[8].kind).to.equal('N');
+          Code.expect(changes[8].path).to.equal([ 'note_grants', '107' ]);
+          Code.expect(changes[8].rhs.user_id).to.equal(8);
+          Code.expect(changes[8].rhs.group_id).to.equal(7);
+
+          Code.expect(changes[9].kind).to.equal('N');
+          Code.expect(changes[9].path).to.equal([ 'note_grants', '108' ]);
+          Code.expect(changes[9].rhs.user_id).to.equal(9);
+          Code.expect(changes[9].rhs.group_id).to.equal(7);
+
+          Code.expect(changes[10].kind).to.equal('N');
+          Code.expect(changes[10].path).to.equal([ 'note_grants', '109' ]);
+          Code.expect(changes[10].rhs.user_id).to.equal(10);
+          Code.expect(changes[10].rhs.group_id).to.equal(7);
+
+          Code.expect(changes[11].kind).to.equal('N');
+          Code.expect(changes[11].path).to.equal([ 'note_grants', '110' ]);
+          Code.expect(changes[11].rhs.user_id).to.equal(11);
+          Code.expect(changes[11].rhs.group_id).to.equal(7);
+
+
+
+
+        });
+    });
+  });
 });

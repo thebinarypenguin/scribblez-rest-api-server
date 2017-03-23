@@ -243,4 +243,44 @@ lab.experiment('models.groups.replace(groupID, payload, currentUser)', () => {
         });
     });
   });
+
+  lab.experiment('Valid Input (duplicate members)', () => {
+
+    const validGroupID     = 2;
+    const validPayload     = { name: 'Friends', members: [ 'lenny', 'moe', 'lenny' ] };
+    const validCurrentUser = 'homer';
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should resolve with boolean true', () => {
+
+      return server.plugins.models.groups.replace(validGroupID, validPayload, validCurrentUser)
+        .then((data) => {
+          Code.expect(data).to.be.a.boolean();
+          Code.expect(data).to.be.true();
+        });
+    });
+
+    lab.test('Should modify database as expected', () => {
+      
+      const func = server.plugins.models.groups.replace.bind(this, validGroupID, validPayload, validCurrentUser);
+
+      return helpers.testDatabaseChanges(config, func)
+        .then((changes) => {
+          Code.expect(changes).to.be.an.array();
+          Code.expect(changes).to.have.length(2);
+
+          Code.expect(changes[0].kind).to.equal('D');
+          Code.expect(changes[0].path).to.equal([ 'group_members', '6' ]);
+          Code.expect(changes[0].lhs.user_id).to.equal(13);
+
+          Code.expect(changes[1].kind).to.equal('N');
+          Code.expect(changes[1].path).to.equal([ 'group_members', '69' ]);
+          Code.expect(changes[1].rhs.user_id).to.equal(14);
+        });
+    });
+  });
 });

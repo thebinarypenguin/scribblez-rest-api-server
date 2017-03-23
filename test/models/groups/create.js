@@ -186,4 +186,47 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
         });
     });
   });
+
+  lab.experiment('Valid Input (duplicate members)', () => {
+
+    const validPayload = {
+      name: 'The Gruesome Twosome',
+      members: [ 'patty', 'selma', 'patty' ],
+    };
+
+    const validCurrentUser = 'homer';
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should resolve with the new group ID', () => {
+
+      return server.plugins.models.groups.create(validPayload, validCurrentUser)
+        .then((data) => {
+          Code.expect(data).to.equal(23);
+        });
+    });
+
+    lab.test('Should modify database as expected', () => {
+      
+      const func = server.plugins.models.groups.create.bind(this, validPayload, validCurrentUser);
+
+      return helpers.testDatabaseChanges(config, func)
+        .then((changes) => {
+          Code.expect(changes).to.be.an.array();
+          Code.expect(changes).to.have.length(3);
+
+          Code.expect(changes[0].kind).to.equal('N');
+          Code.expect(changes[0].path).to.equal([ 'groups', '23' ]);
+
+          Code.expect(changes[1].kind).to.equal('N');
+          Code.expect(changes[1].path).to.equal([ 'group_members', '69' ]);
+
+          Code.expect(changes[2].kind).to.equal('N');
+          Code.expect(changes[2].path).to.equal([ 'group_members', '70' ]);
+        });
+    });
+  });
 });
