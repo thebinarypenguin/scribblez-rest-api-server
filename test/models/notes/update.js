@@ -206,6 +206,37 @@ lab.experiment('models.notes.update(noteID, payload, currentUser)', () => {
     });
   });
 
+  lab.experiment('Note "shared" with 0 users and 0 groups', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
+    lab.test('Should reject with a "malformed" error', () => {
+
+      const validNoteID = 1;
+
+      const notShared = {
+        body: 'A note shared with no one',
+        visibility: {
+          users: [],
+          groups: [],
+        },
+      };
+
+      const validCurrentUser = 'homer';
+
+      return server.plugins.models.notes.update(validNoteID, notShared, validCurrentUser)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('A shared note must be shared with atleast one user or group');
+        });
+    });
+  });
+
   lab.experiment('Valid Input (body only)', () => {
 
     const validNoteID      = 1;

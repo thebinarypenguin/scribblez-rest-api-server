@@ -72,6 +72,13 @@ const engage = function (server, knex) {
       });
     })
     .tap((validPayload) => {
+      
+      if (validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
+          validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
+        throw new Error('A shared note must be shared with atleast one user or group');
+      }
+    })
+    .tap((validPayload) => {
 
       if (validPayload.visibility.users &&  validPayload.visibility.users.length > 0) {
 
@@ -141,6 +148,14 @@ const engage = function (server, knex) {
       });
     })
     .tap((validPayload) => {
+      
+      if (validPayload.visibility && 
+          validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
+          validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
+        throw new Error('A shared note must be shared with atleast one user or group');
+      }
+    })
+    .tap((validPayload) => {
 
       if (validPayload.visibility && validPayload.visibility.users &&  validPayload.visibility.users.length > 0) {
 
@@ -208,6 +223,13 @@ const engage = function (server, knex) {
           resolve(val);
         }
       });
+    })
+    .tap((validPayload) => {
+      
+      if (validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
+          validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
+        throw new Error('A shared note must be shared with atleast one user or group');
+      }
     })
     .tap((validPayload) => {
 
