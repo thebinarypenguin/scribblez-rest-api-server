@@ -18,11 +18,21 @@ lab.experiment('PATCH /notes/{noteID}', () => {
   let server = null;
   
   lab.before(() => {
+    
+    return helpers
+      .checkDatabase(config)
+      .then(() => {
 
-    return helpers.initializeTestServer(config, [AuthBasic, auth, models, routes, schemas])
+        return helpers.initializeTestServer(config, [AuthBasic, auth, models, routes, schemas])
+      })
       .then((testServer) => {
         server = testServer;
       });
+  });
+
+  lab.after(() => {
+
+    return helpers.emptyDatabase(config);
   });
 
   lab.experiment('No Authorization header', () => {
