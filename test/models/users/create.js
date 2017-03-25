@@ -14,11 +14,21 @@ lab.experiment('models.users.create(payload)', () => {
   let server = null;
   
   lab.before(() => {
+    
+    return helpers
+      .checkDatabase(config)
+      .then(() => {
 
-    return helpers.initializeTestServer(config, [models, schemas])
+        return helpers.initializeTestServer(config, [models, schemas])
+      })
       .then((testServer) => {
         server = testServer;
       });
+  });
+
+  lab.after(() => {
+
+    return helpers.emptyDatabase(config);
   });
 
   lab.experiment('Malformed payload', () => {
@@ -38,6 +48,11 @@ lab.experiment('models.users.create(payload)', () => {
   });
 
   lab.experiment('Payload.username is already taken', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
 
     lab.test('Should reject with an "already exists" error', () => {
 

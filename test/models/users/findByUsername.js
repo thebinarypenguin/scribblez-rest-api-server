@@ -15,11 +15,21 @@ lab.experiment('models.users.findByUsername(username, currentUser)', () => {
   let server = null;
   
   lab.before(() => {
+    
+    return helpers
+      .checkDatabase(config)
+      .then(() => {
 
-    return helpers.initializeTestServer(config, [models, schemas])
+        return helpers.initializeTestServer(config, [models, schemas])
+      })
       .then((testServer) => {
         server = testServer;
       });
+  });
+
+  lab.after(() => {
+
+    return helpers.emptyDatabase(config);
   });
 
   lab.experiment('username and currentUser do not match', () => {

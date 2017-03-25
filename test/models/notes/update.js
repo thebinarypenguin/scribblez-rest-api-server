@@ -14,11 +14,21 @@ lab.experiment('models.notes.update(noteID, payload, currentUser)', () => {
   let server = null;
   
   lab.before(() => {
+    
+    return helpers
+      .checkDatabase(config)
+      .then(() => {
 
-    return helpers.initializeTestServer(config, [models, schemas])
+        return helpers.initializeTestServer(config, [models, schemas])
+      })
       .then((testServer) => {
         server = testServer;
       });
+  });
+
+  lab.after(() => {
+
+    return helpers.emptyDatabase(config);
   });
 
   lab.experiment('Malformed noteID', () => {
@@ -41,6 +51,11 @@ lab.experiment('models.notes.update(noteID, payload, currentUser)', () => {
 
   lab.experiment('Malformed payload', () => {
 
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
     lab.test('Should reject with a "malformed" error', () => {
 
       const validNoteID      = 1;
@@ -58,6 +73,11 @@ lab.experiment('models.notes.update(noteID, payload, currentUser)', () => {
   });
 
   lab.experiment('Malformed currentUser', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
 
     lab.test('Should reject with a "malformed" error', () => {
 
