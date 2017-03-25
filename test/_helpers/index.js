@@ -33,6 +33,36 @@ pub.initializeTestServer = function (config, plugins) {
   });
 };
 
+pub.checkDatabase = function (config) {
+
+  const db = knex(config.knex);
+
+  const tables = ['groups', 'group_members', 'notes', 'note_grants', 'users'];
+
+  const message = 'The specified database already contains data. '
+                + 'Please remove the data manually or specify another database.';
+
+  return Bluebird
+    .each(tables, (t) => {
+
+      return db
+        .select('id')
+        .from(t)
+        .then((result) => {
+
+          if (result.length > 0) {
+            throw new Error(message);
+          }
+        });
+    })
+    .then(() => {
+      return db.destroy();
+    })
+    .then(() => {
+      return true;
+    });
+};
+
 pub.resetDatabase = function (config) {
 
   const db = knex(config.knex);
@@ -42,6 +72,20 @@ pub.resetDatabase = function (config) {
     .then(() => {
       return testData.seed(db, Bluebird);
     })
+    .then(() => {
+      return db.destroy();
+    })
+    .then(() => {
+      return true;
+    });
+};
+
+pub.emptyDatabase = function (config) {
+
+  const db = knex(config.knex);
+
+  return db
+    .raw('TRUNCATE groups, group_members, notes, note_grants, users RESTART IDENTITY;')
     .then(() => {
       return db.destroy();
     })
