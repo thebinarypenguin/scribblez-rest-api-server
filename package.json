@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./src/server.js",
-    "test": "./node_modules/lab/bin/lab -cv -I __core-js_shared__ -m 7000"
+    "test": "./node_modules/lab/bin/lab -cv -I __core-js_shared__ -m 10000"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
