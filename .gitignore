@@ -1,1 +1,3 @@
 node_modules/
+src/config/development.js
+src/config/test.js
