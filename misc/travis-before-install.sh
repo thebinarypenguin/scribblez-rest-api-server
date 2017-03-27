@@ -1,5 +1,11 @@
 #!/bin/bash
 
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+
+sudo apt-get update -q
+
+sudo apt-get install gcc-4.8 -y
+
 psql -c 'CREATE DATABASE scribblez;' -U postgres
 
 psql -c 'CREATE ROLE scribblez WITH LOGIN;' -U postgres
