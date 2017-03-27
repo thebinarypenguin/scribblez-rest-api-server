@@ -36,18 +36,18 @@ const engage = function (server, knex) {
     })
     .then((validCurrentUser) => {
 
-        // Check for presence in database
-        return knex
-          .select('username')
-          .from('users')
-          .where('username', validCurrentUser)
-          .then((result) => {
-            if (result.length === 0) {
-              throw new Error('currentUser does not exist');
-            } else { 
-              return validCurrentUser;
-            }
-          });      
+      // Check for presence in database
+      return knex
+        .select('username')
+        .from('users')
+        .where('username', validCurrentUser)
+        .then((result) => {
+          if (result.length === 0) {
+            throw new Error('currentUser does not exist');
+          } else { 
+            return validCurrentUser;
+          }
+        });      
     });
   };
 
@@ -76,18 +76,18 @@ const engage = function (server, knex) {
     })
     .then((validOwner) => {
 
-        // Check for presence in database
-        return knex
-          .select('username')
-          .from('users')
-          .where('username', validOwner)
-          .then((result) => {
-            if (result.length === 0) {
-              throw new Error('owner does not exist');
-            } else { 
-              return validOwner;
-            }
-          }); 
+      // Check for presence in database
+      return knex
+        .select('username')
+        .from('users')
+        .where('username', validOwner)
+        .then((result) => {
+          if (result.length === 0) {
+            throw new Error('owner does not exist');
+          } else { 
+            return validOwner;
+          }
+        }); 
     });
   };
 
@@ -143,15 +143,17 @@ const engage = function (server, knex) {
    */
   pub.findShared = function (currentUser) {
 
+    let validCurrentUser = null;
+
     return Bluebird
-      .all([
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
+      .resolve()
+      .then(() => {
 
-        const validCurrentUser = valid[0]; 
-
-        // Get shared notes from database
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
+      })
+      .then(() => {
 
         return knex
           .select(
@@ -178,13 +180,17 @@ const engage = function (server, knex) {
    */
   pub.findAll = function (currentUser) {
 
-    return Bluebird
-      .all([
-        validateCurrentUser(currentUser, true),
-      ])
-      .then((valid) => {
+    let validCurrentUser = null;
 
-        const validCurrentUser = valid[0];
+    return Bluebird
+      .resolve()
+      .then(() => {
+
+        return validateCurrentUser(currentUser, true).then((data) => {
+          validCurrentUser = data;
+        });
+      })
+      .then(() => {
 
         // Get public plus shared notes from database
 
@@ -213,15 +219,6 @@ const engage = function (server, knex) {
                 .where('notes.visibility', 'public');
             }
           })
-
-
-          // if validCurrentUser
-            // where (public or shared) and owner <> validCurrentUser
-
-          // else
-            // where public
-
-
           .orderBy('notes.created_at', 'DESC')
           .then((result) => {
             return result;
@@ -235,15 +232,24 @@ const engage = function (server, knex) {
    */
   pub.findByOwner = function(owner, currentUser) {
 
-    return Bluebird
-      .all([
-        validateOwner(owner),
-        validateCurrentUser(currentUser, true),
-      ])
-      .then((valid) => {
+    let validOwner       = null;
+    let validCurrentUser = null;
 
-        const validOwner       = valid[0];
-        const validCurrentUser = valid[1];
+    return Bluebird
+      .resolve()
+      .then(() => {
+
+        return validateOwner(owner).then((data) => {
+          validOwner = data;
+        });
+      })
+      .then(() => {
+
+        return validateCurrentUser(currentUser, true).then((data) => {
+          validCurrentUser = data;
+        });
+      })
+      .then(() => {
 
         // Get public plus shared notes by owner from database
         

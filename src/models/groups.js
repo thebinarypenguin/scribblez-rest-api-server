@@ -288,13 +288,17 @@ const engage = function (server, knex) {
    */
   pub.findAll = function(currentUser) {
 
-    return Bluebird
-      .all([
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
+    let validCurrentUser = null;
 
-        const validCurrentUser = valid[0];
+    return Bluebird
+      .resolve()
+      .then(() => {
+
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
+      })
+      .then(() => {
 
         // Get all groups by owner
         
@@ -324,24 +328,22 @@ const engage = function (server, knex) {
    */
   pub.findByID = function(groupID, currentUser) {
 
-    let validID          = null;
+    let validGroupID     = null;
     let validCurrentUser = null;
 
     return Bluebird
       .resolve()
       .then(() => {
 
-        return validateGroupID(groupID)
-          .then((data) => {
-            validID = data;
-          });
+        return validateGroupID(groupID).then((data) => {
+          validGroupID = data;
+        });
       })
       .then(() => {
         
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
         
@@ -362,7 +364,7 @@ const engage = function (server, knex) {
           .leftJoin('users AS owners', 'owners.id', '=', 'groups.owner_id')
           .leftJoin('group_members', 'groups.id', '=', 'group_members.group_id')
           .leftJoin('users AS members', 'members.id', '=', 'group_members.user_id')
-          .where('groups.id', validID)
+          .where('groups.id', validGroupID)
           .andWhere('owners.username', validCurrentUser)
           .then((results) => {
             return results;
@@ -387,14 +389,18 @@ const engage = function (server, knex) {
     let memberIDs        = null;
 
     return Bluebird
-      .all([
-        validateCreatePayload(payload),
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
-        
-        validPayload     = valid[0]
-        validCurrentUser = valid[1];
+      .resolve()
+      .then(() => {
+
+        return validateCreatePayload(payload).then((data) => {
+          validPayload = data;
+        });
+      })
+      .then(() => {
+
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 
@@ -471,24 +477,21 @@ const engage = function (server, knex) {
       .resolve()
       .then(() => {
 
-        return validateGroupID(groupID)
-          .then((data) => {
-            validGroupID = data;
-          });
+        return validateGroupID(groupID).then((data) => {
+          validGroupID = data;
+        });
       })
       .then(() => {
 
-        return validateUpdatePayload(payload)
-          .then((data) => {
-            validPayload = data;
-          });
+        return validateUpdatePayload(payload).then((data) => {
+          validPayload = data;
+        });
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 
@@ -632,24 +635,21 @@ const engage = function (server, knex) {
       .resolve()
       .then(() => {
 
-        return validateGroupID(groupID)
-          .then((data) => {
-            validGroupID = data;
-          });
+        return validateGroupID(groupID).then((data) => {
+          validGroupID = data;
+        });
       })
       .then(() => {
 
-        return validateReplacePayload(payload)
-          .then((data) => {
-            validPayload = data;
-          });
+        return validateReplacePayload(payload).then((data) => {
+          validPayload = data;
+        });
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 
@@ -781,17 +781,15 @@ const engage = function (server, knex) {
       .resolve()
       .then(() => {
 
-        return validateGroupID(groupID)
-          .then((data) => {
-            validID = data;
-          });
+        return validateGroupID(groupID).then((data) => {
+          validID = data;
+        });
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 

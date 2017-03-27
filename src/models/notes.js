@@ -462,13 +462,17 @@ const engage = function (server, knex) {
    */
   pub.findAll = function(currentUser) {
 
+    let validCurrentUser = null;
+
     return Bluebird
-      .all([
-        validateCurrentUser(currentUser),
-      ])
-      .then((valid) => {
-        
-        const validCurrentUser = valid[0];
+      .resolve()
+      .then(() => {
+
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
+      })
+      .then(() => {
 
         return knex
           .select(
@@ -508,17 +512,15 @@ const engage = function (server, knex) {
       .resolve()
       .then(() => {
 
-        return validateNoteID(noteID)
-          .then((data) => {
-            validNoteID = data;
-          }); 
+        return validateNoteID(noteID).then((data) => {
+          validNoteID = data;
+        }); 
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 
@@ -570,17 +572,15 @@ const engage = function (server, knex) {
       .resolve()
       .then(() => {
 
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 
-        return validateCreatePayload(payload, validCurrentUser)
-          .then((data) => {
-            validPayload = data;
-          });
+        return validateCreatePayload(payload, validCurrentUser).then((data) => {
+          validPayload = data;
+        });
       })
       .then(() => {
 
@@ -708,24 +708,21 @@ const engage = function (server, knex) {
       .resolve()
       .then(() => {
 
-        return validateNoteID(noteID)
-          .then((data) => {
-            validNoteID = data;
-          });
+        return validateNoteID(noteID).then((data) => {
+          validNoteID = data;
+        });
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 
-        return validateUpdatePayload(payload, validCurrentUser)
-          .then((data) => {
-            validPayload = data;
-          });
+        return validateUpdatePayload(payload, validCurrentUser).then((data) => {
+          validPayload = data;
+        });
       })
       .then(() => {
 
@@ -918,24 +915,21 @@ const engage = function (server, knex) {
       .resolve()
       .then(() => {
 
-        return validateNoteID(noteID)
-          .then((data) => {
-            validNoteID = data;
-          });
+        return validateNoteID(noteID).then((data) => {
+          validNoteID = data;
+        });
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 
-        return validateReplacePayload(payload, validCurrentUser)
-          .then((data) => {
-            validPayload = data;
-          });
+        return validateReplacePayload(payload, validCurrentUser).then((data) => {
+          validPayload = data;
+        });
       })
       .then(() => {
 
@@ -1119,17 +1113,15 @@ const engage = function (server, knex) {
       .resolve()
       .then(() => {
 
-        return validateNoteID(noteID)
-          .then((data) => {
-            validNoteID = data;
-          });
+        return validateNoteID(noteID).then((data) => {
+          validNoteID = data;
+        });
       })
       .then(() => {
 
-        return validateCurrentUser(currentUser)
-          .then((data) => {
-            validCurrentUser = data;
-          });
+        return validateCurrentUser(currentUser).then((data) => {
+          validCurrentUser = data;
+        });
       })
       .then(() => {
 

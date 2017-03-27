@@ -69,6 +69,11 @@ lab.experiment('models.users.update(username, payload, currentUser)', () => {
 
   lab.experiment('Malformed payload', () => {
 
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
     lab.test('Should reject with a "malformed" error', () => {
 
       const validUsername    = 'homer';

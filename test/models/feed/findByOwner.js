@@ -51,6 +51,11 @@ lab.experiment('models.feed.findByOwner(owner, currentUser)', () => {
 
   lab.experiment('Malformed currentUser', () => {
 
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
     lab.test('Should reject with a "malformed" error', () => {
 
       const validOwner           = 'homer';
@@ -84,6 +89,11 @@ lab.experiment('models.feed.findByOwner(owner, currentUser)', () => {
   });
 
   lab.experiment('Nonexistent currentUser', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
 
     lab.test('Should reject with a "nonexistent" error', () => {
 

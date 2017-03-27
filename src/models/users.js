@@ -42,18 +42,18 @@ const engage = function (server, knex) {
     })
     .then((validUsername) => {
 
-        // Check for presence in database
-        return knex
-          .select('username')
-          .from('users')
-          .where('username', validUsername)
-          .then((result) => {
-            if (result.length === 0) {
-              throw new Error('username does not exist');
-            } else { 
-              return validUsername;
-            }
-          });
+      // Check for presence in database
+      return knex
+        .select('username')
+        .from('users')
+        .where('username', validUsername)
+        .then((result) => {
+          if (result.length === 0) {
+            throw new Error('username does not exist');
+          } else { 
+            return validUsername;
+          }
+        });
     });
   };
 
@@ -171,13 +171,17 @@ const engage = function (server, knex) {
    */
   pub.findByUsername = function(username, currentUser) {
 
-    return Bluebird
-      .all([
-        validateUsername(username, currentUser),
-      ])
-      .then((valid) => {
+    let validUsername = null;
 
-        let validUsername = valid[0];
+    return Bluebird
+      .resolve()
+      .then(() => {
+
+        return validateUsername(username, currentUser).then((data) => {
+          validUsername = data;
+        });
+      })
+      .then(() => {
 
         return knex
           .select(
@@ -202,11 +206,12 @@ const engage = function (server, knex) {
     let passwordHash = null;
 
     return Bluebird
-      .all([
-        validateCreatePayload(payload),
-      ])
-      .then((valid) => {
-        validPayload = valid[0];
+      .resolve()
+      .then(() => {
+
+        return validateCreatePayload(payload).then((data) => {
+          validPayload = data;
+        });
       })
       .then(() => {
 
@@ -243,13 +248,18 @@ const engage = function (server, knex) {
     let passwordHash  = null;
 
     return Bluebird
-      .all([
-        validateUsername(username, currentUser),
-        validateUpdatePayload(payload),
-      ])
-      .then((valid) => {
-        validUsername = valid[0];
-        validPayload  = valid[1];
+      .resolve()
+      .then(() => {
+
+        return validateUsername(username, currentUser).then((data) => {
+          validUsername = data;
+        });
+      })
+      .then(() => {
+
+        return validateUpdatePayload(payload).then((data) => {
+          validPayload = data;
+        });
       })
       .then(() => {
         
@@ -296,13 +306,18 @@ const engage = function (server, knex) {
     let passwordHash  = null;
 
     return Bluebird
-      .all([
-        validateUsername(username, currentUser),
-        validateReplacePayload(payload),
-      ])
-      .then((valid) => {
-        validUsername = valid[0];
-        validPayload  = valid[1];
+      .resolve()
+      .then(() => {
+
+        return validateUsername(username, currentUser).then((data) => {
+          validUsername = data;
+        });
+      })
+      .then(() => {
+
+        return validateReplacePayload(payload).then((data) => {
+          validPayload = data;
+        });
       })
       .then(() => {
         
@@ -333,13 +348,17 @@ const engage = function (server, knex) {
    */
   pub.destroy = function(username, currentUser) {
 
-    return Bluebird
-      .all([
-        validateUsername(username, currentUser),
-      ])
-      .then((valid) => {
+    let validUsername = null;
 
-        let validUsername = valid[0];
+    return Bluebird
+      .resolve()
+      .then(() => {
+
+        return validateUsername(username, currentUser).then((data) => {
+          validUsername = data;
+        });
+      })
+      .then(() => {
 
         return knex
           .del()
@@ -361,14 +380,20 @@ const engage = function (server, knex) {
     let passwordHash  = null;
 
     return Bluebird
-      .all([
-        validateUsername(username),
-        validatePassword(password),
-      ])
-      .then((valid) => {
+      .resolve()
+      .then(() => {
 
-        validUsername = valid[0];
-        validPassword = valid[1];
+        return validateUsername(username).then((data) => {
+          validUsername = data;
+        });
+      })
+      .then(() => {
+
+        return validatePassword(password).then((data) => {
+          validPassword = data;
+        });
+      })
+      .then(() => {
 
         return knex
           .select('password_hash')

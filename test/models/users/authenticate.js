@@ -50,6 +50,11 @@ lab.experiment('models.users.authenticate(username, password)', () => {
 
   lab.experiment('Malformed password', () => {
 
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(config);
+    });
+
     lab.test('Should reject with a "malformed" error', () => {
 
       const validUsername     = 'homer';
