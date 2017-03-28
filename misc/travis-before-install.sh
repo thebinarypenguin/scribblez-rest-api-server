@@ -15,3 +15,5 @@ npm install
 cp knexfile.example.js knexfile.js
 
 ./node_modules/knex/bin/cli.js migrate:latest
+
+cd ..
