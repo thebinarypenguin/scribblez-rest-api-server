@@ -13,7 +13,7 @@ addons:
       - g++-4.8
 services:
   - postgresql
-before_install:
-  - ./misc/travis-before-install.sh
+install:
+  - ./misc/travis-install.sh
 script:
   - ./misc/travis-script.sh

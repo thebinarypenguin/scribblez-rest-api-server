@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cp ./src/config/test.example.js ./src/config/test.js
+#
+# Use a custom test command so we can send coverage info to codecov.io
+#
 
 npm install -g codecov
 
