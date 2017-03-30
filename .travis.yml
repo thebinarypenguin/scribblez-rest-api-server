@@ -15,7 +15,5 @@ services:
   - postgresql
 before_install:
   - ./misc/travis-before-install.sh
-before_script:
-  - ./misc/travis-before-script.sh
-after_success:
-  - ./misc/travis-after-success.sh
+script:
+  - ./misc/travis-script.sh
