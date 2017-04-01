@@ -38,4 +38,5 @@ npm install
 # Configure scribblez-rest-api-server
 #
 
+cp ./src/config/development.example.js ./src/config/development.js
 cp ./src/config/test.example.js ./src/config/test.js
