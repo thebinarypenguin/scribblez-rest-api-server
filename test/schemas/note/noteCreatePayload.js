@@ -14,7 +14,7 @@ const lab = exports.lab = Lab.script();
 
 lab.experiment('schemas.noteCreatePayload', () => {
 
-  let server = new Hapi.Server();
+  let server = null;
   
   lab.before(() => {
 
