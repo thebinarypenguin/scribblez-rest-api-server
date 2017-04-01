@@ -5,8 +5,24 @@ const settings = {};
 settings.environment = 'test';
 
 settings.hapi = {
-  host: 'localhost',
-  port: 8000,
+  server: {
+    connections: {
+      router: {
+        stripTrailingSlash: true,
+      },
+      routes: {
+        json: {
+          space: 2,
+          suffix: "\n",
+        },
+      },
+    },
+  },
+
+  connection: {    
+    host: 'localhost',
+    port: 8000,
+  },
 };
 
 settings.knex = {

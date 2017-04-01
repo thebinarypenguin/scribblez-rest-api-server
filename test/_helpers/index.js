@@ -12,12 +12,9 @@ pub.initializeTestServer = function (config, plugins) {
 
   return new Bluebird((resolve, reject) => {
 
-    const server = new Hapi.Server();
+    const server = new Hapi.Server(config.hapi.server);
 
-    server.connection({
-      host: config.hapi.host,
-      port: config.hapi.port,
-    });
+    server.connection(config.hapi.connection);
 
     server.register(plugins, (err) => {
 

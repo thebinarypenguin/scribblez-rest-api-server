@@ -11,12 +11,9 @@ const pkg       = require('../package.json');
 
 const cfg = config.load(process.env.NODE_ENV);
 
-const server = new Hapi.Server();
+const server = new Hapi.Server(cfg.hapi.server);
 
-server.connection({
-  host: cfg.hapi.host,
-  port: cfg.hapi.port,
-});
+server.connection(cfg.hapi.connection);
 
 server.register([
   AuthBasic,
