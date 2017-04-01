@@ -9,11 +9,13 @@ const routes    = require('./routes');
 const schemas   = require('./schemas');
 const pkg       = require('../package.json');
 
+const cfg = config.load(process.env.NODE_ENV);
+
 const server = new Hapi.Server();
 
 server.connection({
-  host: config.hapi.host,
-  port: config.hapi.port,
+  host: cfg.hapi.host,
+  port: cfg.hapi.port,
 });
 
 server.register([
@@ -31,7 +33,7 @@ server.register([
     if (err) { throw err; }
 
     console.log(`${pkg.name}@${pkg.version} is running ` +
-                `in ${config.environment} mode ` + 
+                `in ${cfg.environment} mode ` + 
                 `at ${server.info.uri}`);
   });
 });

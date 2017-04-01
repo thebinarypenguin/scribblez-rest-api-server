@@ -8,6 +8,8 @@ const helpers = require('../../_helpers');
 const config  = require('../../../src/config');
 const schemas = require('../../../src/schemas');
 
+const cfg = config.load('test');
+
 const lab = exports.lab = Lab.script();
 
 lab.experiment('schemas.userCreatePayload', () => {
@@ -16,7 +18,7 @@ lab.experiment('schemas.userCreatePayload', () => {
   
   lab.before(() => {
 
-    return helpers.initializeTestServer(config, [schemas])
+    return helpers.initializeTestServer(cfg, [schemas])
       .then((testServer) => {
         server = testServer;
       });

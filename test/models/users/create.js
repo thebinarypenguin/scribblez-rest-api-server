@@ -7,6 +7,8 @@ const config   = require('../../../src/config');
 const models   = require('../../../src/models');
 const schemas  = require('../../../src/schemas');
 
+const cfg = config.load('test');
+
 const lab = exports.lab = Lab.script();
 
 lab.experiment('models.users.create(payload)', () => {
@@ -16,10 +18,10 @@ lab.experiment('models.users.create(payload)', () => {
   lab.before(() => {
     
     return helpers
-      .checkDatabase(config)
+      .checkDatabase(cfg)
       .then(() => {
 
-        return helpers.initializeTestServer(config, [models, schemas])
+        return helpers.initializeTestServer(cfg, [models, schemas])
       })
       .then((testServer) => {
         server = testServer;
@@ -28,7 +30,7 @@ lab.experiment('models.users.create(payload)', () => {
 
   lab.after(() => {
 
-    return helpers.emptyDatabase(config);
+    return helpers.emptyDatabase(cfg);
   });
 
   lab.experiment('Malformed payload', () => {
@@ -51,7 +53,7 @@ lab.experiment('models.users.create(payload)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with an "already exists" error', () => {
@@ -86,7 +88,7 @@ lab.experiment('models.users.create(payload)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with the username of the new user', () => {
@@ -101,7 +103,7 @@ lab.experiment('models.users.create(payload)', () => {
       
       const func = server.plugins.models.users.create.bind(this, validPayload);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((changes) => {
 
           Code.expect(changes).to.be.an.array();

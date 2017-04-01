@@ -8,6 +8,8 @@ const config   = require('../../../src/config');
 const models   = require('../../../src/models');
 const schemas  = require('../../../src/schemas');
 
+const cfg = config.load('test');
+
 const lab = exports.lab = Lab.script();
 
 lab.experiment('models.feed.findAll(currentUser)', () => {
@@ -17,10 +19,10 @@ lab.experiment('models.feed.findAll(currentUser)', () => {
   lab.before(() => {
     
     return helpers
-      .checkDatabase(config)
+      .checkDatabase(cfg)
       .then(() => {
 
-        return helpers.initializeTestServer(config, [models, schemas])
+        return helpers.initializeTestServer(cfg, [models, schemas])
       })
       .then((testServer) => {
         server = testServer;
@@ -29,7 +31,7 @@ lab.experiment('models.feed.findAll(currentUser)', () => {
 
   lab.after(() => {
 
-    return helpers.emptyDatabase(config);
+    return helpers.emptyDatabase(cfg);
   });
 
   lab.experiment('Malformed currentUser', () => {
@@ -70,7 +72,7 @@ lab.experiment('models.feed.findAll(currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with data that matches the noteCollectionRedacted schema', () => {
@@ -313,7 +315,7 @@ lab.experiment('models.feed.findAll(currentUser)', () => {
 
       const func = server.plugins.models.feed.findAll.bind(this, validCurrentUser);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((data) => {
           Code.expect(data).be.undefined();
         });
@@ -324,7 +326,7 @@ lab.experiment('models.feed.findAll(currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with data that matches the noteCollectionRedacted schema', () => {
@@ -495,7 +497,7 @@ lab.experiment('models.feed.findAll(currentUser)', () => {
 
       const func = server.plugins.models.feed.findAll.bind(this);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((data) => {
           Code.expect(data).be.undefined();
         });

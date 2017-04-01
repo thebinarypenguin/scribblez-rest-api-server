@@ -7,6 +7,8 @@ const config   = require('../../../src/config');
 const models   = require('../../../src/models');
 const schemas  = require('../../../src/schemas');
 
+const cfg = config.load('test');
+
 const lab = exports.lab = Lab.script();
 
 lab.experiment('models.groups.create(payload, currentUser)', () => {
@@ -16,10 +18,10 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
   lab.before(() => {
     
     return helpers
-      .checkDatabase(config)
+      .checkDatabase(cfg)
       .then(() => {
 
-        return helpers.initializeTestServer(config, [models, schemas])
+        return helpers.initializeTestServer(cfg, [models, schemas])
       })
       .then((testServer) => {
         server = testServer;
@@ -28,7 +30,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
 
   lab.after(() => {
 
-    return helpers.emptyDatabase(config);
+    return helpers.emptyDatabase(cfg);
   });
 
   lab.experiment('Malformed payload', () => {
@@ -73,7 +75,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "nonexistent" error', () => {
@@ -95,7 +97,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "nonexistent" error', () => {
@@ -128,7 +130,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with the new group ID', () => {
@@ -143,7 +145,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
       
       const func = server.plugins.models.groups.create.bind(this, validPayload, validCurrentUser);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((changes) => {
           Code.expect(changes).to.be.an.array();
           Code.expect(changes).to.have.length(1);
@@ -165,7 +167,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with the new group ID', () => {
@@ -180,7 +182,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
       
       const func = server.plugins.models.groups.create.bind(this, validPayload, validCurrentUser);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((changes) => {
           Code.expect(changes).to.be.an.array();
           Code.expect(changes).to.have.length(3);
@@ -208,7 +210,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with the new group ID', () => {
@@ -223,7 +225,7 @@ lab.experiment('models.groups.create(payload, currentUser)', () => {
       
       const func = server.plugins.models.groups.create.bind(this, validPayload, validCurrentUser);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((changes) => {
           Code.expect(changes).to.be.an.array();
           Code.expect(changes).to.have.length(3);

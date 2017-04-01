@@ -5,10 +5,12 @@ const path   = require('path');
 const knex   = require('knex');
 const config = require('../config');
 
+const cfg = config.load(process.env.NODE_ENV);
+
 const after = function (server, next) {
 
   const allModels    = {};
-  const knexInstance = knex(config.knex);
+  const knexInstance = knex(cfg.knex);
 
   fs.readdir(__dirname, (err, files) => {
     

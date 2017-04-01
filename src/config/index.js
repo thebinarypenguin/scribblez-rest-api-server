@@ -2,6 +2,13 @@
 
 const path = require('path');
 
-const env = process.env.NODE_ENV || 'development';
+const pub = {};
 
-module.exports = require(path.join(__dirname, `${env}.js`));
+pub.load = function (environment) {
+
+  const env = environment || 'development';
+
+  return require(path.join(__dirname, `${env}.js`));
+};
+
+module.exports = pub;

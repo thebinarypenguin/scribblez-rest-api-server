@@ -7,6 +7,8 @@ const config   = require('../../../src/config');
 const models   = require('../../../src/models');
 const schemas  = require('../../../src/schemas');
 
+const cfg = config.load('test');
+
 const lab = exports.lab = Lab.script();
 
 lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
@@ -16,10 +18,10 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
   lab.before(() => {
     
     return helpers
-      .checkDatabase(config)
+      .checkDatabase(cfg)
       .then(() => {
 
-        return helpers.initializeTestServer(config, [models, schemas])
+        return helpers.initializeTestServer(cfg, [models, schemas])
       })
       .then((testServer) => {
         server = testServer;
@@ -28,7 +30,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
   lab.after(() => {
 
-    return helpers.emptyDatabase(config);
+    return helpers.emptyDatabase(cfg);
   });
 
   lab.experiment('Malformed noteID', () => {
@@ -53,7 +55,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "malformed" error', () => {
@@ -94,7 +96,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "nonexistent" error', () => {
@@ -117,7 +119,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "nonexistent" error', () => {
@@ -148,7 +150,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "nonexistent" error', () => {
@@ -179,7 +181,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "nonexistent" error', () => {
@@ -206,7 +208,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "permission" error', () => {
@@ -225,7 +227,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should reject with a "malformed" error', () => {
@@ -260,7 +262,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with boolean true', () => {
@@ -276,7 +278,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
       
       const func = server.plugins.models.notes.replace.bind(this, validNoteID, validPayload, validCurrentUser);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((changes) => {
           Code.expect(changes).to.be.an.array();
           Code.expect(changes).to.have.length(3);
@@ -311,7 +313,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with boolean true', () => {
@@ -327,7 +329,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
       
       const func = server.plugins.models.notes.replace.bind(this, validNoteID, validPayload, validCurrentUser);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((changes) => {
           Code.expect(changes).to.be.an.array();
           Code.expect(changes).to.have.length(12);
@@ -413,7 +415,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
 
     lab.beforeEach(() => {
       
-      return helpers.resetDatabase(config);
+      return helpers.resetDatabase(cfg);
     });
 
     lab.test('Should resolve with boolean true', () => {
@@ -429,7 +431,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
       
       const func = server.plugins.models.notes.replace.bind(this, validNoteID, validPayload, validCurrentUser);
 
-      return helpers.testDatabaseChanges(config, func)
+      return helpers.testDatabaseChanges(cfg, func)
         .then((changes) => {
           Code.expect(changes).to.be.an.array();
           Code.expect(changes).to.have.length(12);

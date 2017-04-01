@@ -11,6 +11,8 @@ const models    = require('../../../src/models');
 const routes    = require('../../../src/routes');
 const schemas   = require('../../../src/schemas');
 
+const cfg = config.load('test');
+
 const lab = exports.lab = Lab.script();
 
 lab.experiment('DELETE /users/{username}', () => {
@@ -20,10 +22,10 @@ lab.experiment('DELETE /users/{username}', () => {
   lab.before(() => {
     
     return helpers
-      .checkDatabase(config)
+      .checkDatabase(cfg)
       .then(() => {
 
-        return helpers.initializeTestServer(config, [AuthBasic, auth, models, routes, schemas])
+        return helpers.initializeTestServer(cfg, [AuthBasic, auth, models, routes, schemas])
       })
       .then((testServer) => {
         server = testServer;
@@ -32,7 +34,7 @@ lab.experiment('DELETE /users/{username}', () => {
 
   lab.after(() => {
 
-    return helpers.emptyDatabase(config);
+    return helpers.emptyDatabase(cfg);
   });
 
   lab.experiment('No Authorization header', () => {
@@ -46,7 +48,7 @@ lab.experiment('DELETE /users/{username}', () => {
         url: '/users/homer',
       };
 
-      return helpers.resetDatabase(config)
+      return helpers.resetDatabase(cfg)
         .then(() => {
 
           return server.inject(noAuth).then((res) => {
@@ -92,7 +94,7 @@ lab.experiment('DELETE /users/{username}', () => {
         },
       };
 
-      return helpers.resetDatabase(config)
+      return helpers.resetDatabase(cfg)
         .then(() => {
 
           return server.inject(invalidAuth).then((res) => {
@@ -138,7 +140,7 @@ lab.experiment('DELETE /users/{username}', () => {
         },
       };
 
-      return helpers.resetDatabase(config)
+      return helpers.resetDatabase(cfg)
         .then(() => {
 
           return server.inject(mismatch).then((res) => {
@@ -184,7 +186,7 @@ lab.experiment('DELETE /users/{username}', () => {
         },
       };
 
-      return helpers.resetDatabase(config)
+      return helpers.resetDatabase(cfg)
         .then(() => {
 
           return server.inject(validRequest).then((res) => {

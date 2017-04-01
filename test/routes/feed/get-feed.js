@@ -11,6 +11,8 @@ const models    = require('../../../src/models');
 const routes    = require('../../../src/routes');
 const schemas   = require('../../../src/schemas');
 
+const cfg = config.load('test');
+
 const lab = exports.lab = Lab.script();
 
 lab.experiment('GET /feed', () => {
@@ -20,10 +22,10 @@ lab.experiment('GET /feed', () => {
   lab.before(() => {
     
     return helpers
-      .checkDatabase(config)
+      .checkDatabase(cfg)
       .then(() => {
 
-        return helpers.initializeTestServer(config, [AuthBasic, auth, models, routes, schemas])
+        return helpers.initializeTestServer(cfg, [AuthBasic, auth, models, routes, schemas])
       })
       .then((testServer) => {
         server = testServer;
@@ -32,7 +34,7 @@ lab.experiment('GET /feed', () => {
 
   lab.after(() => {
 
-    return helpers.emptyDatabase(config);
+    return helpers.emptyDatabase(cfg);
   });
 
   lab.experiment('No Authorization header', () => {
@@ -46,7 +48,7 @@ lab.experiment('GET /feed', () => {
         url: '/feed',
       };
 
-      return helpers.resetDatabase(config)
+      return helpers.resetDatabase(cfg)
         .then(() => {
 
           return server.inject(noAuth).then((res) => {
@@ -240,7 +242,7 @@ lab.experiment('GET /feed', () => {
         },
       };
 
-      return helpers.resetDatabase(config)
+      return helpers.resetDatabase(cfg)
         .then(() => {
 
           return server.inject(invalidAuth).then((res) => {
@@ -434,7 +436,7 @@ lab.experiment('GET /feed', () => {
         },
       };
 
-      return helpers.resetDatabase(config)
+      return helpers.resetDatabase(cfg)
         .then(() => {
 
           return server.inject(validAuth).then((res) => {
