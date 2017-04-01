@@ -12,10 +12,6 @@ const engage = function (server) {
         mode: 'required',
         strategy: 'simple',
       },
-      json: {
-        space: 2,
-        suffix: "\n",
-      },
     },
     handler: (request, reply) => {
 
@@ -39,10 +35,6 @@ const engage = function (server) {
       auth: {
         mode: 'required',
         strategy: 'simple',
-      },
-      json: {
-        space: 2,
-        suffix: "\n",
       },
     },
     handler: (request, reply) => {
@@ -71,10 +63,6 @@ const engage = function (server) {
       auth: {
         mode: 'required',
         strategy: 'simple',
-      },
-      json: {
-        space: 2,
-        suffix: "\n",
       },
     },
     handler: (request, reply) => {
@@ -112,10 +100,6 @@ const engage = function (server) {
       auth: {
         mode: 'required',
         strategy: 'simple',
-      },
-      json: {
-        space: 2,
-        suffix: "\n",
       },
     },
     handler: (request, reply) => {
@@ -158,10 +142,6 @@ const engage = function (server) {
         mode: 'required',
         strategy: 'simple',
       },
-      json: {
-        space: 2,
-        suffix: "\n",
-      },
     },
     handler: (request, reply) => {
 
@@ -202,10 +182,6 @@ const engage = function (server) {
       auth: {
         mode: 'required',
         strategy: 'simple',
-      },
-      json: {
-        space: 2,
-        suffix: "\n",
       },
     },
     handler: (request, reply) => {
