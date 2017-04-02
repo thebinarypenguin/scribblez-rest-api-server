@@ -256,8 +256,8 @@ lab.experiment('DELETE /groups/{groupID}', () => {
       done();
     });
 
-    lab.test('Error message should be "Permission denied"', (done) => {
-      Code.expect(JSON.parse(response.payload).message).to.equal('Permission denied');
+    lab.test('Error message should be "Permission Denied"', (done) => {
+      Code.expect(JSON.parse(response.payload).message).to.equal('Permission Denied');
       done();
     });
   });
