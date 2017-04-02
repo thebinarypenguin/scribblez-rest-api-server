@@ -84,14 +84,15 @@ const engage = function (server, knex) {
     })
     .tap((validPayload) => {
       
-      if (validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
-          validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
-        throw new Error(EMPTY_SHARE);
+      if (validPayload.visibility.users && validPayload.visibility.groups) {
+        if (validPayload.visibility.users.length === 0 && validPayload.visibility.groups.length === 0) {
+          throw new Error(EMPTY_SHARE);
+        }
       }
     })
     .tap((validPayload) => {
 
-      if (validPayload.visibility.users &&  validPayload.visibility.users.length > 0) {
+      if (validPayload.visibility.users && validPayload.visibility.users.length > 0) {
 
         const uniqueUsers = _.uniq(validPayload.visibility.users);
 
@@ -112,7 +113,7 @@ const engage = function (server, knex) {
     })
     .tap((validPayload) => {
 
-      if (validPayload.visibility && validPayload.visibility.groups &&  validPayload.visibility.groups.length > 0) {
+      if (validPayload.visibility.groups && validPayload.visibility.groups.length > 0) {
 
         const uniqueGroups = _.uniq(validPayload.visibility.groups);
 
@@ -160,54 +161,63 @@ const engage = function (server, knex) {
     })
     .tap((validPayload) => {
       
-      if (validPayload.visibility && 
-          validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
-          validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
-        throw new Error(EMPTY_SHARE);
+      if (validPayload.visibility) {
+
+        if (validPayload.visibility.users && validPayload.visibility.groups) {
+          if (validPayload.visibility.users.length === 0 && validPayload.visibility.groups.length === 0) {
+            throw new Error(EMPTY_SHARE);
+          }
+        }
       }
     })
     .tap((validPayload) => {
 
-      if (validPayload.visibility && validPayload.visibility.users &&  validPayload.visibility.users.length > 0) {
+      if (validPayload.visibility) {
 
-        const uniqueUsers = _.uniq(validPayload.visibility.users);
+        if (validPayload.visibility.users &&  validPayload.visibility.users.length > 0) {
 
-        return knex
-          .select('username')
-          .from('users')
-          .whereIn('username', uniqueUsers)
-          .then((results) => {
+          const uniqueUsers = _.uniq(validPayload.visibility.users);
 
-            const existentUsernames    = results.map((row) => { return row.username; });
-            const nonexistentUsernames = _.difference(uniqueUsers, existentUsernames);
+          return knex
+            .select('username')
+            .from('users')
+            .whereIn('username', uniqueUsers)
+            .then((results) => {
 
-            if (nonexistentUsernames.length > 0) {
-              throw new Error(NONEXISTENT_USER);
-            } 
-          });
+              const existentUsernames    = results.map((row) => { return row.username; });
+              const nonexistentUsernames = _.difference(uniqueUsers, existentUsernames);
+
+              if (nonexistentUsernames.length > 0) {
+                throw new Error(NONEXISTENT_USER);
+              } 
+            });
+        }
       }
     })
     .tap((validPayload) => {
 
-      if (validPayload.visibility && validPayload.visibility.groups &&  validPayload.visibility.groups.length > 0) {
+      if (validPayload.visibility) {
 
-        const uniqueGroups = _.uniq(validPayload.visibility.groups);
+        if (validPayload.visibility.groups &&  validPayload.visibility.groups.length > 0) {
 
-        return knex
-          .select('name')
-          .from('groups')
-          .leftJoin('users', 'users.id', 'groups.owner_id')
-          .whereIn('name', uniqueGroups)
-          .andWhere('username', currentUser)
-          .then((results) => {
+          const uniqueGroups = _.uniq(validPayload.visibility.groups);
 
-            const existentGroups    = results.map((row) => { return row.name; });
-            const nonexistentGroups = _.difference(uniqueGroups, existentGroups);
+          return knex
+            .select('name')
+            .from('groups')
+            .leftJoin('users', 'users.id', 'groups.owner_id')
+            .whereIn('name', uniqueGroups)
+            .andWhere('username', currentUser)
+            .then((results) => {
 
-            if (nonexistentGroups.length > 0) {
-              throw new Error(NONEXISTENT_GROUP);
-            } 
-          });
+              const existentGroups    = results.map((row) => { return row.name; });
+              const nonexistentGroups = _.difference(uniqueGroups, existentGroups);
+
+              if (nonexistentGroups.length > 0) {
+                throw new Error(NONEXISTENT_GROUP);
+              } 
+            });
+        }
       }
     });
   };
@@ -236,10 +246,11 @@ const engage = function (server, knex) {
       });
     })
     .tap((validPayload) => {
-      
-      if (validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
-          validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
-        throw new Error(EMPTY_SHARE);
+
+      if (validPayload.visibility.users && validPayload.visibility.groups) {
+        if (validPayload.visibility.users.length === 0 && validPayload.visibility.groups.length === 0) {
+          throw new Error(EMPTY_SHARE);
+        }
       }
     })
     .tap((validPayload) => {
@@ -265,7 +276,7 @@ const engage = function (server, knex) {
     })
     .tap((validPayload) => {
 
-      if (validPayload.visibility && validPayload.visibility.groups &&  validPayload.visibility.groups.length > 0) {
+      if (validPayload.visibility.groups &&  validPayload.visibility.groups.length > 0) {
 
         const uniqueGroups = _.uniq(validPayload.visibility.groups);
 
@@ -449,21 +460,21 @@ const engage = function (server, knex) {
    */
   const getVisibilityType = function (visibility) {
 
-    let visibilityType = undefined;
-
-    if (visibility === 'public') {
-      visibilityType = 'public';
-    }
-
-    if (visibility === 'private') {
-      visibilityType = 'private';
-    }
-
     if (visibility && visibility.users && visibility.groups) {
-      visibilityType = 'shared';
+      return 'shared';
     }
 
-    return visibilityType;
+    else if (visibility === 'public') {
+      return 'public';
+    }
+
+    else if (visibility === 'private') {
+      return 'private';
+    }
+
+    else {
+      return null;
+    }
   };
 
   /**
@@ -793,59 +804,65 @@ const engage = function (server, knex) {
 
         // Get any possible user grants from payload, append to payloadGrants
 
-        if (validPayload.visibility && validPayload.visibility.users && validPayload.visibility.users.length > 0) {
+        if (validPayload.visibility) {
 
-          return knex
-            .select('id')
-            .from('users')
-            .whereIn('username', validPayload.visibility.users)
-            .then((results) => {
+          if (validPayload.visibility.users && validPayload.visibility.users.length > 0) {
 
-              results.forEach((user) => {
-                
-                payloadGrants.push({
-                  note_id: noteID,
-                  user_id: user.id,
-                  group_id: null,
+            return knex
+              .select('id')
+              .from('users')
+              .whereIn('username', validPayload.visibility.users)
+              .then((results) => {
+
+                results.forEach((user) => {
+                  
+                  payloadGrants.push({
+                    note_id: noteID,
+                    user_id: user.id,
+                    group_id: null,
+                  });
                 });
               });
-            });
+          }
         }
       })
       .then(() => {
 
         // Get any possible group grants from payload, append to payloadGrants
 
-        if (validPayload.visibility && validPayload.visibility.groups && validPayload.visibility.groups.length > 0) {
+        if (validPayload.visibility) {
 
-          return knex
-            .select('id')
-            .from('groups')
-            .whereIn('name', validPayload.visibility.groups)
-            .andWhere('owner_id', userID)
-            .then((results) => {
+          if (validPayload.visibility.groups && validPayload.visibility.groups.length > 0) {
 
-              let groupIDs = results.map((g) => { return g.id });
+            return knex
+              .select('id')
+              .from('groups')
+              .whereIn('name', validPayload.visibility.groups)
+              .andWhere('owner_id', userID)
+              .then((results) => {
 
-              return knex
-                .select(
-                  'user_id', 
-                  'group_id'
-                )
-                .from('group_members')
-                .whereIn('group_id', groupIDs)
-                .then((results) => {
+                let groupIDs = results.map((g) => { return g.id });
 
-                  results.forEach((g) => {
+                return knex
+                  .select(
+                    'user_id', 
+                    'group_id'
+                  )
+                  .from('group_members')
+                  .whereIn('group_id', groupIDs)
+                  .then((results) => {
 
-                    payloadGrants.push({
-                      note_id: noteID,
-                      user_id: g.user_id,
-                      group_id: g.group_id,
+                    results.forEach((g) => {
+
+                      payloadGrants.push({
+                        note_id: noteID,
+                        user_id: g.user_id,
+                        group_id: g.group_id,
+                      });
                     });
                   });
-                });
-            });
+              });
+          }
         }
       })
       .then(() => {
@@ -994,7 +1011,7 @@ const engage = function (server, knex) {
 
         // Get any possible user grants from payload, append to payloadGrants
 
-        if (validPayload.visibility && validPayload.visibility.users && validPayload.visibility.users.length > 0) {
+        if (validPayload.visibility.users && validPayload.visibility.users.length > 0) {
 
           return knex
             .select('id')
@@ -1017,7 +1034,7 @@ const engage = function (server, knex) {
 
         // Get any possible group grants from payload, append to payloadGrants
 
-        if (validPayload.visibility && validPayload.visibility.groups && validPayload.visibility.groups.length > 0) {
+        if (validPayload.visibility.groups && validPayload.visibility.groups.length > 0) {
 
           return knex
             .select('id')
