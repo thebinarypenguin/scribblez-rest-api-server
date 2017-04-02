@@ -18,8 +18,10 @@ const engage = function (server, knex) {
    */
   const validateCurrentUser = function (currentUser, optional) {
   
-    if (currentUser === undefined && optional) {
-      return new Bluebird.resolve(undefined);
+    if (optional) {
+      if (currentUser === null || currentUser === undefined) {
+        return new Bluebird.resolve(null);
+      }
     }
 
     return new Bluebird((resolve, reject) => {
