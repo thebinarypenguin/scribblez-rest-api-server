@@ -6,7 +6,7 @@ const Joi      = require('joi');
 
 const engage = function (server, knex) {
 
-  const bcryptSaltRounds     = 10;
+  const BCRYPT_SALT_ROUNDS   = 10;
   
   const MALFORMED_USERNAME   = 'username is malformed';
   const MALFORMED_PAYLOAD    = 'payload is malformed';
@@ -225,7 +225,7 @@ const engage = function (server, knex) {
       })
       .then(() => {
 
-        return bcrypt.hash(validPayload.password, bcryptSaltRounds)
+        return bcrypt.hash(validPayload.password, BCRYPT_SALT_ROUNDS)
           .then((hash) => {
             passwordHash = hash;
           });
@@ -275,7 +275,7 @@ const engage = function (server, knex) {
         
         if (validPayload.password) {
           
-          return bcrypt.hash(validPayload.password, bcryptSaltRounds)
+          return bcrypt.hash(validPayload.password, BCRYPT_SALT_ROUNDS)
             .then((hash) => {
               passwordHash = hash;
             });
@@ -331,7 +331,7 @@ const engage = function (server, knex) {
       })
       .then(() => {
         
-        return bcrypt.hash(validPayload.password, bcryptSaltRounds)
+        return bcrypt.hash(validPayload.password, BCRYPT_SALT_ROUNDS)
           .then((hash) => {
             passwordHash = hash;
           });
