@@ -43,18 +43,18 @@ const engage = function (server, knex) {
     })
     .then((validID) => {
 
-        // Check for presence in database
-        return knex
-          .select('id')
-          .from('groups')
-          .where('id', validID)
-          .then((result) => {
-            if (result.length === 0) {
-              throw new Error(NONEXISTENT_GROUP_ID);
-            } else { 
-              return validID;
-            }
-          });
+      // Check for presence in database
+      return knex
+        .select('id')
+        .from('groups')
+        .where('id', validID)
+        .then((result) => {
+          if (result.length === 0) {
+            throw new Error(NONEXISTENT_GROUP_ID);
+          } else { 
+            return validID;
+          }
+        });
     });
   };
 
@@ -83,24 +83,24 @@ const engage = function (server, knex) {
     })
     .tap((validPayload) => {
 
-        if (validPayload.members.length > 0) {
+      if (validPayload.members.length > 0) {
 
-          const uniqueMembers = _.uniq(validPayload.members);
+        const uniqueMembers = _.uniq(validPayload.members);
 
-          return knex
-            .select('username')
-            .from('users')
-            .whereIn('username', uniqueMembers)
-            .then((results) => {
+        return knex
+          .select('username')
+          .from('users')
+          .whereIn('username', uniqueMembers)
+          .then((results) => {
 
-              const existentUsernames    = results.map((row) => { return row.username; });
-              const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
+            const existentUsernames    = results.map((row) => { return row.username; });
+            const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
 
-              if (nonexistentUsernames.length > 0) {
-                throw new Error(NONEXISTENT_USER);
-              } 
-            });
-        }
+            if (nonexistentUsernames.length > 0) {
+              throw new Error(NONEXISTENT_USER);
+            } 
+          });
+      }
     });
   };
 
@@ -129,24 +129,24 @@ const engage = function (server, knex) {
     })
     .tap((validPayload) => {
 
-        if (validPayload.members && validPayload.members.length > 0) {
+      if (validPayload.members && validPayload.members.length > 0) {
 
-          const uniqueMembers = _.uniq(validPayload.members);
+        const uniqueMembers = _.uniq(validPayload.members);
 
-          return knex
-            .select('username')
-            .from('users')
-            .whereIn('username', uniqueMembers)
-            .then((results) => {
+        return knex
+          .select('username')
+          .from('users')
+          .whereIn('username', uniqueMembers)
+          .then((results) => {
 
-              const existentUsernames    = results.map((row) => { return row.username; });
-              const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
+            const existentUsernames    = results.map((row) => { return row.username; });
+            const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
 
-              if (nonexistentUsernames.length > 0) {
-                throw new Error(NONEXISTENT_USER);
-              } 
-            });
-        }
+            if (nonexistentUsernames.length > 0) {
+              throw new Error(NONEXISTENT_USER);
+            } 
+          });
+      }
     });
   };
 
@@ -175,24 +175,24 @@ const engage = function (server, knex) {
     })
     .tap((validPayload) => {
 
-        if (validPayload.members.length > 0) {
+      if (validPayload.members.length > 0) {
 
-          const uniqueMembers = _.uniq(validPayload.members);
+        const uniqueMembers = _.uniq(validPayload.members);
 
-          return knex
-            .select('username')
-            .from('users')
-            .whereIn('username', uniqueMembers)
-            .then((results) => {
+        return knex
+          .select('username')
+          .from('users')
+          .whereIn('username', uniqueMembers)
+          .then((results) => {
 
-              const existentUsernames    = results.map((row) => { return row.username; });
-              const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
+            const existentUsernames    = results.map((row) => { return row.username; });
+            const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
 
-              if (nonexistentUsernames.length > 0) {
-                throw new Error(NONEXISTENT_USER);
-              } 
-            });
-        }
+            if (nonexistentUsernames.length > 0) {
+              throw new Error(NONEXISTENT_USER);
+            } 
+          });
+      }
     });
   };
 
@@ -221,18 +221,18 @@ const engage = function (server, knex) {
     })
     .then((validCurrentUser) => {
 
-        // Check for presence in database
-        return knex
-          .select('username')
-          .from('users')
-          .where('username', validCurrentUser)
-          .then((rows) => {
-            if (rows.length === 0) {
-              throw new Error(NONEXISTENT_CURRENT_USER);
-            } else { 
-              return validCurrentUser;
-            }
-          });
+      // Check for presence in database
+      return knex
+        .select('username')
+        .from('users')
+        .where('username', validCurrentUser)
+        .then((rows) => {
+          if (rows.length === 0) {
+            throw new Error(NONEXISTENT_CURRENT_USER);
+          } else { 
+            return validCurrentUser;
+          }
+        });
     });
   };
 

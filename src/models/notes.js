@@ -46,18 +46,18 @@ const engage = function (server, knex) {
     })
     .then((validID) => {
 
-        // Check for presence in database
-        return knex
-          .select('id')
-          .from('notes')
-          .where('id', validID)
-          .then((result) => {
-            if (result.length === 0) {
-              throw new Error(NONEXISTENT_NOTE_ID);
-            } else { 
-              return validID;
-            }
-          });
+      // Check for presence in database
+      return knex
+        .select('id')
+        .from('notes')
+        .where('id', validID)
+        .then((result) => {
+          if (result.length === 0) {
+            throw new Error(NONEXISTENT_NOTE_ID);
+          } else { 
+            return validID;
+          }
+        });
     });
   };
 
@@ -315,18 +315,18 @@ const engage = function (server, knex) {
     })
     .then((validCurrentUser) => {
 
-        // Check for presence in database
-        return knex
-          .select('username')
-          .from('users')
-          .where('username', validCurrentUser)
-          .then((result) => {
-            if (result.length === 0) {
-              throw new Error(NONEXISTENT_CURRENT_USER);
-            } else { 
-              return validCurrentUser;
-            }
-          });
+      // Check for presence in database
+      return knex
+        .select('username')
+        .from('users')
+        .where('username', validCurrentUser)
+        .then((result) => {
+          if (result.length === 0) {
+            throw new Error(NONEXISTENT_CURRENT_USER);
+          } else { 
+            return validCurrentUser;
+          }
+        });
     });
   };
 
