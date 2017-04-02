@@ -38,9 +38,10 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
+      const payload     = request.payload;
       const currentUser = request.auth.credentials.username;
 
-      server.plugins.models.groups.create(request.payload, currentUser)
+      server.plugins.models.groups.create(payload, currentUser)
         .then((data) => {
           reply(null).code(201).header('Location', `${server.info.uri}/groups/${data}`);
         })
@@ -68,7 +69,7 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const groupID = parseInt(request.params.groupID, 10);
+      const groupID     = parseInt(request.params.groupID, 10);
       const currentUser = request.auth.credentials.username;
       
       server.plugins.models.groups.findByID(groupID, currentUser)
@@ -107,10 +108,11 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const groupID = parseInt(request.params.groupID, 10);
+      const groupID     = parseInt(request.params.groupID, 10);
+      const payload     = request.payload;
       const currentUser = request.auth.credentials.username;
       
-      server.plugins.models.groups.replace(groupID, request.payload, currentUser)
+      server.plugins.models.groups.replace(groupID, payload, currentUser)
         .then(() => {
           reply(null);
         })
@@ -150,10 +152,11 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const groupID = parseInt(request.params.groupID, 10);
+      const groupID     = parseInt(request.params.groupID, 10);
+      const payload     = request.payload;
       const currentUser = request.auth.credentials.username;
       
-      server.plugins.models.groups.update(groupID, request.payload, currentUser)
+      server.plugins.models.groups.update(groupID, payload, currentUser)
         .then(() => {
           reply(null);
         })
@@ -193,7 +196,7 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const groupID = parseInt(request.params.groupID, 10);
+      const groupID     = parseInt(request.params.groupID, 10);
       const currentUser = request.auth.credentials.username;
       
       server.plugins.models.groups.destroy(groupID, currentUser)

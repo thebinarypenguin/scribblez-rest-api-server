@@ -12,7 +12,9 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
       
-      server.plugins.models.users.create(request.payload)
+      const payload = request.payload;
+
+      server.plugins.models.users.create(payload)
         .then((data) => {
           reply(null).code(201).header('Location', `${server.info.uri}/users/${data}`);
         })
@@ -44,7 +46,7 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const username = request.params.username;
+      const username    = request.params.username;
       const currentUser = request.auth.credentials.username;
       
       server.plugins.models.users.findByUsername(username, currentUser)
@@ -83,10 +85,11 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const username = request.params.username;
+      const username    = request.params.username;
+      const payload     = request.payload;
       const currentUser = request.auth.credentials.username;
       
-      server.plugins.models.users.replace(username, request.payload, currentUser)
+      server.plugins.models.users.replace(username, payload, currentUser)
         .then(() => {
           reply(null);
         })
@@ -126,10 +129,11 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const username = request.params.username;
+      const username    = request.params.username;
+      const payload     = request.payload;
       const currentUser = request.auth.credentials.username;
       
-      server.plugins.models.users.update(username, request.payload, currentUser)
+      server.plugins.models.users.update(username, payload, currentUser)
         .then(() => {
           reply(null);
         })
@@ -169,7 +173,7 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const username = request.params.username;
+      const username    = request.params.username;
       const currentUser = request.auth.credentials.username;
       
       server.plugins.models.users.destroy(username, currentUser)

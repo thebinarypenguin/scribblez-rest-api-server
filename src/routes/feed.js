@@ -15,7 +15,7 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      let currentUser = undefined;
+      let currentUser = null;
       
       if (request.auth.isAuthenticated) {
         currentUser = request.auth.credentials.username
@@ -42,13 +42,14 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      let currentUser = undefined;
+      let owner       = request.params.username;
+      let currentUser = null;
       
       if (request.auth.isAuthenticated) {
         currentUser = request.auth.credentials.username
       }
 
-      server.plugins.models.feed.findByOwner(request.params.username, currentUser)
+      server.plugins.models.feed.findByOwner(owner, currentUser)
         .then((data) => {
           reply(data);
         })

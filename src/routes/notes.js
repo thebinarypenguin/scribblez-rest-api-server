@@ -38,9 +38,10 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
+      const payload     = request.payload;
       const currentUser = request.auth.credentials.username;
 
-      server.plugins.models.notes.create(request.payload, currentUser)
+      server.plugins.models.notes.create(payload, currentUser)
         .then((data) => {
           reply(null).code(201).header('Location', `${server.info.uri}/notes/${data}`);
         })
@@ -68,7 +69,7 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const noteID = parseInt(request.params.noteID, 10);
+      const noteID      = parseInt(request.params.noteID, 10);
       const currentUser = request.auth.credentials.username;
       
       server.plugins.models.notes.findByID(noteID, currentUser)
@@ -107,10 +108,11 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const noteID = parseInt(request.params.noteID, 10);
+      const noteID      = parseInt(request.params.noteID, 10);
+      const payload     = request.payload;
       const currentUser = request.auth.credentials.username;
       
-      server.plugins.models.notes.replace(noteID, request.payload, currentUser)
+      server.plugins.models.notes.replace(noteID, payload, currentUser)
         .then(() => {
           reply(null);
         })
@@ -150,10 +152,11 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const noteID = parseInt(request.params.noteID, 10);
+      const noteID      = parseInt(request.params.noteID, 10);
+      const payload     = request.payload;
       const currentUser = request.auth.credentials.username;
       
-      server.plugins.models.notes.update(noteID, request.payload, currentUser)
+      server.plugins.models.notes.update(noteID, payload, currentUser)
         .then(() => {
           reply(null);
         })
@@ -193,7 +196,7 @@ const engage = function (server) {
     },
     handler: (request, reply) => {
 
-      const noteID = parseInt(request.params.noteID, 10);
+      const noteID      = parseInt(request.params.noteID, 10);
       const currentUser = request.auth.credentials.username;
       
       server.plugins.models.notes.destroy(noteID, currentUser)
