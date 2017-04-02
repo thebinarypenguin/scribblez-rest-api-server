@@ -5,6 +5,12 @@ const Joi      = require('joi');
 
 const engage = function (server, knex) {
 
+  const MALFORMED_OWNER          = 'owner is malformed';
+  const MALFORMED_CURRENT_USER   = 'currentUser is malformed';
+  
+  const NONEXISTENT_OWNER        = 'owner does not exist';
+  const NONEXISTENT_CURRENT_USER = 'currentUser does not exist';
+
   const pub = {};
 
   /**
@@ -28,7 +34,7 @@ const engage = function (server, knex) {
       Joi.validate(currentUser, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('currentUser is malformed'));
+          reject(new Error(MALFORMED_CURRENT_USER));
         } else { 
           resolve(val);
         }
@@ -43,7 +49,7 @@ const engage = function (server, knex) {
         .where('username', validCurrentUser)
         .then((result) => {
           if (result.length === 0) {
-            throw new Error('currentUser does not exist');
+            throw new Error(NONEXISTENT_CURRENT_USER);
           } else { 
             return validCurrentUser;
           }
@@ -68,7 +74,7 @@ const engage = function (server, knex) {
       Joi.validate(owner, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('owner is malformed'));
+          reject(new Error(MALFORMED_OWNER));
         } else { 
           resolve(val);
         }
@@ -83,7 +89,7 @@ const engage = function (server, knex) {
         .where('username', validOwner)
         .then((result) => {
           if (result.length === 0) {
-            throw new Error('owner does not exist');
+            throw new Error(NONEXISTENT_OWNER);
           } else { 
             return validOwner;
           }

@@ -6,7 +6,17 @@ const Joi      = require('joi');
 
 const engage = function (server, knex) {
 
-  const bcryptSaltRounds = 10;
+  const bcryptSaltRounds     = 10;
+  
+  const MALFORMED_USERNAME   = 'username is malformed';
+  const MALFORMED_PAYLOAD    = 'payload is malformed';
+  const MALFORMED_PASSWORD   = 'password is malformed';
+  
+  const NONEXISTENT_USERNAME = 'username does not exist';
+  const DUPLICATE_USERNAME   = 'username already exists';
+  
+  const PERMISSION_DENIED    = 'Permission Denied';
+  const INVALID_CREDENTIALS  = 'Invalid Credentials';
 
   const pub = {};
 
@@ -26,7 +36,7 @@ const engage = function (server, knex) {
       if (arguments.length > 1) {
         
         if (username !== currentUser) {
-          return reject(new Error('Permission denied'));
+          return reject(new Error(PERMISSION_DENIED));
         }  
       }
 
@@ -34,7 +44,7 @@ const engage = function (server, knex) {
       Joi.validate(username, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('username is malformed'));
+          reject(new Error(MALFORMED_USERNAME));
         } else { 
           resolve(val);
         }
@@ -49,7 +59,7 @@ const engage = function (server, knex) {
         .where('username', validUsername)
         .then((result) => {
           if (result.length === 0) {
-            throw new Error('username does not exist');
+            throw new Error(NONEXISTENT_USERNAME);
           } else { 
             return validUsername;
           }
@@ -74,7 +84,7 @@ const engage = function (server, knex) {
       Joi.validate(createPayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -89,7 +99,7 @@ const engage = function (server, knex) {
         .where('username', validPayload.username)
         .then((result) => {
           if (result.length > 0) {
-            throw new Error('username already exists');
+            throw new Error(DUPLICATE_USERNAME);
           } else { 
             return validPayload;
           }
@@ -114,7 +124,7 @@ const engage = function (server, knex) {
       Joi.validate(updatePayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -139,7 +149,7 @@ const engage = function (server, knex) {
       Joi.validate(replacePayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -158,7 +168,7 @@ const engage = function (server, knex) {
       Joi.validate(password, Joi.string(), (err, val) => {
         
         if (err) {
-          reject(new Error('password is malformed'));
+          reject(new Error(MALFORMED_PASSWORD));
         } else { 
           resolve(val);
         }
@@ -414,7 +424,7 @@ const engage = function (server, knex) {
             
             } else {
             
-              throw new Error('credentials are invalid');
+              throw new Error(INVALID_CREDENTIALS);
             }
           })
       });

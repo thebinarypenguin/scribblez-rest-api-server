@@ -6,6 +6,19 @@ const Joi      = require('joi');
 
 const engage = function (server, knex) {
 
+  const MALFORMED_NOTE_ID        = 'noteID is malformed';
+  const MALFORMED_PAYLOAD        = 'payload is malformed';
+  const MALFORMED_CURRENT_USER   = 'currentUser is malformed';
+
+  const NONEXISTENT_NOTE_ID      = 'noteID does not exist';
+  const NONEXISTENT_CURRENT_USER = 'currentUser does not exist';
+  
+  const EMPTY_SHARE              = 'A shared note must be shared with atleast one user or group';
+  const NONEXISTENT_USER         = 'Nonexistent user(s) in payload.visibility.users';
+  const NONEXISTENT_GROUP        = 'Nonexistent group(s) in payload.visibility.groups';
+
+  const PERMISSION_DENIED        = 'Permission Denied'
+
   const pub = {};
 
   /**
@@ -25,7 +38,7 @@ const engage = function (server, knex) {
       Joi.validate(noteID, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('noteID is malformed'));
+          reject(new Error(MALFORMED_NOTE_ID));
         } else { 
           resolve(val);
         }
@@ -40,7 +53,7 @@ const engage = function (server, knex) {
           .where('id', validID)
           .then((result) => {
             if (result.length === 0) {
-              throw new Error('noteID does not exist');
+              throw new Error(NONEXISTENT_NOTE_ID);
             } else { 
               return validID;
             }
@@ -65,7 +78,7 @@ const engage = function (server, knex) {
       Joi.validate(createPayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -75,7 +88,7 @@ const engage = function (server, knex) {
       
       if (validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
           validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
-        throw new Error('A shared note must be shared with atleast one user or group');
+        throw new Error(EMPTY_SHARE);
       }
     })
     .tap((validPayload) => {
@@ -94,7 +107,7 @@ const engage = function (server, knex) {
             const nonexistentUsernames = _.difference(uniqueUsers, existentUsernames);
 
             if (nonexistentUsernames.length > 0) {
-              throw new Error('Nonexistent user(s) in payload.visibility.users');
+              throw new Error(NONEXISTENT_USER);
             } 
           });
       }
@@ -117,7 +130,7 @@ const engage = function (server, knex) {
             const nonexistentGroups = _.difference(uniqueGroups, existentGroups);
 
             if (nonexistentGroups.length > 0) {
-              throw new Error('Nonexistent group(s) in payload.visibility.groups');
+              throw new Error(NONEXISTENT_GROUP);
             } 
           });
       }
@@ -141,7 +154,7 @@ const engage = function (server, knex) {
       Joi.validate(updatePayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -152,7 +165,7 @@ const engage = function (server, knex) {
       if (validPayload.visibility && 
           validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
           validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
-        throw new Error('A shared note must be shared with atleast one user or group');
+        throw new Error(EMPTY_SHARE);
       }
     })
     .tap((validPayload) => {
@@ -171,7 +184,7 @@ const engage = function (server, knex) {
             const nonexistentUsernames = _.difference(uniqueUsers, existentUsernames);
 
             if (nonexistentUsernames.length > 0) {
-              throw new Error('Nonexistent user(s) in payload.visibility.users');
+              throw new Error(NONEXISTENT_USER);
             } 
           });
       }
@@ -194,7 +207,7 @@ const engage = function (server, knex) {
             const nonexistentGroups = _.difference(uniqueGroups, existentGroups);
 
             if (nonexistentGroups.length > 0) {
-              throw new Error('Nonexistent group(s) in payload.visibility.groups');
+              throw new Error(NONEXISTENT_GROUP);
             } 
           });
       }
@@ -218,7 +231,7 @@ const engage = function (server, knex) {
       Joi.validate(replacePayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -228,7 +241,7 @@ const engage = function (server, knex) {
       
       if (validPayload.visibility.users && validPayload.visibility.users.length === 0 && 
           validPayload.visibility.groups && validPayload.visibility.groups.length === 0) {
-        throw new Error('A shared note must be shared with atleast one user or group');
+        throw new Error(EMPTY_SHARE);
       }
     })
     .tap((validPayload) => {
@@ -247,7 +260,7 @@ const engage = function (server, knex) {
             const nonexistentUsernames = _.difference(uniqueUsers, existentUsernames);
 
             if (nonexistentUsernames.length > 0) {
-              throw new Error('Nonexistent user(s) in payload.visibility.users');
+              throw new Error(NONEXISTENT_USER);
             } 
           });
       }
@@ -270,7 +283,7 @@ const engage = function (server, knex) {
             const nonexistentGroups = _.difference(uniqueGroups, existentGroups);
 
             if (nonexistentGroups.length > 0) {
-              throw new Error('Nonexistent group(s) in payload.visibility.groups');
+              throw new Error(NONEXISTENT_GROUP);
             } 
           });
       }
@@ -294,7 +307,7 @@ const engage = function (server, knex) {
       Joi.validate(currentUser, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('currentUser is malformed'));
+          reject(new Error(MALFORMED_CURRENT_USER));
         } else { 
           resolve(val);
         }
@@ -309,7 +322,7 @@ const engage = function (server, knex) {
           .where('username', validCurrentUser)
           .then((result) => {
             if (result.length === 0) {
-              throw new Error('currentUser does not exist');
+              throw new Error(NONEXISTENT_CURRENT_USER);
             } else { 
               return validCurrentUser;
             }
@@ -331,7 +344,7 @@ const engage = function (server, knex) {
       .andWhere('users.username', currentUser)
       .then((result) => {
         if (result.length === 0) {
-          throw new Error('Permission denied');
+          throw new Error(PERMISSION_DENIED);
         } else { 
           return true;
         }

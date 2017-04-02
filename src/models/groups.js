@@ -6,6 +6,16 @@ const Joi      = require('joi');
 
 const engage = function (server, knex) {
 
+  const MALFORMED_GROUP_ID       = 'groupID is malformed';
+  const MALFORMED_PAYLOAD        = 'payload is malformed';
+  const MALFORMED_CURRENT_USER   = 'currentUser is malformed';
+
+  const NONEXISTENT_GROUP_ID     = 'groupID does not exist';
+  const NONEXISTENT_CURRENT_USER = 'currentUser does not exist';
+  const NONEXISTENT_USER         = 'Nonexistent user(s) in payload.members';
+
+  const PERMISSION_DENIED        = 'Permission Denied'
+
   const pub = {};
   
   /**
@@ -25,7 +35,7 @@ const engage = function (server, knex) {
       Joi.validate(groupID, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('groupID is malformed'));
+          reject(new Error(MALFORMED_GROUP_ID));
         } else { 
           resolve(val);
         }
@@ -40,7 +50,7 @@ const engage = function (server, knex) {
           .where('id', validID)
           .then((result) => {
             if (result.length === 0) {
-              throw new Error('groupID does not exist');
+              throw new Error(NONEXISTENT_GROUP_ID);
             } else { 
               return validID;
             }
@@ -65,7 +75,7 @@ const engage = function (server, knex) {
       Joi.validate(createPayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -87,7 +97,7 @@ const engage = function (server, knex) {
               const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
 
               if (nonexistentUsernames.length > 0) {
-                throw new Error('Nonexistent user(s) in payload.members');
+                throw new Error(NONEXISTENT_USER);
               } 
             });
         }
@@ -111,7 +121,7 @@ const engage = function (server, knex) {
       Joi.validate(updatePayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -133,7 +143,7 @@ const engage = function (server, knex) {
               const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
 
               if (nonexistentUsernames.length > 0) {
-                throw new Error('Nonexistent user(s) in payload.members');
+                throw new Error(NONEXISTENT_USER);
               } 
             });
         }
@@ -157,7 +167,7 @@ const engage = function (server, knex) {
       Joi.validate(replacePayload, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('payload is malformed'));
+          reject(new Error(MALFORMED_PAYLOAD));
         } else { 
           resolve(val);
         }
@@ -179,7 +189,7 @@ const engage = function (server, knex) {
               const nonexistentUsernames = _.difference(uniqueMembers, existentUsernames);
 
               if (nonexistentUsernames.length > 0) {
-                throw new Error('Nonexistent user(s) in payload.members');
+                throw new Error(NONEXISTENT_USER);
               } 
             });
         }
@@ -203,7 +213,7 @@ const engage = function (server, knex) {
       Joi.validate(currentUser, schema, options, (err, val) => {
         
         if (err) {
-          reject(new Error('currentUser is malformed'));
+          reject(new Error(MALFORMED_CURRENT_USER));
         } else { 
           resolve(val);
         }
@@ -218,7 +228,7 @@ const engage = function (server, knex) {
           .where('username', validCurrentUser)
           .then((rows) => {
             if (rows.length === 0) {
-              throw new Error('currentUser does not exist');
+              throw new Error(NONEXISTENT_CURRENT_USER);
             } else { 
               return validCurrentUser;
             }
@@ -240,7 +250,7 @@ const engage = function (server, knex) {
       .andWhere('users.username', currentUser)
       .then((result) => {
         if (result.length === 0) {
-          throw new Error('Permission denied');
+          throw new Error(PERMISSION_DENIED);
         } else { 
           return true;
         }
