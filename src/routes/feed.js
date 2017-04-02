@@ -25,8 +25,8 @@ const engage = function (server) {
         .then((data) => {
           reply(data);
         })
-        .catch((err) => {
-          reply(Boom.badImplementation(err.message));
+        .catch(() => {
+          reply(Boom.badImplementation());
         });
     },
   });
@@ -55,14 +55,16 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'owner is malformed') {
-            return reply(Boom.badRequest('username is malformed'));
+            reply(Boom.badRequest('username is malformed'));
           }
 
-          if (err.message === 'owner does not exist') {
-            return reply(Boom.notFound('username does not exist'));
+          else if (err.message === 'owner does not exist') {
+            reply(Boom.notFound('username does not exist'));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });

@@ -19,14 +19,16 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest('body is malformed'));
+            reply(Boom.badRequest('body is malformed'));
           }
 
-          if (err.message === 'username already exists') {
-            return reply(Boom.badRequest(err.message));
+          else if (err.message === 'username already exists') {
+            reply(Boom.badRequest(err.message));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
@@ -52,18 +54,20 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'Permission denied') {
-            return reply(Boom.forbidden(err.message));
+            reply(Boom.forbidden(err.message));
           }
 
-          if (err.message === 'username is malformed') {
-            return reply(Boom.badRequest(err.message));
+          else if (err.message === 'username is malformed') {
+            reply(Boom.badRequest(err.message));
           }
 
-          if (err.message === 'username does not exist') {
-            return reply(Boom.notFound(err.message));
+          else if (err.message === 'username does not exist') {
+            reply(Boom.notFound(err.message));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
@@ -89,22 +93,24 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'Permission denied') {
-            return reply(Boom.forbidden(err.message));
+            reply(Boom.forbidden(err.message));
           }
 
-          if (err.message === 'username is malformed') {
-            return reply(Boom.badRequest(err.message));
+          else if (err.message === 'username is malformed') {
+            reply(Boom.badRequest(err.message));
           }
 
-          if (err.message === 'username does not exist') {
-            return reply(Boom.notFound(err.message));
+          else if (err.message === 'username does not exist') {
+            reply(Boom.notFound(err.message));
           }
 
-          if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest('body is malformed'));
+          else if (err.message === 'payload is malformed') {
+            reply(Boom.badRequest('body is malformed'));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
@@ -130,22 +136,24 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'Permission denied') {
-            return reply(Boom.forbidden(err.message));
+            reply(Boom.forbidden(err.message));
           }
 
-          if (err.message === 'username is malformed') {
-            return reply(Boom.badRequest(err.message));
+          else if (err.message === 'username is malformed') {
+            reply(Boom.badRequest(err.message));
           }
 
-          if (err.message === 'username does not exist') {
-            return reply(Boom.notFound(err.message));
+          else if (err.message === 'username does not exist') {
+            reply(Boom.notFound(err.message));
           }
 
-          if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest('body is malformed'));
+          else if (err.message === 'payload is malformed') {
+            reply(Boom.badRequest('body is malformed'));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
@@ -171,18 +179,20 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'Permission denied') {
-            return reply(Boom.forbidden(err.message));
+            reply(Boom.forbidden(err.message));
           }
 
-          if (err.message === 'username is malformed') {
-            return reply(Boom.badRequest(err.message));
+          else if (err.message === 'username is malformed') {
+            reply(Boom.badRequest(err.message));
           }
 
-          if (err.message === 'username does not exist') {
-            return reply(Boom.notFound(err.message));
+          else if (err.message === 'username does not exist') {
+            reply(Boom.notFound(err.message));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });

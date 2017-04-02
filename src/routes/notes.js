@@ -21,9 +21,8 @@ const engage = function (server) {
         .then((data) => {
           reply(data);
         })
-        .catch((err) => {
-
-          return reply(Boom.badImplementation(err.message));
+        .catch(() => {
+          reply(Boom.badImplementation());
         });
     },
   });
@@ -48,10 +47,12 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest('body is malformed'));
+            reply(Boom.badRequest('body is malformed'));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
@@ -77,18 +78,20 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'noteID is malformed') {
-            return reply(Boom.badRequest(err.message));
+            reply(Boom.badRequest(err.message));
           }
 
-          if (err.message === 'noteID does not exist') {
-            return reply(Boom.notFound(err.message));
+          else if (err.message === 'noteID does not exist') {
+            reply(Boom.notFound(err.message));
           }
 
-          if (err.message === 'Permission denied') {
-            return reply(Boom.forbidden(err.message));
+          else if (err.message === 'Permission denied') {
+            reply(Boom.forbidden(err.message));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
@@ -114,22 +117,24 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'noteID is malformed') {
-            return reply(Boom.badRequest(err.message));
+            reply(Boom.badRequest(err.message));
           }
 
-          if (err.message === 'noteID does not exist') {
-            return reply(Boom.notFound(err.message));
+          else if (err.message === 'noteID does not exist') {
+            reply(Boom.notFound(err.message));
           }
 
-          if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest('body is malformed'));
+          else if (err.message === 'payload is malformed') {
+            reply(Boom.badRequest('body is malformed'));
           }
 
-          if (err.message === 'Permission denied') {
-            return reply(Boom.forbidden(err.message));
+          else if (err.message === 'Permission denied') {
+            reply(Boom.forbidden(err.message));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
@@ -155,22 +160,24 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'noteID is malformed') {
-            return reply(Boom.badRequest(err.message));
+            reply(Boom.badRequest(err.message));
           }
 
-          if (err.message === 'noteID does not exist') {
-            return reply(Boom.notFound(err.message));
+          else if (err.message === 'noteID does not exist') {
+            reply(Boom.notFound(err.message));
           }
 
-          if (err.message === 'payload is malformed') {
-            return reply(Boom.badRequest('body is malformed'));
+          else if (err.message === 'payload is malformed') {
+            reply(Boom.badRequest('body is malformed'));
           }
 
-          if (err.message === 'Permission denied') {
-            return reply(Boom.forbidden(err.message));
+          else if (err.message === 'Permission denied') {
+            reply(Boom.forbidden(err.message));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
@@ -196,18 +203,20 @@ const engage = function (server) {
         .catch((err) => {
 
           if (err.message === 'noteID is malformed') {
-            return reply(Boom.badRequest(err.message));
+            reply(Boom.badRequest(err.message));
           }
 
-          if (err.message === 'noteID does not exist') {
-            return reply(Boom.notFound(err.message));
+          else if (err.message === 'noteID does not exist') {
+            reply(Boom.notFound(err.message));
           }
 
-          if (err.message === 'Permission denied') {
-            return reply(Boom.forbidden(err.message));
+          else if (err.message === 'Permission denied') {
+            reply(Boom.forbidden(err.message));
           }
 
-          return reply(Boom.badImplementation(err.message));
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
