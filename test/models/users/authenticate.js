@@ -89,7 +89,7 @@ lab.experiment('models.users.authenticate(username, password)', () => {
           throw new Error('Expected promise to reject');
         })
         .catch((err) => {
-          Code.expect(err).to.be.an.error('credentials are invalid');
+          Code.expect(err).to.be.an.error('Invalid Credentials');
         });
     });
   });

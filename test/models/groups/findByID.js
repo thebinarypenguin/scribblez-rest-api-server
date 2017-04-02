@@ -129,7 +129,7 @@ lab.experiment('models.groups.findByID(groupID, currentUser)', () => {
           throw new Error('Expected promise to reject');
         })
         .catch((err) => {
-          Code.expect(err).to.be.an.error('Permission denied');
+          Code.expect(err).to.be.an.error('Permission Denied');
         });
     });
   });

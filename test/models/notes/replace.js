@@ -218,7 +218,7 @@ lab.experiment('models.notes.replace(noteID, payload, currentUser)', () => {
           throw new Error('Expected promise to reject');
         })
         .catch((err) => {
-          Code.expect(err).to.be.an.error('Permission denied');
+          Code.expect(err).to.be.an.error('Permission Denied');
         });
     });
   });
