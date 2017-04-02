@@ -55,16 +55,8 @@ const engage = function (server) {
         })
         .catch((err) => {
 
-          if (err.message === 'Permission denied') {
-            reply(Boom.forbidden(err.message));
-          }
-
-          else if (err.message === 'username is malformed') {
-            reply(Boom.badRequest(err.message));
-          }
-
-          else if (err.message === 'username does not exist') {
-            reply(Boom.notFound(err.message));
+          if (err.message === 'Permission Denied') {
+            reply(Boom.forbidden(err.message))
           }
 
           else {
@@ -95,20 +87,12 @@ const engage = function (server) {
         })
         .catch((err) => {
 
-          if (err.message === 'Permission denied') {
-            reply(Boom.forbidden(err.message));
-          }
-
-          else if (err.message === 'username is malformed') {
-            reply(Boom.badRequest(err.message));
-          }
-
-          else if (err.message === 'username does not exist') {
-            reply(Boom.notFound(err.message));
-          }
-
-          else if (err.message === 'payload is malformed') {
+          if (err.message === 'payload is malformed') {
             reply(Boom.badRequest('body is malformed'));
+          }
+
+          else if (err.message === 'Permission Denied') {
+            reply(Boom.forbidden(err.message))
           }
 
           else {
@@ -139,20 +123,12 @@ const engage = function (server) {
         })
         .catch((err) => {
 
-          if (err.message === 'Permission denied') {
-            reply(Boom.forbidden(err.message));
-          }
-
-          else if (err.message === 'username is malformed') {
-            reply(Boom.badRequest(err.message));
-          }
-
-          else if (err.message === 'username does not exist') {
-            reply(Boom.notFound(err.message));
-          }
-
-          else if (err.message === 'payload is malformed') {
+          if (err.message === 'payload is malformed') {
             reply(Boom.badRequest('body is malformed'));
+          }
+
+          else if (err.message === 'Permission Denied') {
+            reply(Boom.forbidden(err.message))
           }
 
           else {
@@ -182,16 +158,8 @@ const engage = function (server) {
         })
         .catch((err) => {
 
-          if (err.message === 'Permission denied') {
-            reply(Boom.forbidden(err.message));
-          }
-
-          else if (err.message === 'username is malformed') {
-            reply(Boom.badRequest(err.message));
-          }
-
-          else if (err.message === 'username does not exist') {
-            reply(Boom.notFound(err.message));
+          if (err.message === 'Permission Denied') {
+            reply(Boom.forbidden(err.message))
           }
 
           else {

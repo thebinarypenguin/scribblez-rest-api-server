@@ -51,6 +51,18 @@ const engage = function (server) {
             reply(Boom.badRequest('body is malformed'));
           }
 
+          else if (err.message === 'A shared note must be shared with atleast one user or group') {
+            reply(Boom.badRequest(err.message));
+          }
+
+          else if (err.message === 'Nonexistent user(s) in payload.visibility.users') {
+            reply(Boom.badRequest(err.message));
+          }
+
+          else if (err.message === 'Nonexistent group(s) in payload.visibility.groups') {
+            reply(Boom.badRequest(err.message));
+          }
+
           else {
             reply(Boom.badImplementation());
           }
@@ -86,7 +98,7 @@ const engage = function (server) {
             reply(Boom.notFound(err.message));
           }
 
-          else if (err.message === 'Permission denied') {
+          else if (err.message === 'Permission Denied') {
             reply(Boom.forbidden(err.message));
           }
 
@@ -130,7 +142,19 @@ const engage = function (server) {
             reply(Boom.badRequest('body is malformed'));
           }
 
-          else if (err.message === 'Permission denied') {
+          else if (err.message === 'A shared note must be shared with atleast one user or group') {
+            reply(Boom.badRequest(err.message));
+          }
+
+          else if (err.message === 'Nonexistent user(s) in payload.visibility.users') {
+            reply(Boom.badRequest(err.message));
+          }
+
+          else if (err.message === 'Nonexistent group(s) in payload.visibility.groups') {
+            reply(Boom.badRequest(err.message));
+          }
+
+          else if (err.message === 'Permission Denied') {
             reply(Boom.forbidden(err.message));
           }
 
@@ -174,7 +198,19 @@ const engage = function (server) {
             reply(Boom.badRequest('body is malformed'));
           }
 
-          else if (err.message === 'Permission denied') {
+          else if (err.message === 'A shared note must be shared with atleast one user or group') {
+            reply(Boom.badRequest(err.message));
+          }
+
+          else if (err.message === 'Nonexistent user(s) in payload.visibility.users') {
+            reply(Boom.badRequest(err.message));
+          }
+
+          else if (err.message === 'Nonexistent group(s) in payload.visibility.groups') {
+            reply(Boom.badRequest(err.message));
+          }
+
+          else if (err.message === 'Permission Denied') {
             reply(Boom.forbidden(err.message));
           }
 
@@ -213,7 +249,7 @@ const engage = function (server) {
             reply(Boom.notFound(err.message));
           }
 
-          else if (err.message === 'Permission denied') {
+          else if (err.message === 'Permission Denied') {
             reply(Boom.forbidden(err.message));
           }
 
