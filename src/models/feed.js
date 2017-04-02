@@ -40,7 +40,7 @@ const engage = function (server, knex) {
         }
       });
     })
-    .then((validCurrentUser) => {
+    .tap((validCurrentUser) => {
 
       // Check for presence in database
       return knex
@@ -50,8 +50,6 @@ const engage = function (server, knex) {
         .then((result) => {
           if (result.length === 0) {
             throw new Error(NONEXISTENT_CURRENT_USER);
-          } else { 
-            return validCurrentUser;
           }
         });      
     });
@@ -80,7 +78,7 @@ const engage = function (server, knex) {
         }
       });
     })
-    .then((validOwner) => {
+    .tap((validOwner) => {
 
       // Check for presence in database
       return knex
@@ -90,8 +88,6 @@ const engage = function (server, knex) {
         .then((result) => {
           if (result.length === 0) {
             throw new Error(NONEXISTENT_OWNER);
-          } else { 
-            return validOwner;
           }
         }); 
     });

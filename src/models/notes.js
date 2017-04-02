@@ -44,7 +44,7 @@ const engage = function (server, knex) {
         }
       });
     })
-    .then((validID) => {
+    .tap((validID) => {
 
       // Check for presence in database
       return knex
@@ -54,8 +54,6 @@ const engage = function (server, knex) {
         .then((result) => {
           if (result.length === 0) {
             throw new Error(NONEXISTENT_NOTE_ID);
-          } else { 
-            return validID;
           }
         });
     });
@@ -313,7 +311,7 @@ const engage = function (server, knex) {
         }
       });
     })
-    .then((validCurrentUser) => {
+    .tap((validCurrentUser) => {
 
       // Check for presence in database
       return knex
@@ -323,8 +321,6 @@ const engage = function (server, knex) {
         .then((result) => {
           if (result.length === 0) {
             throw new Error(NONEXISTENT_CURRENT_USER);
-          } else { 
-            return validCurrentUser;
           }
         });
     });

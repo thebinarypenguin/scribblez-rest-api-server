@@ -50,7 +50,7 @@ const engage = function (server, knex) {
         }
       });
     })
-    .then((validUsername) => {
+    .tap((validUsername) => {
 
       // Check for presence in database
       return knex
@@ -60,8 +60,6 @@ const engage = function (server, knex) {
         .then((result) => {
           if (result.length === 0) {
             throw new Error(NONEXISTENT_USERNAME);
-          } else { 
-            return validUsername;
           }
         });
     });
@@ -90,7 +88,7 @@ const engage = function (server, knex) {
         }
       })
     })
-    .then((validPayload) => {
+    .tap((validPayload) => {
 
       // Check for presence in database
       return knex
@@ -100,8 +98,6 @@ const engage = function (server, knex) {
         .then((result) => {
           if (result.length > 0) {
             throw new Error(DUPLICATE_USERNAME);
-          } else { 
-            return validPayload;
           }
         });
     });
