@@ -82,6 +82,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's third public note",
@@ -90,6 +92,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's first public note",
@@ -98,10 +102,19 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
-      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.forEach((note) => {
+        note.created_at = actualData[0].created_at;
+        note.updated_at = actualData[0].updated_at;
+      });
+
+      Code.expect(actualData).to.equal(expectedData);
       done();
     });
   });
@@ -156,6 +169,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's third public note",
@@ -164,6 +179,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's first public note",
@@ -172,10 +189,19 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
-      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.forEach((note) => {
+        note.created_at = actualData[0].created_at;
+        note.updated_at = actualData[0].updated_at;
+      });
+
+      Code.expect(actualData).to.equal(expectedData);
       done();
     });
   });
@@ -317,6 +343,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's second shared note",
@@ -325,6 +353,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's third shared note",
@@ -333,6 +363,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's fourth shared note",
@@ -341,6 +373,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's second public note",
@@ -349,6 +383,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's third public note",
@@ -357,6 +393,8 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's first public note",
@@ -365,10 +403,19 @@ lab.experiment('GET /feed/{username}', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
-      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.forEach((note) => {
+        note.created_at = actualData[0].created_at;
+        note.updated_at = actualData[0].updated_at;
+      });
+
+      Code.expect(actualData).to.equal(expectedData);
       done();
     });
   });

@@ -39,6 +39,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
@@ -47,6 +49,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();
@@ -68,6 +72,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
@@ -77,6 +83,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();
@@ -101,6 +109,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
@@ -109,6 +119,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();
@@ -130,6 +142,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
@@ -139,6 +153,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();
@@ -160,6 +176,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
@@ -169,6 +187,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();
@@ -190,6 +210,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
@@ -199,6 +221,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();
@@ -223,11 +247,15 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
         id: 42,
         body: 'A note',
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();
@@ -249,6 +277,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
@@ -257,6 +287,8 @@ lab.experiment('schemas.noteRedacted', () => {
         owner: {
           username: 'john_doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();
@@ -281,6 +313,8 @@ lab.experiment('schemas.noteRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       };
 
       const bad = {
@@ -291,6 +325,216 @@ lab.experiment('schemas.noteRedacted', () => {
           real_name: 'John Doe',
         },
         visibility: 'public',
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
+
+      done();
+    });
+  });
+
+  lab.experiment('created_at', () => {
+
+    lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.noteRedacted;
+
+      const options = { convert: false };
+
+      const good = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      const bad = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
+
+      done();
+    });
+
+    lab.test('must be a string', (done) => {
+      
+      const schema = server.plugins.schemas.noteRedacted;
+
+      const options = { convert: false };
+
+      const good = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      const bad = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: Date.now(),
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
+
+      done();
+    });
+
+    lab.test('must be in ISO 8601 format', (done) => {
+      
+      const schema = server.plugins.schemas.noteRedacted;
+
+      const options = { convert: false };
+
+      const good = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      const bad = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '04-03-2017',
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
+
+      done();
+    });
+  });
+
+  lab.experiment('updated_at', () => {
+
+    lab.test('is required', (done) => {
+      
+      const schema = server.plugins.schemas.noteRedacted;
+
+      const options = { convert: false };
+
+      const good = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      const bad = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+      };
+
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
+
+      done();
+    });
+
+    lab.test('must be a string', (done) => {
+      
+      const schema = server.plugins.schemas.noteRedacted;
+
+      const options = { convert: false };
+
+      const good = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      const bad = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: Date.now(),
+      };
+
+      Code.expect(Joi.validate(good, schema, options).error).to.be.null();
+      Code.expect(Joi.validate(bad, schema, options).error).to.be.an.error();
+
+      done();
+    });
+
+    lab.test('must be in ISO 8601 format', (done) => {
+      
+      const schema = server.plugins.schemas.noteRedacted;
+
+      const options = { convert: false };
+
+      const good = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
+      };
+
+      const bad = {
+        id: 42,
+        body: 'A note',
+        owner: {
+          username: 'john_doe',
+          real_name: 'John Doe',
+        },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '04-03-2017',
       };
 
       Code.expect(Joi.validate(good, schema, options).error).to.be.null();

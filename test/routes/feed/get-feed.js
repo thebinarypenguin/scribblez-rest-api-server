@@ -82,6 +82,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's second public note",
@@ -90,6 +92,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's third public note",
@@ -98,6 +102,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's first public note",
@@ -106,6 +112,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's second public note",
@@ -114,6 +122,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Homer Simpson",
             "username": "homer",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's third public note",
@@ -122,6 +132,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's second public note",
@@ -130,6 +142,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's second public note",
@@ -138,6 +152,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's third public note",
@@ -146,6 +162,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's first public note",
@@ -154,6 +172,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's third public note",
@@ -162,6 +182,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's second public note",
@@ -170,6 +192,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's first public note",
@@ -178,6 +202,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's first public note",
@@ -186,6 +212,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's first public note",
@@ -194,6 +222,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Homer Simpson",
             "username": "homer",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's third public note",
@@ -202,6 +232,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's second public note",
@@ -210,6 +242,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's third public note",
@@ -218,10 +252,19 @@ lab.experiment('GET /feed', () => {
             "real_name": "Homer Simpson",
             "username": "homer",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
-      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.forEach((note) => {
+        note.created_at = actualData[0].created_at;
+        note.updated_at = actualData[0].updated_at;
+      });
+
+      Code.expect(actualData).to.equal(expectedData);
       done();
     });
   });
@@ -276,6 +319,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's second public note",
@@ -284,6 +329,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's third public note",
@@ -292,6 +339,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's first public note",
@@ -300,6 +349,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's second public note",
@@ -308,6 +359,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Homer Simpson",
             "username": "homer",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's third public note",
@@ -316,6 +369,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's second public note",
@@ -324,6 +379,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's second public note",
@@ -332,6 +389,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's third public note",
@@ -340,6 +399,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's first public note",
@@ -348,6 +409,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's third public note",
@@ -356,6 +419,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's second public note",
@@ -364,6 +429,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's first public note",
@@ -372,6 +439,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's first public note",
@@ -380,6 +449,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's first public note",
@@ -388,6 +459,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Homer Simpson",
             "username": "homer",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's third public note",
@@ -396,6 +469,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's second public note",
@@ -404,6 +479,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's third public note",
@@ -412,10 +489,19 @@ lab.experiment('GET /feed', () => {
             "real_name": "Homer Simpson",
             "username": "homer",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
-      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.forEach((note) => {
+        note.created_at = actualData[0].created_at;
+        note.updated_at = actualData[0].updated_at;
+      });
+
+      Code.expect(actualData).to.equal(expectedData);
       done();
     });
   });
@@ -470,6 +556,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's second shared note",
@@ -478,6 +566,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's third shared note",
@@ -486,6 +576,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's fourth shared note",
@@ -494,6 +586,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's first shared note",
@@ -502,6 +596,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's second shared note",
@@ -510,6 +606,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's first shared note",
@@ -518,6 +616,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's second shared note",
@@ -526,6 +626,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's first shared note",
@@ -534,6 +636,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's second shared note",
@@ -542,6 +646,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's first shared note",
@@ -550,6 +656,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's second shared note",
@@ -558,6 +666,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's first public note",
@@ -566,6 +676,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's second public note",
@@ -574,6 +686,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's third public note",
@@ -582,6 +696,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Marge Simpson's first public note",
@@ -590,6 +706,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's third public note",
@@ -598,6 +716,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's second public note",
@@ -606,6 +726,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's second public note",
@@ -614,6 +736,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's third public note",
@@ -622,6 +746,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's first public note",
@@ -630,6 +756,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's third public note",
@@ -638,6 +766,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Lisa Simpson's second public note",
@@ -646,6 +776,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Lisa Simpson",
             "username": "lisa",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Patty Bouvier's first public note",
@@ -654,6 +786,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Patty Bouvier",
             "username": "patty",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's first public note",
@@ -662,6 +796,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Bart Simpson's third public note",
@@ -670,6 +806,8 @@ lab.experiment('GET /feed', () => {
             "real_name": "Bart Simpson",
             "username": "bart",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Selma Bouvier's second public note",
@@ -678,10 +816,19 @@ lab.experiment('GET /feed', () => {
             "real_name": "Selma Bouvier",
             "username": "selma",
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
-      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.forEach((note) => {
+        note.created_at = actualData[0].created_at;
+        note.updated_at = actualData[0].updated_at;
+      });
+
+      Code.expect(actualData).to.equal(expectedData);
       done();
     });
   });

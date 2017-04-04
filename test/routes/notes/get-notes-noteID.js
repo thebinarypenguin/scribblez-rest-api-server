@@ -312,9 +312,16 @@ lab.experiment('GET /notes/{noteID}', () => {
           "username": "homer",
         },
         "visibility": "public",
+        "created_at": "CANNOT BE RELIABLY PREDICTED",
+        "updated_at": "CANNOT BE RELIABLY PREDICTED",
       };
 
-      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.created_at = actualData.created_at;
+      expectedData.updated_at = actualData.updated_at;
+
+      Code.expect(actualData).to.equal(expectedData);
       done();
     });
   });

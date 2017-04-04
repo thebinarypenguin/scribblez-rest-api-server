@@ -94,6 +94,8 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
             "username": "homer",
           },
           "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's second public note",
@@ -103,6 +105,8 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
             "username": "homer",
           },
           "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's third public note",
@@ -112,6 +116,8 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
             "username": "homer",
           },
           "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's first private note",
@@ -121,6 +127,8 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
             "username": "homer",
           },
           "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's second private note",
@@ -130,6 +138,8 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
             "username": "homer",
           },
           "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's third private note",
@@ -139,6 +149,8 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
             "username": "homer",
           },
           "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's first shared note",
@@ -171,6 +183,8 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
               },
             ],
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's second shared note",
@@ -203,6 +217,8 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
               },
             ],
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "body": "Homer Simpson's third shared note",
@@ -231,12 +247,21 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
             "users": [
             ],
           },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
       return server.plugins.models.notes.findAll(validCurrentUser)
         .then((data) => {
+
           data.sort((a, b) => { return a.id - b.id; });
+
+          expectedData.forEach((note) => {
+            note.created_at = data[0].created_at;
+            note.updated_at = data[0].updated_at;
+          });
+
           Code.expect(data).to.equal(expectedData);
         });
     });
@@ -249,6 +274,6 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
         .then((data) => {
           Code.expect(data).be.undefined();
         });
-      });
+    });
   });
 });

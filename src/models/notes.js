@@ -379,7 +379,9 @@ const engage = function (server, knex) {
           visibility: {
             users: [],
             groups: [],
-          },            
+          },  
+          created_at: dateToString(item.created_at),
+          updated_at: dateToString(item.updated_at),          
         };
 
         collection.push(note);
@@ -420,6 +422,8 @@ const engage = function (server, knex) {
             real_name: row.owners_real_name,
           },
           visibility: row.visibility,
+          created_at: dateToString(row.created_at),
+          updated_at: dateToString(row.updated_at),
         });
       }
 
@@ -453,6 +457,25 @@ const engage = function (server, knex) {
 
       return acc;
     }, []);
+  };
+
+  /**
+   * Convert a Date to an ISO 8601 format string
+   */
+  const dateToString = function (date) {
+
+    const pad = function (num) {
+      return (num < 10) ? '0' + num : num ;
+    };
+
+    const year    = date.getFullYear();
+    const month   = pad(date.getMonth() + 1);
+    const day     = pad(date.getDate());
+    const hours   = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
   };
 
   /**
@@ -499,6 +522,8 @@ const engage = function (server, knex) {
             'notes.id',
             'notes.body',
             'notes.visibility',
+            'notes.created_at',
+            'notes.updated_at',
             'owners.username AS owners_username',
             'owners.real_name AS owners_real_name',
             'users.username AS grant_username',
@@ -553,6 +578,8 @@ const engage = function (server, knex) {
             'notes.id',
             'notes.body',
             'notes.visibility',
+            'notes.created_at',
+            'notes.updated_at',
             'owners.username AS owners_username',
             'owners.real_name AS owners_real_name',
             'users.username AS grant_username',

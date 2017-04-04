@@ -38,6 +38,8 @@ lab.experiment('schemas.noteCollectionRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       },
     ];
 
@@ -63,6 +65,8 @@ lab.experiment('schemas.noteCollectionRedacted', () => {
           username: 'john_doe',
           real_name: 'John Doe',
         },
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       },
     ];
 
@@ -70,6 +74,8 @@ lab.experiment('schemas.noteCollectionRedacted', () => {
       {
         id: 42,
         body: 'A note',
+        created_at: '2017-04-03T11:18:05Z',
+        updated_at: '2017-04-03T11:23:36Z',
       },
     ];
 

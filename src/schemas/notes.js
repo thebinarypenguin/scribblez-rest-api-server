@@ -7,6 +7,8 @@ const group = require('./groups.js');
 
 const schemas = {};
 
+const DATE_STRING = /^\d{4}\-\d{2}\-\d{2}\T\d{2}\:\d{2}\:\d{2}Z$/;
+
 schemas.noteID = Joi.number().integer();
 
 schemas.note = Joi.object().keys({
@@ -21,6 +23,8 @@ schemas.note = Joi.object().keys({
       groups: group.groupCollection.required(),
     })
   ).required(),
+  created_at: Joi.string().regex(DATE_STRING).required(),
+  updated_at: Joi.string().regex(DATE_STRING).required(),
 });
 
 schemas.noteRedacted = Joi.object().keys({
@@ -28,6 +32,8 @@ schemas.noteRedacted = Joi.object().keys({
   body: Joi.string().min(1).max(10000).required(),
   owner: user.userRedacted.required(),
   visibility: Joi.any().forbidden(),
+  created_at: Joi.string().regex(DATE_STRING).required(),
+  updated_at: Joi.string().regex(DATE_STRING).required(),
 });
 
 schemas.noteCollection = Joi.array().items(schemas.note);

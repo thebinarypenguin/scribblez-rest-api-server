@@ -167,10 +167,16 @@ lab.experiment('models.notes.findByID(noteID, currentUser)', () => {
           "username": "homer",
         },
         "visibility": "public",
+        "created_at": "CANNOT BE RELIABLY PREDICTED",
+        "updated_at": "CANNOT BE RELIABLY PREDICTED",
       };
 
       return server.plugins.models.notes.findByID(validNoteID, validCurrentUser)
         .then((data) => {
+
+          expectedData.created_at = data.created_at;
+          expectedData.updated_at = data.updated_at;
+          
           Code.expect(data).to.equal(expectedData);
         });
     });
@@ -183,6 +189,6 @@ lab.experiment('models.notes.findByID(noteID, currentUser)', () => {
         .then((data) => {
           Code.expect(data).be.undefined();
         });
-      });
+    });
   });
 });

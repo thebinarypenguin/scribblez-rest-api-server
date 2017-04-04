@@ -109,9 +109,31 @@ const engage = function (server, knex) {
           username: row.username,
           real_name: row.real_name,
         },
+        created_at: dateToString(row.created_at),
+        updated_at: dateToString(row.updated_at),
       };
     });
   };
+
+  /**
+   * Convert a Date to an ISO 8601 format string
+   */
+  const dateToString = function (date) {
+
+    const pad = function (num) {
+      return (num < 10) ? '0' + num : num ;
+    };
+
+    const year    = date.getFullYear();
+    const month   = pad(date.getMonth() + 1);
+    const day     = pad(date.getDate());
+    const hours   = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+  };
+
 
   /**
    * Find all public notes.
@@ -127,7 +149,9 @@ const engage = function (server, knex) {
         return knex
           .select(
             'notes.id', 
-            'notes.body', 
+            'notes.body',
+            'notes.created_at',
+            'notes.updated_at', 
             'owners.username',
             'owners.real_name'
           )
@@ -163,6 +187,8 @@ const engage = function (server, knex) {
           .select(
             'notes.id', 
             'notes.body', 
+            'notes.created_at',
+            'notes.updated_at', 
             'owners.username',
             'owners.real_name'
           )
@@ -202,6 +228,8 @@ const engage = function (server, knex) {
           .select(
             'notes.id', 
             'notes.body', 
+            'notes.created_at',
+            'notes.updated_at', 
             'owners.username',
             'owners.real_name'
           )
@@ -261,6 +289,8 @@ const engage = function (server, knex) {
           .select(
             'notes.id', 
             'notes.body', 
+            'notes.created_at',
+            'notes.updated_at', 
             'owners.username',
             'owners.real_name'
           )
