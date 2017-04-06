@@ -579,7 +579,7 @@ const engage = function (server, knex) {
               .from('notes')
               .leftJoin('users AS owners', 'owners.id', '=','notes.owner_id')
               .where('owners.username', validCurrentUser)
-              .orderBy('notes.created_at', 'DESC')
+              .orderBy('notes.created_at', 'ASC')
               .limit(limit)
               .offset(offset)
               .as('note_page');
@@ -587,6 +587,9 @@ const engage = function (server, knex) {
           .leftJoin('note_grants', 'note_grants.note_id', '=', 'note_page.id')
           .leftJoin('users', 'users.id',  '=',  'note_grants.user_id')
           .leftJoin('groups', 'groups.id', '=', 'note_grants.group_id')
+          .orderBy('note_page.created_at', 'ASC')
+          .orderBy('grant_group_name', 'ASC')
+          .orderBy('grant_real_name', 'ASC')
           .then((results) => {
             return results;
           });

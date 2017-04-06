@@ -165,12 +165,12 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
                 "id": 7,
                 "members": [
                   {
-                    "real_name": "Lenny Leonard",
-                    "username": "lenny",
-                  },
-                  {
                     "real_name": "Carl Carlson",
                     "username": "carl",
+                  },
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
                   },
                 ],
                 "name": "Friends",
@@ -199,12 +199,12 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
                 "id": 8,
                 "members": [
                   {
-                    "real_name": "Lenny Leonard",
-                    "username": "lenny",
-                  },
-                  {
                     "real_name": "Carl Carlson",
                     "username": "carl",
+                  },
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
                   },
                 ],
                 "name": "Friends",
@@ -233,12 +233,12 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
                 "id": 9,
                 "members": [
                   {
-                    "real_name": "Lenny Leonard",
-                    "username": "lenny",
-                  },
-                  {
                     "real_name": "Carl Carlson",
                     "username": "carl",
+                  },
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
                   },
                 ],
                 "name": "Friends",
@@ -255,12 +255,10 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
       return server.plugins.models.notes.findAll(validCurrentUser)
         .then((data) => {
 
-          data.sort((a, b) => { return a.id - b.id; });
-
-          expectedData.forEach((note) => {
-            note.created_at = data[0].created_at;
-            note.updated_at = data[0].updated_at;
-          });
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
 
           Code.expect(data).to.equal(expectedData);
         });
@@ -338,12 +336,10 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
       return server.plugins.models.notes.findAll(validCurrentUser, options)
         .then((data) => {
 
-          data.sort((a, b) => { return a.id - b.id; });
-
-          expectedData.forEach((note) => {
-            note.created_at = data[0].created_at;
-            note.updated_at = data[0].updated_at;
-          });
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
 
           Code.expect(data).to.equal(expectedData);
         });
@@ -408,12 +404,10 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
       return server.plugins.models.notes.findAll(validCurrentUser, options)
         .then((data) => {
 
-          data.sort((a, b) => { return a.id - b.id; });
-
-          expectedData.forEach((note) => {
-            note.created_at = data[0].created_at;
-            note.updated_at = data[0].updated_at;
-          });
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
 
           Code.expect(data).to.equal(expectedData);
         });
