@@ -9,6 +9,7 @@ const engage = function (server, knex) {
   const MALFORMED_NOTE_ID        = 'noteID is malformed';
   const MALFORMED_PAYLOAD        = 'payload is malformed';
   const MALFORMED_CURRENT_USER   = 'currentUser is malformed';
+  const MALFORMED_OPTIONS        = 'options is malformed';
 
   const NONEXISTENT_NOTE_ID      = 'noteID does not exist';
   const NONEXISTENT_CURRENT_USER = 'currentUser does not exist';
@@ -338,6 +339,33 @@ const engage = function (server, knex) {
   };
 
   /**
+   * Sanitize and validate options
+   */
+  const validateOptions = function (options) {
+
+    options = options || {};
+
+    return new Bluebird((resolve, reject) => {
+
+      const schema  = server.plugins.schemas.noteOptions;
+      const opts = {
+        convert: true,
+        stripUnknown: true,
+      };
+    
+      // Validate against schema
+      Joi.validate(options, schema, opts, (err, val) => {
+        
+        if (err) {
+          reject(new Error(MALFORMED_OPTIONS));
+        } else { 
+          resolve(val);
+        }
+      });
+    })
+  };
+
+  /**
    * Determine if note is owned by currentUser
    */
   const validateOwnership = function (noteID, currentUser) {
@@ -503,9 +531,10 @@ const engage = function (server, knex) {
   /**
    * Find all notes owned by current user
    */
-  pub.findAll = function(currentUser) {
+  pub.findAll = function(currentUser, options) {
 
     let validCurrentUser = null;
+    let validOptions     = null;
 
     return Bluebird
       .resolve()
@@ -517,27 +546,47 @@ const engage = function (server, knex) {
       })
       .then(() => {
 
+        return validateOptions(options).then((data) => {
+          validOptions = data;
+        });
+      })
+      .then(() => {
+
+        const limit  = validOptions.per_page;
+        const offset = (validOptions.page -1) * validOptions.per_page;
+
         return knex
           .select(
-            'notes.id',
-            'notes.body',
-            'notes.visibility',
-            'notes.created_at',
-            'notes.updated_at',
-            'owners.username AS owners_username',
-            'owners.real_name AS owners_real_name',
+            'note_page.id',
+            'note_page.body',
+            'note_page.visibility',
+            'note_page.created_at',
+            'note_page.updated_at',
+            'note_page.username AS owners_username',
+            'note_page.real_name AS owners_real_name',
             'users.username AS grant_username',
             'users.real_name AS grant_real_name',
             'groups.id AS grant_group_id',
             'groups.name AS grant_group_name'
           )
-          .from('notes')
-          .leftJoin('users AS owners', 'owners.id', '=','notes.owner_id')
-          .leftJoin('note_grants', 'note_grants.note_id', '=', 'notes.id')
+          .from(function () {
+            this
+              .select(
+                'notes.*',
+                'owners.username',
+                'owners.real_name'
+              )
+              .from('notes')
+              .leftJoin('users AS owners', 'owners.id', '=','notes.owner_id')
+              .where('owners.username', validCurrentUser)
+              .orderBy('notes.created_at', 'DESC')
+              .limit(limit)
+              .offset(offset)
+              .as('note_page');
+          })
+          .leftJoin('note_grants', 'note_grants.note_id', '=', 'note_page.id')
           .leftJoin('users', 'users.id',  '=',  'note_grants.user_id')
           .leftJoin('groups', 'groups.id', '=', 'note_grants.group_id')
-          .where('owners.username', validCurrentUser)
-          .orderBy('notes.created_at', 'DESC')
           .then((results) => {
             return results;
           });

@@ -66,7 +66,7 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
     });
   });
 
-  lab.experiment('Valid input', () => {
+  lab.experiment('Valid input (no options specified)', () => {
 
     const validCurrentUser = 'homer';
 
@@ -269,6 +269,159 @@ lab.experiment('models.notes.findAll(currentUser)', () => {
     lab.test('Should not modify the database', () => {
 
       const func = server.plugins.models.notes.findAll.bind(this, validCurrentUser);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
+  });
+
+  lab.experiment('Valid input (options.page specified)', () => {
+
+    const validCurrentUser = 'homer';
+    const options          = { page: 2, per_page: 3 };  
+
+    // NOTE: I don't have enough sample data to let per_page be the default
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the noteCollection schema', () => {
+
+      return server.plugins.models.notes.findAll(validCurrentUser, options)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.noteCollection);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          "body": "Homer Simpson's first private note",
+          "id": 4,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "body": "Homer Simpson's second private note",
+          "id": 5,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "body": "Homer Simpson's third private note",
+          "id": 6,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+      ];
+
+      return server.plugins.models.notes.findAll(validCurrentUser, options)
+        .then((data) => {
+
+          data.sort((a, b) => { return a.id - b.id; });
+
+          expectedData.forEach((note) => {
+            note.created_at = data[0].created_at;
+            note.updated_at = data[0].updated_at;
+          });
+
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.notes.findAll.bind(this, validCurrentUser, options);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
+  });
+
+  lab.experiment('Valid input (options.per_page specified)', () => {
+
+    const validCurrentUser = 'homer';
+    const options          = { per_page: 2 };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the noteCollection schema', () => {
+
+      return server.plugins.models.notes.findAll(validCurrentUser, options)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.noteCollection);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          "body": "Homer Simpson's first public note",
+          "id": 1,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "body": "Homer Simpson's second public note",
+          "id": 2,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+      ];
+
+      return server.plugins.models.notes.findAll(validCurrentUser, options)
+        .then((data) => {
+
+          data.sort((a, b) => { return a.id - b.id; });
+
+          expectedData.forEach((note) => {
+            note.created_at = data[0].created_at;
+            note.updated_at = data[0].updated_at;
+          });
+
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.notes.findAll.bind(this, validCurrentUser, options);
 
       return helpers.testDatabaseChanges(cfg, func)
         .then((data) => {
