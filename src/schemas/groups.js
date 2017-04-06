@@ -33,4 +33,9 @@ schemas.groupReplacePayload = Joi.object().keys({
   members: Joi.array().items(user.username).required(),
 });
 
+schemas.groupOptions = Joi.object().keys({
+  page: Joi.number().positive().integer().optional().default(1),
+  per_page: Joi.number().positive().integer().optional().default(20),
+});
+
 module.exports = schemas;
