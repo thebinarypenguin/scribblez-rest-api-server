@@ -124,7 +124,7 @@ lab.experiment('GET /groups', () => {
     });
   });
 
-  lab.experiment('Valid Request', () => {
+  lab.experiment('Valid Request (no query params)', () => {
 
     let response = null;
 
@@ -224,6 +224,154 @@ lab.experiment('GET /groups', () => {
             {
               "real_name": "Ned Flanders",
               "username": "ned",
+            },
+          ],
+        },
+      ];
+
+      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      done();
+    });
+  });
+
+  lab.experiment('Valid Request (with page query param)', () => {
+
+    let response = null;
+
+    lab.before(() => {
+
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      // NOTE: I don't have enough sample data to let per_page be the default
+
+      const validAuth = {
+        method: 'GET',
+        url: '/groups?page=2&per_page=3',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(cfg)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
+    });
+
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
+    });
+
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
+    });
+
+    lab.test('Body should match the groupCollection schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.groupCollection);
+      done();
+    });
+
+    lab.test('Body should match expected data', (done) => {
+
+      const expectedData = [
+        {
+          "id": 4,
+          "name": "Stupid Flanders",
+          "members": [
+            {
+              "real_name": "Ned Flanders",
+              "username": "ned",
+            },
+          ],
+        },
+      ];
+
+      Code.expect(JSON.parse(response.payload)).to.equal(expectedData);
+      done();
+    });
+  });
+
+  lab.experiment('Valid Request (with per_page query param)', () => {
+
+    let response = null;
+
+    lab.before(() => {
+
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const validAuth = {
+        method: 'GET',
+        url: '/groups?per_page=2',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(cfg)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
+    });
+
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
+    });
+
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
+    });
+
+    lab.test('Body should match the groupCollection schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.groupCollection);
+      done();
+    });
+
+    lab.test('Body should match expected data', (done) => {
+
+      const expectedData = [
+        {
+          "id": 1,
+          "name": "Family",
+          "members": [
+            {
+              "real_name": "Marge Simpson",
+              "username": "marge",
+            },
+            {
+              "real_name": "Bart Simpson",
+              "username": "bart",
+            },
+            {
+              "real_name": "Lisa Simpson",
+              "username": "lisa",
+            },
+            {
+              "real_name": "Maggie Simpson",
+              "username": "maggie",
+            },
+          ],
+        },
+        {
+          "id": 2,
+          "name": "Friends",
+          "members": [
+            {
+              "real_name": "Lenny Leonard",
+              "username": "lenny",
+            },
+            {
+              "real_name": "Carl Carlson",
+              "username": "carl",
             },
           ],
         },
