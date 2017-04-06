@@ -66,7 +66,7 @@ lab.experiment('models.groups.findAll(currentUser)', () => {
     });
   });
 
-  lab.experiment('Valid input', () => {
+  lab.experiment('Valid input (no options specified)', () => {
 
     const validCurrentUser = 'homer';
 
@@ -163,6 +163,136 @@ lab.experiment('models.groups.findAll(currentUser)', () => {
         .then((data) => {
           Code.expect(data).be.undefined();
         });
-      });
+    });
+  });
+
+  lab.experiment('Valid input (options.page specified)', () => {
+
+    const validCurrentUser = 'homer';
+    const options          = { page: 2, per_page: 3 };  
+
+    // NOTE: I don't have enough sample data to let per_page be the default
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the groupCollection schema', () => {
+
+      return server.plugins.models.groups.findAll(validCurrentUser, options)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.groupCollection);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          id: 4,
+          name: 'Stupid Flanders',
+          members: [
+            {
+              real_name: 'Ned Flanders',
+              username: 'ned',
+            },
+          ],
+        },
+      ];
+
+      return server.plugins.models.groups.findAll(validCurrentUser, options)
+        .then((data) => {
+          data.sort((a,b) => { return a.id - b.id; });
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.groups.findAll.bind(this, validCurrentUser, options);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
+  });
+
+  lab.experiment('Valid input (options.per_page specified)', () => {
+
+    const validCurrentUser = 'homer';
+    const options          = { per_page: 2 };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the groupCollection schema', () => {
+
+      return server.plugins.models.groups.findAll(validCurrentUser, options)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.groupCollection);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          id: 1,
+          name: 'Family',
+          members: [
+            {
+              real_name: 'Marge Simpson',
+              username: 'marge',
+            },
+            {
+              real_name: 'Bart Simpson',
+              username: 'bart',
+            },
+            {
+              real_name: 'Lisa Simpson',
+              username: 'lisa',
+            },
+            {
+              real_name: 'Maggie Simpson',
+              username: 'maggie',
+            },
+          ],
+        },
+        {
+          id: 2,
+          name: 'Friends',
+          members: [
+            {
+              real_name: 'Lenny Leonard',
+              username: 'lenny',
+            },
+            {
+              real_name: 'Carl Carlson',
+              username: 'carl',
+            },
+          ],
+        },
+      ];
+
+      return server.plugins.models.groups.findAll(validCurrentUser, options)
+        .then((data) => {
+          data.sort((a,b) => { return a.id - b.id; });
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.groups.findAll.bind(this, validCurrentUser, options);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
   });
 });

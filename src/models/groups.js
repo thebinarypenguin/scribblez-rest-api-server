@@ -9,6 +9,7 @@ const engage = function (server, knex) {
   const MALFORMED_GROUP_ID       = 'groupID is malformed';
   const MALFORMED_PAYLOAD        = 'payload is malformed';
   const MALFORMED_CURRENT_USER   = 'currentUser is malformed';
+  const MALFORMED_OPTIONS        = 'options is malformed';
 
   const NONEXISTENT_GROUP_ID     = 'groupID does not exist';
   const NONEXISTENT_CURRENT_USER = 'currentUser does not exist';
@@ -233,6 +234,33 @@ const engage = function (server, knex) {
   };
 
   /**
+   * Sanitize and validate options
+   */
+  const validateOptions = function (options) {
+
+    options = options || {};
+
+    return new Bluebird((resolve, reject) => {
+
+      const schema  = server.plugins.schemas.groupOptions;
+      const opts = {
+        convert: true,
+        stripUnknown: true,
+      };
+    
+      // Validate against schema
+      Joi.validate(options, schema, opts, (err, val) => {
+        
+        if (err) {
+          reject(new Error(MALFORMED_OPTIONS));
+        } else { 
+          resolve(val);
+        }
+      });
+    })
+  };
+
+  /**
    * Determine if group is owned by currentUser
    */
   const validateOwnership = function (groupID, currentUser) {
@@ -292,9 +320,10 @@ const engage = function (server, knex) {
   /**
    * Find all groups owned by current user
    */
-  pub.findAll = function(currentUser) {
+  pub.findAll = function(currentUser, options) {
 
     let validCurrentUser = null;
+    let validOptions     = null;
 
     return Bluebird
       .resolve()
@@ -306,21 +335,37 @@ const engage = function (server, knex) {
       })
       .then(() => {
 
+        return validateOptions(options).then((data) => {
+          validOptions = data;
+        });
+      })
+      .then(() => {
+
         // Get all groups by owner
         
+        const limit  = validOptions.per_page;
+        const offset = (validOptions.page -1) * validOptions.per_page;
+
         return knex
           .select(
-            'groups.id',
-            'groups.name',
+            'group_page.id',
+            'group_page.name',
             'members.username',
             'members.real_name'
           )
-          .from('groups')
-          .leftJoin('users AS owners', 'owners.id', '=', 'groups.owner_id')
-          .leftJoin('group_members', 'groups.id', '=', 'group_members.group_id')
+          .from(function () {
+            this
+              .select('groups.*')
+              .from('groups')
+              .leftJoin('users AS owners', 'owners.id', '=', 'groups.owner_id')
+              .where('owners.username', validCurrentUser)
+              .orderBy('groups.id', 'ASC')
+              .limit(limit)
+              .offset(offset)
+              .as('group_page');
+          })
+          .leftJoin('group_members', 'group_page.id', '=', 'group_members.group_id')
           .leftJoin('users AS members', 'members.id', '=', 'group_members.user_id')
-          .where('owners.username', validCurrentUser)
-          .orderBy('groups.id', 'ASC')
           .then((result) => {
             return result;
           });
