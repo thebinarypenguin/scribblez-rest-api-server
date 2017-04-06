@@ -124,7 +124,7 @@ lab.experiment('GET /notes', () => {
     });
   });
 
-  lab.experiment('Valid Request', () => {
+  lab.experiment('Valid Request (no query params)', () => {
 
     let response = null;
 
@@ -328,6 +328,223 @@ lab.experiment('GET /notes', () => {
             "username": "homer",
           },
           "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+      ];
+
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.forEach((note) => {
+        note.created_at = actualData[0].created_at;
+        note.updated_at = actualData[0].updated_at;
+      });
+
+      Code.expect(actualData).to.equal(expectedData);
+      done();
+    });
+  });
+
+  lab.experiment('Valid Request (with page query param)', () => {
+
+    let response = null;
+
+    lab.before(() => {
+      
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      // NOTE: I don't have enough sample data to let per_page be the default
+
+      const validAuth = {
+        method: 'GET',
+        url: '/notes?page=2&per_page=3',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(cfg)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
+    });
+
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
+    });
+
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
+    });
+
+    lab.test('Body should match the noteCollection schema', (done) => {
+      Joi.assert(response.payload, server.plugins.schemas.noteCollection);
+      done();
+    });
+
+    lab.test('Body should match expected data', (done) => {
+
+      const expectedData = [
+        {
+          "body": "Homer Simpson's second public note",
+          "id": 2,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "body": "Homer Simpson's second private note",
+          "id": 5,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "body": "Homer Simpson's third private note",
+          "id": 6,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+      ];
+
+      const actualData = JSON.parse(response.payload);
+
+      expectedData.forEach((note) => {
+        note.created_at = actualData[0].created_at;
+        note.updated_at = actualData[0].updated_at;
+      });
+
+      Code.expect(actualData).to.equal(expectedData);
+      done();
+    });
+  });
+
+  lab.experiment('Valid Request (with per_page query param)', () => {
+
+    let response = null;
+
+    lab.before(() => {
+      
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const validAuth = {
+        method: 'GET',
+        url: '/notes?per_page=2',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(cfg)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
+    });
+
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
+    });
+
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
+    });
+
+    lab.test('Body should match the noteCollection schema', (done) => {
+      Joi.assert(response.payload, server.plugins.schemas.noteCollection);
+      done();
+    });
+
+    lab.test('Body should match expected data', (done) => {
+
+      const expectedData = [
+        {
+          "body": "Homer Simpson's first shared note",
+          "id": 7,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": {
+            "groups": [
+              {
+                "id": 7,
+                "members": [
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
+                  },
+                  {
+                    "real_name": "Carl Carlson",
+                    "username": "carl",
+                  },
+                ],
+                "name": "Friends",
+              },
+            ],
+            "users": [
+              {
+                "real_name": "Lenny Leonard",
+                "username": "lenny",
+              },
+            ],
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "body": "Homer Simpson's second shared note",
+          "id": 8,
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": {
+            "groups": [
+              {
+                "id": 8,
+                "members": [
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
+                  },
+                  {
+                    "real_name": "Carl Carlson",
+                    "username": "carl",
+                  },
+                ],
+                "name": "Friends",
+              },
+            ],
+            "users": [
+              {
+                "real_name": "Carl Carlson",
+                "username": "carl",
+              },
+            ],
+          },
           "created_at": "CANNOT BE RELIABLY PREDICTED",
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },

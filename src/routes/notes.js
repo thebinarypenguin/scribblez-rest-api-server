@@ -16,13 +16,21 @@ const engage = function (server) {
     handler: (request, reply) => {
 
       const currentUser = request.auth.credentials.username;
+      const options     = request.query;
 
-      server.plugins.models.notes.findAll(currentUser)
+      server.plugins.models.notes.findAll(currentUser, options)
         .then((data) => {
           reply(data);
         })
-        .catch(() => {
-          reply(Boom.badImplementation());
+        .catch((err) => {
+
+          if (err.message === 'options is malformed') {
+            reply(Boom.badRequest('query parameters are malformed'));
+          }
+
+          else {
+            reply(Boom.badImplementation());
+          }
         });
     },
   });
