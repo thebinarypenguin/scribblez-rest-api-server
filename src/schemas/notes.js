@@ -76,4 +76,9 @@ schemas.noteReplacePayload = Joi.object().keys({
   ).required(),
 });
 
+schemas.noteOptions = Joi.object().keys({
+  page: Joi.number().positive().integer().optional().default(1),
+  per_page: Joi.number().positive().integer().optional().default(20),
+});
+
 module.exports = schemas;
