@@ -7,6 +7,7 @@ const engage = function (server, knex) {
 
   const MALFORMED_OWNER          = 'owner is malformed';
   const MALFORMED_CURRENT_USER   = 'currentUser is malformed';
+  const MALFORMED_OPTIONS        = 'options is malformed';
   
   const NONEXISTENT_OWNER        = 'owner does not exist';
   const NONEXISTENT_CURRENT_USER = 'currentUser does not exist';
@@ -95,6 +96,33 @@ const engage = function (server, knex) {
     });
   };
 
+
+  /**
+   * Sanitize and validate options
+   */
+  const validateOptions = function (options) {
+
+    options = options || {};
+
+    return new Bluebird((resolve, reject) => {
+
+      const schema  = server.plugins.schemas.feedOptions;
+      const opts = {
+        convert: true,
+        stripUnknown: true,
+      };
+    
+      // Validate against schema
+      Joi.validate(options, schema, opts, (err, val) => {
+        
+        if (err) {
+          reject(new Error(MALFORMED_OPTIONS));
+        } else { 
+          resolve(val);
+        }
+      });
+    })
+  };
   /**
    * Transform "flat" database rows into "hierarchical" objects.
    */
@@ -208,9 +236,10 @@ const engage = function (server, knex) {
   /**
    * Find all notes currentUser can see (public + shared).
    */
-  pub.findAll = function (currentUser) {
+  pub.findAll = function (currentUser, options) {
 
     let validCurrentUser = null;
+    let validOptions     = null;
 
     return Bluebird
       .resolve()
@@ -222,36 +251,61 @@ const engage = function (server, knex) {
       })
       .then(() => {
 
+        return validateOptions(options).then((data) => {
+          validOptions = data;
+        });
+      })
+      .then(() => {
+
         // Get public plus shared notes from database
+
+        const limit  = validOptions.per_page;
+        const offset = (validOptions.page -1) * validOptions.per_page;
 
         return knex
           .select(
-            'notes.id', 
-            'notes.body', 
-            'notes.created_at',
-            'notes.updated_at', 
+            'notes.id',
+            'notes.body',
+            'owners.real_name',
             'owners.username',
-            'owners.real_name'
+            'notes.created_at',
+            'notes.updated_at'
           )
           .from('notes')
           .leftJoin('users AS owners', 'owners.id', '=', 'notes.owner_id')
-          .leftJoin('note_grants', 'note_grants.note_id', '=', 'notes.id')
-          .leftJoin('users', 'users.id' ,'=', 'note_grants.user_id')
           .where(function () {
-            if (validCurrentUser) {
-              this
-                .where(function () {
-                  this
-                    .where('notes.visibility', 'public')
-                    .orWhere('users.username', validCurrentUser);
-                })
-                .andWhere('owners.username', '<>', validCurrentUser);              
-            } else {
-              this
-                .where('notes.visibility', 'public');
+
+            if (validOptions.visibility === 'public') {
+              this.where('notes.visibility', 'public');
+            } 
+
+            else if (validOptions.visibility === 'shared') {
+              
+              this.whereIn('notes.id', function () {
+                this
+                  .select('note_grants.note_id')
+                  .from('note_grants')
+                  .leftJoin('users', 'users.id', '=', 'note_grants.user_id')
+                  .where('users.username', validCurrentUser);
+              });
             }
+
+            else {
+              
+              this
+                .where('notes.visibility', 'public')
+                .orWhereIn('notes.id', function () {
+                  this
+                    .select('note_grants.note_id')
+                    .from('note_grants')
+                    .leftJoin('users', 'users.id', '=', 'note_grants.user_id')
+                    .where('users.username', validCurrentUser);
+                })
+            } 
           })
           .orderBy('notes.created_at', 'DESC')
+          .limit(limit)
+          .offset(offset)
           .then((result) => {
             return result;
           });
@@ -262,10 +316,11 @@ const engage = function (server, knex) {
   /**
    * Find all notes owned by owner that currentUser can see (public + shared).
    */
-  pub.findByOwner = function(owner, currentUser) {
+  pub.findByOwner = function(owner, currentUser, options) {
 
     let validOwner       = null;
     let validCurrentUser = null;
+    let validOptions     = null;
 
     return Bluebird
       .resolve()
@@ -283,33 +338,62 @@ const engage = function (server, knex) {
       })
       .then(() => {
 
+        return validateOptions(options).then((data) => {
+          validOptions = data;
+        });
+      })
+      .then(() => {
+
         // Get public plus shared notes by owner from database
         
+        const limit  = validOptions.per_page;
+        const offset = (validOptions.page -1) * validOptions.per_page;
+
         return knex
           .select(
-            'notes.id', 
-            'notes.body', 
-            'notes.created_at',
-            'notes.updated_at', 
+            'notes.id',
+            'notes.body',
+            'owners.real_name',
             'owners.username',
-            'owners.real_name'
+            'notes.created_at',
+            'notes.updated_at'
           )
           .from('notes')
           .leftJoin('users AS owners', 'owners.id', '=', 'notes.owner_id')
-          .leftJoin('note_grants', 'note_grants.note_id', '=', 'notes.id')
-          .leftJoin('users', 'users.id' ,'=', 'note_grants.user_id')
-          .where('owners.username', validOwner)
+          .where('owners.username',validOwner)
           .where(function () {
-            if (validCurrentUser) {
+
+            if (validOptions.visibility === 'public') {
+              this.where('notes.visibility', 'public');
+            } 
+
+            else if (validOptions.visibility === 'shared') {
+              
+              this.whereIn('notes.id', function () {
+                this
+                  .select('note_grants.note_id')
+                  .from('note_grants')
+                  .leftJoin('users', 'users.id', '=', 'note_grants.user_id')
+                  .where('users.username', validCurrentUser);
+              });
+            }
+
+            else {
+              
               this
                 .where('notes.visibility', 'public')
-                .orWhere('users.username', validCurrentUser);
-            } else {
-              this
-                .where('notes.visibility', 'public');
-            }
+                .orWhereIn('notes.id', function () {
+                  this
+                    .select('note_grants.note_id')
+                    .from('note_grants')
+                    .leftJoin('users', 'users.id', '=', 'note_grants.user_id')
+                    .where('users.username', validCurrentUser);
+                })
+            } 
           })
           .orderBy('notes.created_at', 'DESC')
+          .limit(limit)
+          .offset(offset)
           .then((result) => {
             return result;
           });

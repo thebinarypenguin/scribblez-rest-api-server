@@ -12,7 +12,7 @@ const cfg = config.load('test');
 
 const lab = exports.lab = Lab.script();
 
-lab.experiment('models.feed.findByOwner(owner, currentUser)', () => {
+lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
 
   let server = null;
   
@@ -69,6 +69,29 @@ lab.experiment('models.feed.findByOwner(owner, currentUser)', () => {
         })
         .catch((err) => {
           Code.expect(err).to.be.an.error('currentUser is malformed');
+        });
+    });
+  });
+
+  lab.experiment('Malformed options', () => {
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should reject with a "malformed" error', () => {
+
+      const validOwner       = 'marge';
+      const validCurrentUser = 'homer';
+      const malformedoptions = { page: 'all-of-them' };
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, malformedoptions)
+        .then(() => {
+          throw new Error('Expected promise to reject');
+        })
+        .catch((err) => {
+          Code.expect(err).to.be.an.error('options is malformed');
         });
     });
   });
@@ -134,86 +157,84 @@ lab.experiment('models.feed.findByOwner(owner, currentUser)', () => {
 
       const expectedData = [
         {
-          "body": "Marge Simpson's first public note",
-          "id": 10,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's second public note",
-          "id": 11,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's third public note",
-          "id": 12,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's first shared note",
-          "id": 16,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's second shared note",
-          "id": 17,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's third shared note",
-          "id": 18,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's fourth shared note",
           "id": 19,
+          "body": "Marge Simpson's fourth shared note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+          "created_at": "2017-04-07T15:37:05Z",
+          "updated_at": "2017-04-07T15:37:05Z",
+        },
+        {
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-07T15:37:04Z",
+          "updated_at": "2017-04-07T15:37:04Z",
+        },
+        {
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-07T15:37:03Z",
+          "updated_at": "2017-04-07T15:37:03Z",
+        },
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-07T15:37:02Z",
+          "updated_at": "2017-04-07T15:37:02Z",
+        },
+        {
+          "id": 12,
+          "body": "Marge Simpson's third public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-07T15:36:58Z",
+          "updated_at": "2017-04-07T15:36:58Z",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-07T15:36:57Z",
+          "updated_at": "2017-04-07T15:36:57Z",
+        },
+        {
+          "id": 10,
+          "body": "Marge Simpson's first public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-07T15:36:56Z",
+          "updated_at": "2017-04-07T15:36:56Z",
         },
       ];
 
       return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser)
         .then((data) => {
           
-          data.sort((a,b) => { return a.id - b.id; });
-          
-          expectedData.forEach((note) => {
-            note.created_at = data[0].created_at;
-            note.updated_at = data[0].updated_at;
-          });
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
 
           Code.expect(data).to.equal(expectedData);
         });
@@ -251,46 +272,44 @@ lab.experiment('models.feed.findByOwner(owner, currentUser)', () => {
 
       const expectedData = [
         {
-          "body": "Marge Simpson's first public note",
-          "id": 10,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's second public note",
-          "id": 11,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's third public note",
           "id": 12,
+          "body": "Marge Simpson's third public note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+          "created_at": "2017-04-07T15:37:05Z",
+          "updated_at": "2017-04-07T15:37:05Z",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-07T15:37:04Z",
+          "updated_at": "2017-04-07T15:37:04Z",
+        },
+        {
+          "id": 10,
+          "body": "Marge Simpson's first public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-07T15:37:03Z",
+          "updated_at": "2017-04-07T15:37:03Z",
         },
       ];
 
       return server.plugins.models.feed.findByOwner(validOwner)
         .then((data) => {
 
-          data.sort((a,b) => { return a.id - b.id; });
-          
-          expectedData.forEach((note) => {
-            note.created_at = data[0].created_at;
-            note.updated_at = data[0].updated_at;
-          });
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
 
           Code.expect(data).to.equal(expectedData);
         });
@@ -299,6 +318,442 @@ lab.experiment('models.feed.findByOwner(owner, currentUser)', () => {
     lab.test('Should not modify the database', () => {
 
       const func = server.plugins.models.feed.findByOwner.bind(this, validOwner);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
+  });
+
+  lab.experiment('Valid input (no options specified)', () => {
+
+    const validOwner       = 'marge';
+    const validCurrentUser = 'homer';
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the noteCollectionRedacted schema', () => {
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.noteCollectionRedacted);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          "id": 19,
+          "body": "Marge Simpson's fourth shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:24Z",
+          "updated_at": "2017-04-08T09:52:24Z",
+        },
+        {
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:23Z",
+          "updated_at": "2017-04-08T09:52:23Z",
+        },
+        {
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:22Z",
+          "updated_at": "2017-04-08T09:52:22Z",
+        },
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:21Z",
+          "updated_at": "2017-04-08T09:52:21Z",
+        },
+        {
+          "id": 12,
+          "body": "Marge Simpson's third public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:17Z",
+          "updated_at": "2017-04-08T09:52:17Z",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:16Z",
+          "updated_at": "2017-04-08T09:52:16Z",
+        },
+        {
+          "id": 10,
+          "body": "Marge Simpson's first public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:15Z",
+          "updated_at": "2017-04-08T09:52:15Z",
+        },
+      ];
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser)
+        .then((data) => {
+          
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
+
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.feed.findByOwner.bind(this, validOwner, validCurrentUser);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
+  });
+
+  lab.experiment('Valid input (options.page specified)', () => {
+
+    const validOwner       = 'marge';
+    const validCurrentUser = 'homer';
+    const options          = { page: 2, per_page: 3 };
+
+    // NOTE: I don't have enough sample data to let per_page be the default
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the noteCollectionRedacted schema', () => {
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, options)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.noteCollectionRedacted);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:27Z",
+          "updated_at": "2017-04-08T09:52:27Z",
+        },
+        {
+          "id": 12,
+          "body": "Marge Simpson's third public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:23Z",
+          "updated_at": "2017-04-08T09:52:23Z",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:22Z",
+          "updated_at": "2017-04-08T09:52:22Z",
+        },
+      ];
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, options)
+        .then((data) => {
+          
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
+
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.feed.findByOwner.bind(this, validOwner, validCurrentUser, options);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
+  });
+
+  lab.experiment('Valid input (options.per_page)', () => {
+
+    const validOwner       = 'marge';
+    const validCurrentUser = 'homer';
+    const options          = { per_page: 3 };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the noteCollectionRedacted schema', () => {
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, options)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.noteCollectionRedacted);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          "id": 19,
+          "body": "Marge Simpson's fourth shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:37Z",
+          "updated_at": "2017-04-08T09:52:37Z",
+        },
+        {
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:36Z",
+          "updated_at": "2017-04-08T09:52:36Z",
+        },
+        {
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:35Z",
+          "updated_at": "2017-04-08T09:52:35Z",
+        },
+      ];
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, options)
+        .then((data) => {
+          
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
+
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.feed.findByOwner.bind(this, validOwner, validCurrentUser, options);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
+  });
+
+  lab.experiment('Valid input (options.visibility = public)', () => {
+
+    const validOwner       = 'marge';
+    const validCurrentUser = 'homer';
+    const options          = { visibility: 'public' };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the noteCollectionRedacted schema', () => {
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, options)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.noteCollectionRedacted);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          "id": 12,
+          "body": "Marge Simpson's third public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:36Z",
+          "updated_at": "2017-04-08T09:52:36Z",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:35Z",
+          "updated_at": "2017-04-08T09:52:35Z",
+        },
+        {
+          "id": 10,
+          "body": "Marge Simpson's first public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:34Z",
+          "updated_at": "2017-04-08T09:52:34Z",
+        },
+      ];
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, options)
+        .then((data) => {
+          
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
+
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.feed.findByOwner.bind(this, validOwner, validCurrentUser, options);
+
+      return helpers.testDatabaseChanges(cfg, func)
+        .then((data) => {
+          Code.expect(data).be.undefined();
+        });
+    });
+  });
+
+  lab.experiment('Valid input (options.visibility = shared)', () => {
+
+    const validOwner       = 'marge';
+    const validCurrentUser = 'homer';
+    const options          = { visibility: 'shared' };
+
+    lab.beforeEach(() => {
+      
+      return helpers.resetDatabase(cfg);
+    });
+
+    lab.test('Should resolve with data that matches the noteCollectionRedacted schema', () => {
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, options)
+        .then((data) => {
+          Joi.assert(data, server.plugins.schemas.noteCollectionRedacted);
+        });
+    });
+    
+    lab.test('Should resolve with data that matches the expected data', () => {
+
+      const expectedData = [
+        {
+          "id": 19,
+          "body": "Marge Simpson's fourth shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:50Z",
+          "updated_at": "2017-04-08T09:52:50Z",
+        },
+        {
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:49Z",
+          "updated_at": "2017-04-08T09:52:49Z",
+        },
+        {
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:48Z",
+          "updated_at": "2017-04-08T09:52:48Z",
+        },
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "2017-04-08T09:52:47Z",
+          "updated_at": "2017-04-08T09:52:47Z",
+        },
+      ];
+
+      return server.plugins.models.feed.findByOwner(validOwner, validCurrentUser, options)
+        .then((data) => {
+          
+          for (let i=0;i<expectedData.length;i++) {
+            expectedData[i].created_at = data[i].created_at;
+            expectedData[i].updated_at = data[i].updated_at;
+          }
+
+          Code.expect(data).to.equal(expectedData);
+        });
+    });
+    
+    lab.test('Should not modify the database', () => {
+
+      const func = server.plugins.models.feed.findByOwner.bind(this, validOwner, validCurrentUser, options);
 
       return helpers.testDatabaseChanges(cfg, func)
         .then((data) => {
