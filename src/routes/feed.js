@@ -16,12 +16,13 @@ const engage = function (server) {
     handler: (request, reply) => {
 
       let currentUser = null;
+      let options     = request.query;
       
       if (request.auth.isAuthenticated) {
         currentUser = request.auth.credentials.username
       }
 
-      server.plugins.models.feed.findAll(currentUser)
+      server.plugins.models.feed.findAll(currentUser, options)
         .then((data) => {
           reply(data);
         })
@@ -44,12 +45,13 @@ const engage = function (server) {
 
       let owner       = request.params.username;
       let currentUser = null;
+      let options     = request.query;
       
       if (request.auth.isAuthenticated) {
         currentUser = request.auth.credentials.username
       }
 
-      server.plugins.models.feed.findByOwner(owner, currentUser)
+      server.plugins.models.feed.findByOwner(owner, currentUser, options)
         .then((data) => {
           reply(data);
         })

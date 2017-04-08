@@ -76,18 +76,8 @@ lab.experiment('GET /feed/{username}', () => {
 
       const expectedData = [
         {
-          "body": "Marge Simpson's second public note",
-          "id": 11,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's third public note",
           "id": 12,
+          "body": "Marge Simpson's third public note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
@@ -96,8 +86,18 @@ lab.experiment('GET /feed/{username}', () => {
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Marge Simpson's first public note",
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
           "id": 10,
+          "body": "Marge Simpson's first public note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
@@ -109,10 +109,10 @@ lab.experiment('GET /feed/{username}', () => {
 
       const actualData = JSON.parse(response.payload);
 
-      expectedData.forEach((note) => {
-        note.created_at = actualData[0].created_at;
-        note.updated_at = actualData[0].updated_at;
-      });
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
 
       Code.expect(actualData).to.equal(expectedData);
       done();
@@ -163,18 +163,8 @@ lab.experiment('GET /feed/{username}', () => {
 
       const expectedData = [
         {
-          "body": "Marge Simpson's second public note",
-          "id": 11,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's third public note",
           "id": 12,
+          "body": "Marge Simpson's third public note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
@@ -183,8 +173,18 @@ lab.experiment('GET /feed/{username}', () => {
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Marge Simpson's first public note",
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
           "id": 10,
+          "body": "Marge Simpson's first public note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
@@ -196,10 +196,10 @@ lab.experiment('GET /feed/{username}', () => {
 
       const actualData = JSON.parse(response.payload);
 
-      expectedData.forEach((note) => {
-        note.created_at = actualData[0].created_at;
-        note.updated_at = actualData[0].updated_at;
-      });
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
 
       Code.expect(actualData).to.equal(expectedData);
       done();
@@ -293,7 +293,7 @@ lab.experiment('GET /feed/{username}', () => {
     });
   });
 
-  lab.experiment('Valid Request', () => {
+  lab.experiment('Valid Request (no query params)', () => {
 
     let response = null;
 
@@ -337,38 +337,8 @@ lab.experiment('GET /feed/{username}', () => {
 
       const expectedData = [
         {
-          "body": "Marge Simpson's first shared note",
-          "id": 16,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's second shared note",
-          "id": 17,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's third shared note",
-          "id": 18,
-          "owner": {
-            "real_name": "Marge Simpson",
-            "username": "marge",
-          },
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Marge Simpson's fourth shared note",
           "id": 19,
+          "body": "Marge Simpson's fourth shared note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
@@ -377,8 +347,8 @@ lab.experiment('GET /feed/{username}', () => {
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Marge Simpson's second public note",
-          "id": 11,
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
@@ -387,8 +357,28 @@ lab.experiment('GET /feed/{username}', () => {
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Marge Simpson's third public note",
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
           "id": 12,
+          "body": "Marge Simpson's third public note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
@@ -397,8 +387,18 @@ lab.experiment('GET /feed/{username}', () => {
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Marge Simpson's first public note",
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
           "id": 10,
+          "body": "Marge Simpson's first public note",
           "owner": {
             "real_name": "Marge Simpson",
             "username": "marge",
@@ -410,10 +410,518 @@ lab.experiment('GET /feed/{username}', () => {
 
       const actualData = JSON.parse(response.payload);
 
-      expectedData.forEach((note) => {
-        note.created_at = actualData[0].created_at;
-        note.updated_at = actualData[0].updated_at;
-      });
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
+
+      Code.expect(actualData).to.equal(expectedData);
+      done();
+    });
+  });
+
+  lab.experiment('Valid Request (with page query param)', () => {
+
+    let response = null;
+
+    lab.before(() => {
+
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const validAuth = {
+        method: 'GET',
+        url: '/feed/marge',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(cfg)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
+    });
+
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
+    });
+
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
+    });
+
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
+    });
+
+    lab.test('Body should match expected data', (done) => {
+
+      const expectedData = [
+        {
+          "id": 19,
+          "body": "Marge Simpson's fourth shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 12,
+          "body": "Marge Simpson's third public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 10,
+          "body": "Marge Simpson's first public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+      ];
+
+      const actualData = JSON.parse(response.payload);
+
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
+
+      Code.expect(actualData).to.equal(expectedData);
+      done();
+    });
+  });
+
+  lab.experiment('Valid Request (with per_page query param)', () => {
+
+    let response = null;
+
+    lab.before(() => {
+
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const validAuth = {
+        method: 'GET',
+        url: '/feed/marge',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(cfg)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
+    });
+
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
+    });
+
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
+    });
+
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
+    });
+
+    lab.test('Body should match expected data', (done) => {
+
+      const expectedData = [
+        {
+          "id": 19,
+          "body": "Marge Simpson's fourth shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 12,
+          "body": "Marge Simpson's third public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 10,
+          "body": "Marge Simpson's first public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+      ];
+
+      const actualData = JSON.parse(response.payload);
+
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
+
+      Code.expect(actualData).to.equal(expectedData);
+      done();
+    });
+  });
+
+  lab.experiment('Valid Request (with visibility=public query param)', () => {
+
+    let response = null;
+
+    lab.before(() => {
+
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const validAuth = {
+        method: 'GET',
+        url: '/feed/marge',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(cfg)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
+    });
+
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
+    });
+
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
+    });
+
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
+    });
+
+    lab.test('Body should match expected data', (done) => {
+
+      const expectedData = [
+        {
+          "id": 19,
+          "body": "Marge Simpson's fourth shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 12,
+          "body": "Marge Simpson's third public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 10,
+          "body": "Marge Simpson's first public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+      ];
+
+      const actualData = JSON.parse(response.payload);
+
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
+
+      Code.expect(actualData).to.equal(expectedData);
+      done();
+    });
+  });
+
+  lab.experiment('Valid Request (with visibility=shared query param)', () => {
+
+    let response = null;
+
+    lab.before(() => {
+
+      const credentials = new Buffer('homer:password', 'utf8').toString('base64')
+
+      const validAuth = {
+        method: 'GET',
+        url: '/feed/marge',
+        headers: {
+          'authorization': `Basic ${credentials}`,
+        },
+      };
+
+      return helpers.resetDatabase(cfg)
+        .then(() => {
+
+          return server.inject(validAuth).then((res) => {
+            response = res;
+          });
+        });
+    });
+
+    lab.test('Status code should be 200 OK', (done) => {
+      Code.expect(response.statusCode).to.equal(200);
+      done();
+    });
+
+    lab.test('Content-Type should contain application/json', (done) => {
+      Code.expect(response.headers['content-type']).to.contain('application/json');
+      done();
+    });
+
+    lab.test('Body should match the noteCollectionRedacted schema', (done) => {
+      Joi.assert(JSON.parse(response.payload), server.plugins.schemas.noteCollectionRedacted);
+      done();
+    });
+
+    lab.test('Body should match expected data', (done) => {
+
+      const expectedData = [
+        {
+          "id": 19,
+          "body": "Marge Simpson's fourth shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 18,
+          "body": "Marge Simpson's third shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 17,
+          "body": "Marge Simpson's second shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 16,
+          "body": "Marge Simpson's first shared note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 12,
+          "body": "Marge Simpson's third public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 11,
+          "body": "Marge Simpson's second public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 10,
+          "body": "Marge Simpson's first public note",
+          "owner": {
+            "real_name": "Marge Simpson",
+            "username": "marge",
+          },
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+      ];
+
+      const actualData = JSON.parse(response.payload);
+
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
 
       Code.expect(actualData).to.equal(expectedData);
       done();
