@@ -163,8 +163,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:37:05Z",
-          "updated_at": "2017-04-07T15:37:05Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 18,
@@ -173,8 +173,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:37:04Z",
-          "updated_at": "2017-04-07T15:37:04Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 17,
@@ -183,8 +183,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:37:03Z",
-          "updated_at": "2017-04-07T15:37:03Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 16,
@@ -193,8 +193,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:37:02Z",
-          "updated_at": "2017-04-07T15:37:02Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 12,
@@ -203,8 +203,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:36:58Z",
-          "updated_at": "2017-04-07T15:36:58Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 11,
@@ -213,8 +213,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:36:57Z",
-          "updated_at": "2017-04-07T15:36:57Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 10,
@@ -223,8 +223,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:36:56Z",
-          "updated_at": "2017-04-07T15:36:56Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
@@ -278,8 +278,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:37:05Z",
-          "updated_at": "2017-04-07T15:37:05Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 11,
@@ -288,8 +288,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:37:04Z",
-          "updated_at": "2017-04-07T15:37:04Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 10,
@@ -298,8 +298,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-07T15:37:03Z",
-          "updated_at": "2017-04-07T15:37:03Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
@@ -354,8 +354,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:24Z",
-          "updated_at": "2017-04-08T09:52:24Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 18,
@@ -364,8 +364,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:23Z",
-          "updated_at": "2017-04-08T09:52:23Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 17,
@@ -374,8 +374,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:22Z",
-          "updated_at": "2017-04-08T09:52:22Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 16,
@@ -384,8 +384,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:21Z",
-          "updated_at": "2017-04-08T09:52:21Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 12,
@@ -394,8 +394,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:17Z",
-          "updated_at": "2017-04-08T09:52:17Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 11,
@@ -404,8 +404,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:16Z",
-          "updated_at": "2017-04-08T09:52:16Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 10,
@@ -414,8 +414,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:15Z",
-          "updated_at": "2017-04-08T09:52:15Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
@@ -473,8 +473,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:27Z",
-          "updated_at": "2017-04-08T09:52:27Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 12,
@@ -483,8 +483,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:23Z",
-          "updated_at": "2017-04-08T09:52:23Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 11,
@@ -493,8 +493,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:22Z",
-          "updated_at": "2017-04-08T09:52:22Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
@@ -550,8 +550,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:37Z",
-          "updated_at": "2017-04-08T09:52:37Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 18,
@@ -560,8 +560,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:36Z",
-          "updated_at": "2017-04-08T09:52:36Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 17,
@@ -570,8 +570,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:35Z",
-          "updated_at": "2017-04-08T09:52:35Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
@@ -627,8 +627,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:36Z",
-          "updated_at": "2017-04-08T09:52:36Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 11,
@@ -637,8 +637,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:35Z",
-          "updated_at": "2017-04-08T09:52:35Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 10,
@@ -647,8 +647,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:34Z",
-          "updated_at": "2017-04-08T09:52:34Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
@@ -704,8 +704,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:50Z",
-          "updated_at": "2017-04-08T09:52:50Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 18,
@@ -714,8 +714,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:49Z",
-          "updated_at": "2017-04-08T09:52:49Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 17,
@@ -724,8 +724,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:48Z",
-          "updated_at": "2017-04-08T09:52:48Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
           "id": 16,
@@ -734,8 +734,8 @@ lab.experiment('models.feed.findByOwner(owner, currentUser, options)', () => {
             "real_name": "Marge Simpson",
             "username": "marge",
           },
-          "created_at": "2017-04-08T09:52:47Z",
-          "updated_at": "2017-04-08T09:52:47Z",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
       ];
 
