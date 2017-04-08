@@ -168,8 +168,74 @@ lab.experiment('GET /notes', () => {
 
       const expectedData = [
         {
-          "body": "Homer Simpson's first shared note",
+          "id": 1,
+          "body": "Homer Simpson's first public note",
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 2,
+          "body": "Homer Simpson's second public note",
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 3,
+          "body": "Homer Simpson's third public note",
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "public",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 4,
+          "body": "Homer Simpson's first private note",
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 5,
+          "body": "Homer Simpson's second private note",
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
+          "id": 6,
+          "body": "Homer Simpson's third private note",
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
           "id": 7,
+          "body": "Homer Simpson's first shared note",
           "owner": {
             "real_name": "Homer Simpson",
             "username": "homer",
@@ -180,12 +246,12 @@ lab.experiment('GET /notes', () => {
                 "id": 7,
                 "members": [
                   {
-                    "real_name": "Lenny Leonard",
-                    "username": "lenny",
-                  },
-                  {
                     "real_name": "Carl Carlson",
                     "username": "carl",
+                  },
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
                   },
                 ],
                 "name": "Friends",
@@ -202,8 +268,8 @@ lab.experiment('GET /notes', () => {
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Homer Simpson's second shared note",
           "id": 8,
+          "body": "Homer Simpson's second shared note",
           "owner": {
             "real_name": "Homer Simpson",
             "username": "homer",
@@ -214,12 +280,12 @@ lab.experiment('GET /notes', () => {
                 "id": 8,
                 "members": [
                   {
-                    "real_name": "Lenny Leonard",
-                    "username": "lenny",
-                  },
-                  {
                     "real_name": "Carl Carlson",
                     "username": "carl",
+                  },
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
                   },
                 ],
                 "name": "Friends",
@@ -236,8 +302,8 @@ lab.experiment('GET /notes', () => {
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Homer Simpson's third shared note",
           "id": 9,
+          "body": "Homer Simpson's third shared note",
           "owner": {
             "real_name": "Homer Simpson",
             "username": "homer",
@@ -248,12 +314,12 @@ lab.experiment('GET /notes', () => {
                 "id": 9,
                 "members": [
                   {
-                    "real_name": "Lenny Leonard",
-                    "username": "lenny",
-                  },
-                  {
                     "real_name": "Carl Carlson",
                     "username": "carl",
+                  },
+                  {
+                    "real_name": "Lenny Leonard",
+                    "username": "lenny",
                   },
                 ],
                 "name": "Friends",
@@ -265,80 +331,14 @@ lab.experiment('GET /notes', () => {
           "created_at": "CANNOT BE RELIABLY PREDICTED",
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
-        {
-          "body": "Homer Simpson's second public note",
-          "id": 2,
-          "owner": {
-            "real_name": "Homer Simpson",
-            "username": "homer",
-          },
-          "visibility": "public",
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Homer Simpson's second private note",
-          "id": 5,
-          "owner": {
-            "real_name": "Homer Simpson",
-            "username": "homer",
-          },
-          "visibility": "private",
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Homer Simpson's third private note",
-          "id": 6,
-          "owner": {
-            "real_name": "Homer Simpson",
-            "username": "homer",
-          },
-          "visibility": "private",
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Homer Simpson's first private note",
-          "id": 4,
-          "owner": {
-            "real_name": "Homer Simpson",
-            "username": "homer",
-          },
-          "visibility": "private",
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Homer Simpson's first public note",
-          "id": 1,
-          "owner": {
-            "real_name": "Homer Simpson",
-            "username": "homer",
-          },
-          "visibility": "public",
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Homer Simpson's third public note",
-          "id": 3,
-          "owner": {
-            "real_name": "Homer Simpson",
-            "username": "homer",
-          },
-          "visibility": "public",
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
       ];
 
       const actualData = JSON.parse(response.payload);
 
-      expectedData.forEach((note) => {
-        note.created_at = actualData[0].created_at;
-        note.updated_at = actualData[0].updated_at;
-      });
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
 
       Code.expect(actualData).to.equal(expectedData);
       done();
@@ -391,19 +391,8 @@ lab.experiment('GET /notes', () => {
 
       const expectedData = [
         {
-          "body": "Homer Simpson's second public note",
-          "id": 2,
-          "owner": {
-            "real_name": "Homer Simpson",
-            "username": "homer",
-          },
-          "visibility": "public",
-          "created_at": "CANNOT BE RELIABLY PREDICTED",
-          "updated_at": "CANNOT BE RELIABLY PREDICTED",
-        },
-        {
-          "body": "Homer Simpson's second private note",
-          "id": 5,
+          "id": 4,
+          "body": "Homer Simpson's first private note",
           "owner": {
             "real_name": "Homer Simpson",
             "username": "homer",
@@ -413,8 +402,19 @@ lab.experiment('GET /notes', () => {
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Homer Simpson's third private note",
+          "id": 5,
+          "body": "Homer Simpson's second private note",
+          "owner": {
+            "real_name": "Homer Simpson",
+            "username": "homer",
+          },
+          "visibility": "private",
+          "created_at": "CANNOT BE RELIABLY PREDICTED",
+          "updated_at": "CANNOT BE RELIABLY PREDICTED",
+        },
+        {
           "id": 6,
+          "body": "Homer Simpson's third private note",
           "owner": {
             "real_name": "Homer Simpson",
             "username": "homer",
@@ -427,10 +427,10 @@ lab.experiment('GET /notes', () => {
 
       const actualData = JSON.parse(response.payload);
 
-      expectedData.forEach((note) => {
-        note.created_at = actualData[0].created_at;
-        note.updated_at = actualData[0].updated_at;
-      });
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
 
       Code.expect(actualData).to.equal(expectedData);
       done();
@@ -481,70 +481,24 @@ lab.experiment('GET /notes', () => {
 
       const expectedData = [
         {
-          "body": "Homer Simpson's first shared note",
-          "id": 7,
+          "id": 1,
+          "body": "Homer Simpson's first public note",
           "owner": {
             "real_name": "Homer Simpson",
             "username": "homer",
           },
-          "visibility": {
-            "groups": [
-              {
-                "id": 7,
-                "members": [
-                  {
-                    "real_name": "Lenny Leonard",
-                    "username": "lenny",
-                  },
-                  {
-                    "real_name": "Carl Carlson",
-                    "username": "carl",
-                  },
-                ],
-                "name": "Friends",
-              },
-            ],
-            "users": [
-              {
-                "real_name": "Lenny Leonard",
-                "username": "lenny",
-              },
-            ],
-          },
+          "visibility": "public",
           "created_at": "CANNOT BE RELIABLY PREDICTED",
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
         {
-          "body": "Homer Simpson's second shared note",
-          "id": 8,
+          "id": 2,
+          "body": "Homer Simpson's second public note",
           "owner": {
             "real_name": "Homer Simpson",
             "username": "homer",
           },
-          "visibility": {
-            "groups": [
-              {
-                "id": 8,
-                "members": [
-                  {
-                    "real_name": "Lenny Leonard",
-                    "username": "lenny",
-                  },
-                  {
-                    "real_name": "Carl Carlson",
-                    "username": "carl",
-                  },
-                ],
-                "name": "Friends",
-              },
-            ],
-            "users": [
-              {
-                "real_name": "Carl Carlson",
-                "username": "carl",
-              },
-            ],
-          },
+          "visibility": "public",
           "created_at": "CANNOT BE RELIABLY PREDICTED",
           "updated_at": "CANNOT BE RELIABLY PREDICTED",
         },
@@ -552,10 +506,10 @@ lab.experiment('GET /notes', () => {
 
       const actualData = JSON.parse(response.payload);
 
-      expectedData.forEach((note) => {
-        note.created_at = actualData[0].created_at;
-        note.updated_at = actualData[0].updated_at;
-      });
+      for (let i=0;i<expectedData.length;i++) {
+        expectedData[i].created_at = actualData[i].created_at;
+        expectedData[i].updated_at = actualData[i].updated_at;
+      }
 
       Code.expect(actualData).to.equal(expectedData);
       done();
