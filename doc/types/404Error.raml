@@ -1,0 +1,18 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+
+  statusCode:
+    type: integer
+    minimum: 404
+    maximum: 404
+    required: true
+
+  error:
+    type: string
+    pattern: ^Not Found$
+    required: true
+
+  message:
+    type: string
+    required: false

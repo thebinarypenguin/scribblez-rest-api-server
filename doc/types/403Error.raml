@@ -1,0 +1,18 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+
+  statusCode:
+    type: integer
+    minimum: 403
+    maximum: 403
+    required: true
+
+  error:
+    type: string
+    pattern: ^Forbidden$
+    required: true
+
+  message:
+    type: string
+    required: false

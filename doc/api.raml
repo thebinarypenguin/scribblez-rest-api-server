@@ -1,0 +1,436 @@
+#%RAML 1.0
+title: Scribblez
+description: A simple note-sharing social network.
+version: 1
+protocols: HTTPS
+mediaType: application/json
+
+securitySchemes:
+  basic: !include securitySchemes/basic.raml
+
+types:
+  Group: !include types/group.raml
+  GroupID: !include types/groupID.raml
+  GroupCollection: !include types/groupCollection.raml
+  GroupPostBody: !include types/groupPostBody.raml
+  GroupPutBody: !include types/groupPutBody.raml
+  GroupPatchBody: !include types/groupPatchBody.raml
+
+  Note: !include types/note.raml
+  NoteID: !include types/noteID.raml
+  NoteCollection: !include types/noteCollection.raml
+  NotePostBody: !include types/notePostBody.raml
+  NotePutBody: !include types/notePutBody.raml
+  NotePatchBody: !include types/notePatchBody.raml
+
+  RedactedNote: !include types/redactedNote.raml
+  RedactedNoteCollection: !include types/redactedNoteCollection.raml
+
+  User: !include types/user.raml
+  Username: !include types/username.raml
+  UserPostBody: !include types/userPostBody.raml
+  UserPutBody: !include types/userPutBody.raml
+  UserPatchBody: !include types/userPatchBody.raml
+
+  RedactedUser: !include types/redactedUser.raml
+  RedactedUserCollection: !include types/redactedUserCollection.raml
+
+  NoResponse: !include types/noResponse.raml
+
+  400Error: !include types/400Error.raml
+  401Error: !include types/401Error.raml
+  403Error: !include types/403Error.raml
+  404Error: !include types/404Error.raml
+  500Error: !include types/500Error.raml
+
+traits:
+  paginated: !include traits/paginated.raml
+
+/feed:
+
+  get:
+    description: |
+      Fetch all public notes.
+      If authenticated, also fetch all notes that are shared with the
+      authenticated user
+    is:  [paginated]
+    responses:
+      200:
+        body:
+          type: RedactedNoteCollection
+      500:
+        body:
+          type: 500Error
+
+  /{username}:
+    uriParameters:
+      username:
+        type: Username
+
+    get:
+      description: |
+        Fetch all public notes owned by {username}.
+        If authenticated, also fetch all notes owned by {username} that are
+        shared with the authenticated user.
+      is:  [paginated]
+      responses:
+        200:
+          body:
+            type: RedactedNoteCollection
+        500:
+          body:
+            type: 500Error
+
+/groups:
+  securedBy: basic
+
+  get:
+    description: |
+      Fetch all groups owned by the authenticated user.
+    is:  [paginated]
+    responses:
+      200:
+        body:
+          type: GroupCollection
+      401:
+        body:
+          type: 401Error
+      500:
+        body:
+          type: 500Error
+
+  post:
+    description: |
+      Create a new group owned by the authenticated user.
+    body:
+      type: GroupPostBody
+    responses:
+      201:
+        headers:
+          Location:
+      400:
+        body:
+          type: 400Error
+      401:
+        body:
+          type: 401Error
+      500:
+        body:
+          type: 500Error
+
+  /{groupID}:
+    securedBy: basic
+    uriParameters:
+      groupID:
+        type: GroupID
+
+    get:
+      description: |
+        Fetch the group specified by {groupID}.
+        The group must be owned by the authenticated user.
+      responses:
+        200:
+          body:
+            type: Group
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+    put:
+      description: |
+        Update (completely) the group specified by {groupID}.
+        The group must be owned by the authenticated user.
+      body:
+        type: GroupPutBody
+      responses:
+        200:
+          body:
+            type: NoResponse
+        400:
+          body:
+            type: 400Error
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+    patch:
+      description: |
+        Update (partially) the group specified by {groupID}.
+        The group must be owned by the authenticated user.
+      body:
+        type: GroupPatchBody
+      responses:
+        200:
+          body:
+            type: NoResponse
+        400:
+          body:
+            type: 400Error
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+    delete:
+      description: |
+        Delete the group specified by {groupID}.
+        The group must be owned by the authenticated user.
+      responses:
+        200:
+          body:
+            type: NoResponse
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+/notes:
+  securedBy: basic
+
+  get:
+    description: Fetch all notes owned by the authenticated user.
+    is:  [paginated]
+    responses:
+      200:
+        body:
+          type: NoteCollection
+      401:
+        body:
+          type: 401Error
+      500:
+        body:
+          type: 500Error
+
+  post:
+    description: Create a new note owned by the authenticated user.
+    body:
+      type: NotePostBody
+    responses:
+      201:
+        headers:
+          Location:
+      400:
+        body:
+          type: 400Error
+      401:
+        body:
+          type: 401Error
+      500:
+        body:
+          type: 500Error
+
+  /{noteID}:
+    securedBy: basic
+    uriParameters:
+      noteID:
+        type: NoteID
+
+    get:
+      description: |
+        Fetch the note specified by {noteID}.
+        The note must be owned by the authenticated user.
+      responses:
+          200:
+            body:
+              type: Note
+          401:
+            body:
+              type: 401Error
+          404:
+            body:
+              type: 404Error
+          500:
+            body:
+              type: 500Error
+
+    put:
+      description: |
+        Update (completely) the note specified by {noteID}.
+        The note must be owned by the authenticated user.
+      body:
+        type: NotePutBody
+      responses:
+        200:
+          body:
+            type: NoResponse
+        400:
+          body:
+            type: 400Error
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+    patch:
+      description: |
+        Update (partially) the note specified by {noteID}.
+        The note must be owned by the authenticated user.
+      body:
+        type: NotePatchBody
+      responses:
+        200:
+          body:
+            type: NoResponse
+        400:
+          body:
+            type: 400Error
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+    delete:
+      description: |
+        Delete the note specified by {noteID}.
+        The note must be owned by the authenticated user.
+      responses:
+        200:
+          body:
+            type: NoResponse
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+/users:
+
+  post:
+    description: |
+      Create a new user.
+    body:
+      type: UserPostBody
+    responses:
+      201:
+        headers:
+          Location:
+      400:
+        body:
+          type: 400Error
+      500:
+        body:
+          type: 500Error
+
+  /{username}:
+    securedBy: basic
+    uriParameters:
+      username:
+        type: Username
+
+    get:
+      description: |
+        Fetch the user specified by {username}.
+        The user must be the authenticated user.
+      responses:
+        200:
+          body:
+            type: User
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+    put:
+      description: |
+        Update (completely) the user specified by {username}.
+        The user must be the authenticated user.
+      body:
+        type: UserPutBody
+      responses:
+        200:
+          body:
+            type:
+        400:
+          body:
+            type: 400Error
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+    patch:
+      description: |
+        Update (partially) the user specified by {username}.
+        The user must be the authenticated user.
+      body:
+        type: UserPatchBody
+      responses:
+        200:
+          body:
+            type: NoResponse
+        400:
+          body:
+            type: 400Error
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error
+
+    delete:
+      description: |
+        Delete the user specified by {username}.
+        The user must be the authenticated user.
+      responses:
+        200:
+          body:
+            type: NoResponse
+        401:
+          body:
+            type: 401Error
+        404:
+          body:
+            type: 404Error
+        500:
+          body:
+            type: 500Error

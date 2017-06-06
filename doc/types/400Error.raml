@@ -1,0 +1,18 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+
+  statusCode:
+    type: integer
+    minimum: 400
+    maximum: 400
+    required: true
+
+  error:
+    type: string
+    pattern: ^Bad Request$
+    required: true
+
+  message:
+    type: string
+    required: false
