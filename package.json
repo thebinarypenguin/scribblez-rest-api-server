@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "code": "^4.0.0",
-    "deep-diff": "^0.3.4",
+    "deep-diff": "^0.3.8",
     "lab": "^11.2.1"
   }
 }
